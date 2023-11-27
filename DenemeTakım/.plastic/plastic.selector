@@ -1,0 +1,4 @@
+repository "DenemeTakım@retroento@cloud"
+  path "/"
+    br "/main"
+    co "/main"
