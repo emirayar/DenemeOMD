@@ -4,14 +4,14 @@ using System.Collections;
 
 public class MovementPlayer : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    public float jumpForceMin = 1f;
-    public float jumpForceMax = 2f;
-    public float maxJumpTime = 0.1f;
-    public float dashDistance = 5f;
-    public float dashDuration = 0.2f;
-    public float dodgeDistance = 0.5f;
-    public float dodgeDuration = 0.1f;
+    public float moveSpeed;
+    public float jumpForceMin;
+    public float jumpForceMax;
+    public float maxJumpTime;
+    public float dashDistance;
+    public float dashDuration;
+    public float dodgeDistance;
+    public float dodgeDuration;
     public Tilemap groundTilemap;
     public Animator animator;
 
@@ -40,7 +40,7 @@ public class MovementPlayer : MonoBehaviour
     void Update()
     {
         Vector2 movement = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y);
-        
+
         animator.SetFloat("Speed", Mathf.Abs(movement.x));
 
         if (isDashing)
@@ -150,7 +150,7 @@ public class MovementPlayer : MonoBehaviour
         isDashing = true;
         canDash = false;
 
-        
+
         int playerLayer = LayerMask.NameToLayer("Player");
         int enemyLayer = LayerMask.NameToLayer("enemyLayer");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
@@ -159,7 +159,7 @@ public class MovementPlayer : MonoBehaviour
 
         yield return new WaitForSeconds(dashDuration);
 
-        
+
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
 
         isDashing = false;
