@@ -40,6 +40,7 @@ public class MovementPlayer : MonoBehaviour
     void Update()
     {
         Vector2 movement = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y);
+        
         animator.SetFloat("Speed", Mathf.Abs(movement.x));
 
         if (isDashing)

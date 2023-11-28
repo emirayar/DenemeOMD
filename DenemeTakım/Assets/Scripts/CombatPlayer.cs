@@ -7,17 +7,17 @@ public class CombatPlayer : MonoBehaviour
     public Animator animator;
     public float comboTime = 0.7f;
     public float moveSpeedDuringCombo = 1f;
-    public float attackRange = 2f; // Saldırı menzilini tanımlayın.
+    public float attackRange = 2f;
 
     private float comboTimer;
     private bool isComboActive = false;
     private bool isFacingRight = true;
 
-    private Transform enemyTransform; // Düşmanın Transform'unu referanslayın.
+    private Transform enemyTransform;
 
     void Start()
     {
-        // Düşman nesnesinin Transform'unu alın (örnek olarak düşmanın ismi "Enemy" olarak kabul edilsin).
+        
         GameObject enemyObject = GameObject.Find("Enemy");
         if (enemyObject != null)
         {
@@ -66,7 +66,7 @@ public class CombatPlayer : MonoBehaviour
 
     void Attack()
     {
-        // Düşmanın pozisyonunu belirleyin (bu referansı ayarlamanız gerekir).
+        
         Vector3 enemyPosition = enemyTransform.position;
 
         // Calculate the direction towards the enemy.
