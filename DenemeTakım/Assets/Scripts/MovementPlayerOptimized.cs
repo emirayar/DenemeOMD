@@ -4,7 +4,7 @@ using System.Collections;
 
 public class MovementPlayer : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed;
     public float jumpForceMin;
     public float jumpForceMax;
     public float maxJumpTime;
@@ -17,6 +17,7 @@ public class MovementPlayer : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isShifting;
     private bool isDashing;
     private bool isDodging;
     private bool canDash = true;
@@ -31,17 +32,29 @@ public class MovementPlayer : MonoBehaviour
     public int maxDoubleJumps = 1;
     public float doubleJumpForce = 5f;
     public float dashSpeed = 10f;
+    
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         originalTimeScale = Time.timeScale;
     }
 
+   
     void Update()
     {
-        Vector2 movement = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y);
+        HandleMovementInput();
+        CheckGrounded();
+        CheckJumpInput();
+        CheckDashInput();
+        CheckDodgeInput();
+    }
 
-        animator.SetFloat("Speed", Mathf.Abs(movement.x));
+    void HandleMovementInput()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
 
         if (isDashing)
         {
@@ -50,15 +63,22 @@ public class MovementPlayer : MonoBehaviour
 
         rb.velocity = movement;
 
-        if (Input.GetAxis("Horizontal") < 0 && isFacingRight)
-        {
-            Flip();
-        }
-        else if (Input.GetAxis("Horizontal") > 0 && !isFacingRight)
-        {
-            Flip();
-        }
+        FlipCharacter(horizontalInput);
+    }
 
+    void FlipCharacter(float horizontalInput)
+    {
+        if ((horizontalInput < 0 && isFacingRight) || (horizontalInput > 0 && !isFacingRight))
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
+    }
+
+    void CheckGrounded()
+    {
         Vector3Int cellPosition = groundTilemap.WorldToCell(transform.position - new Vector3(0f, 0.5f, 0f));
         isGrounded = groundTilemap.HasTile(cellPosition);
 
@@ -72,46 +92,11 @@ public class MovementPlayer : MonoBehaviour
             hasJumped = false;
             doubleJumpCount = 0;
             animator.SetBool("isFalling", false);
-
-            if (Input.GetButtonDown("Jump"))
-            {
-                isJumping = true;
-                jumpTime = 0f;
-                rb.velocity = new Vector2(rb.velocity.x, jumpForceMin);
-                animator.SetBool("isJumping", true);
-            }
         }
-        else
-        {
-            hasJumped = false;
-        }
+    }
 
-        if (Input.GetButtonDown("Dash") && canDash)
-        {
-            if (!isBulletTime)
-            {
-                isBulletTime = true;
-                Time.timeScale = 0.2f;
-            }
-            else
-            {
-                isBulletTime = false;
-                Time.timeScale = originalTimeScale;
-
-                Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-
-                if (dashDirection != Vector2.zero)
-                {
-                    StartCoroutine(Dash(dashDirection));
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Dodge") && canDodge)
-        {
-            StartCoroutine(Dodge());
-        }
-
+    void CheckJumpInput()
+    {
         if (Input.GetButtonDown("Jump"))
         {
             if (isGrounded)
@@ -119,6 +104,7 @@ public class MovementPlayer : MonoBehaviour
                 isJumping = true;
                 jumpTime = 0f;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForceMin);
+                animator.SetBool("isJumping", true);
             }
             else if (!hasJumped && doubleJumpCount < maxDoubleJumps)
             {
@@ -144,12 +130,56 @@ public class MovementPlayer : MonoBehaviour
         }
     }
 
+    void CheckDashInput()
+    {
+        if (Input.GetButtonDown("Dash") && canDash)
+        {
+            if (!isShifting)
+            {
+                isShifting = true;
+                ToggleBulletTime();
+            }
+            else
+            {
+                isShifting = false;
+                ToggleBulletTime();
+                Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+                if (dashDirection != Vector2.zero)
+                {
+                    StartCoroutine(Dash(dashDirection));
+                }
+            }
+        }
+    }
+
+    void ToggleBulletTime()
+    {
+        if (!isBulletTime)
+        {
+            isBulletTime = true;
+            Time.timeScale = 0.2f;
+        }
+        else
+        {
+            isBulletTime = false;
+            Time.timeScale = originalTimeScale;
+        }
+    }
+
+    void CheckDodgeInput()
+    {
+        if (Input.GetButtonDown("Dodge") && canDodge)
+        {
+            StartCoroutine(Dodge());
+        }
+    }
+
     IEnumerator Dash(Vector2 dashDirection)
     {
         animator.SetBool("isDashing", true);
         isDashing = true;
         canDash = false;
-
 
         int playerLayer = LayerMask.NameToLayer("Player");
         int enemyLayer = LayerMask.NameToLayer("enemyLayer");
@@ -159,7 +189,6 @@ public class MovementPlayer : MonoBehaviour
 
         yield return new WaitForSeconds(dashDuration);
 
-
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
 
         isDashing = false;
@@ -168,7 +197,6 @@ public class MovementPlayer : MonoBehaviour
         yield return new WaitForSeconds(1f);
         canDash = true;
     }
-
 
     IEnumerator Dodge()
     {
@@ -192,14 +220,5 @@ public class MovementPlayer : MonoBehaviour
         isDodging = false;
         yield return new WaitForSeconds(1f);
         canDodge = true;
-    }
-
-    void Flip()
-    {
-        isFacingRight = !isFacingRight;
-
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
     }
 }

@@ -2772,7 +2772,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7851100126514300299, guid: a2c42017ac6440649a0229376e5ebe5a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8625867309602967702, guid: a2c42017ac6440649a0229376e5ebe5a, type: 3}
@@ -2785,6 +2786,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8682857339588565771, guid: a2c42017ac6440649a0229376e5ebe5a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 670010484}
+    - targetCorrespondingSourceObject: {fileID: 8682857339588565771, guid: a2c42017ac6440649a0229376e5ebe5a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 670010491}
   m_SourcePrefab: {fileID: 100100000, guid: a2c42017ac6440649a0229376e5ebe5a, type: 3}
 --- !u!1 &301130422 stripped
 GameObject:
@@ -3022,6 +3026,36 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!95 &670010487 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3466354188906942924, guid: a2c42017ac6440649a0229376e5ebe5a, type: 3}
+  m_PrefabInstance: {fileID: 289170084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &670010491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670010470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014064f743db8e34a8845b54d7ab160d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForceMin: 1
+  jumpForceMax: 5
+  maxJumpTime: 0.1
+  dashDistance: 20
+  dashDuration: 0.2
+  dodgeDistance: 0.5
+  dodgeDuration: 0.1
+  groundTilemap: {fileID: 89713702}
+  animator: {fileID: 670010487}
+  maxDoubleJumps: 1
+  doubleJumpForce: 5
+  dashSpeed: 20
 --- !u!1001 &888099602
 PrefabInstance:
   m_ObjectHideFlags: 0
