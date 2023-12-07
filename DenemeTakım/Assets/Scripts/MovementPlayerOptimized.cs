@@ -4,7 +4,7 @@ using System.Collections;
 
 public class MovementPlayer : MonoBehaviour
 {
-    public float moveSpeed =3f;
+    public float moveSpeed;
     public float jumpForceMin;
     public float jumpForceMax;
     public float maxJumpTime;
