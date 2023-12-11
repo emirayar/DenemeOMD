@@ -72,7 +72,7 @@ public class MovementPlayer : MonoBehaviour
     void Update()
     {
         // Kullanýcý giriþlerini kontrol et
-        HandleMovementInput();
+        MovementInput();
         CheckGrounded();
         CheckJumpInput();
         CheckDashInput();
@@ -80,7 +80,7 @@ public class MovementPlayer : MonoBehaviour
     }
 
     // Hareket giriþi iþleme metodu
-    void HandleMovementInput()
+    void MovementInput()
     {
         // Yatay giriþi al
         float horizontalInput = Input.GetAxis("Horizontal");
