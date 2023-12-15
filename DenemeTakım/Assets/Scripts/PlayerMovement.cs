@@ -3,93 +3,96 @@ using UnityEngine.Tilemaps;
 using System.Collections;
 
 // Oyuncu karakterinin hareketini kontrol eden C# script'i
-public class MovementPlayer : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    // Hareket ve zýplama özellikleri
+    // Hareket ve ziplama ozellikleri
     public float moveSpeed;
     public float jumpForceMin;
     public float jumpForceMax;
     public float maxJumpTime;
 
-    // Dash özellikleri
+    // Dash ozellikleri
     public float dashDistance;
     public float dashDuration;
 
-    // Dodge özellikleri
+    // Dodge ozellikleri
     public float dodgeDistance;
     public float dodgeDuration;
 
-    // Yerde olup olmadýðýný kontrol etmek için Tilemap
+    // Yerde olup olmadigini kontrol etmek için Tilemap
     public Tilemap groundTilemap;
 
-    // Animator bileþeni
+    // Animator bileseni
     public Animator animator;
 
-    // Fiziksel özellikleri yönetmek için Rigidbody bileþeni
+    // Fiziksel ozellikleri yonetmek icin Rigidbody bileseni
     private Rigidbody2D rb;
 
-    // Zýplama kontrol deðiþkenleri
+    // Ziplama kontrol degiskenleri
     private bool isGrounded;
     private bool isJumping;
     private float jumpTime;
     private bool hasJumped;
     private int doubleJumpCount;
 
-    // Dash kontrol deðiþkenleri
+    // Dash kontrol degiskenleri
     private bool isDashing;
     private bool canDash = true;
     private bool isShifting;
 
-    // Dodge kontrol deðiþkenleri
+    // Dodge kontrol degiskenleri
     private bool isDodging;
     private bool canDodge = true;
 
-    // Yön kontrol deðiþkenleri
+    // Yon kontrol degiskenleri
     private bool isFacingRight = true;
 
-    // Bullet Time kontrol deðiþkenleri
+    // Bullet Time kontrol degiskenleri
     private bool isBulletTime;
     private float originalTimeScale;
 
-    // Çift zýplama özellikleri
+    // Çift ziplama ozellikleri
     public int maxDoubleJumps = 1;
     public float doubleJumpForce = 5f;
 
-    // Dash hýzý
+    // Dash hizi
     public float dashSpeed = 10f;
 
    
 
-    // Baþlangýç metodu - Oyun baþladýðýnda bir kere çalýþýr
+    // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
-        // Rigidbody bileþenini al ve zaman ölçeðini kaydet
-        rb = GetComponent<Rigidbody2D>();
         originalTimeScale = Time.timeScale;
     }
-
-    // Güncelleme metodu - Her karede bir kere çalýþýr
+    void FixedUpdate()
+    {
+        // Rigidbody bilesenini al ve zaman olcegini kaydet
+        rb = GetComponent<Rigidbody2D>();
+    }
+    // Guncelleme metodu - Her karede bir kere calisir
     void Update()
     {
-        // Kullanýcý giriþlerini kontrol et
+        // Kullanici girislerini kontrol et
         MovementInput();
         CheckGrounded();
         CheckJumpInput();
         CheckDashInput();
         CheckDodgeInput();
+        
     }
 
-    // Hareket giriþi iþleme metodu
+    // Hareket girisi isleme metodu
     void MovementInput()
     {
-        // Yatay giriþi al
+        // Yatay girisi al
         float horizontalInput = Input.GetAxis("Horizontal");
-        // Hareket vektörünü oluþtur
+        // Hareket vektorunu olustur
         Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
-        // Animator'a hareket hýzýný iletiyoruz
+        // Animator'a hareket hizini iletiyoruz
         animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
 
-        // Eðer karakter dash yapýyorsa, hareket vektörünü dash hýzýna göre ayarla
+        // Eger karakter dash yapiyorsa, hareket vektorunu dash hizina gore ayarla
         if (isDashing)
         {
             movement = rb.velocity.normalized * dashSpeed;
@@ -98,14 +101,15 @@ public class MovementPlayer : MonoBehaviour
         // Hareketi uygula
         rb.velocity = movement;
 
-        // Karakterin yüzünü çevir
+        // Karakterin yuzunu cevir
         FlipCharacter(horizontalInput);
+        
     }
 
-    // Karakteri çevirme metodu
+    // Karakteri cevirme metodu
     void FlipCharacter(float horizontalInput)
     {
-        // Karakterin yüzünü çevirme
+        // Karakterin yuzunu çevirme
         if ((horizontalInput < 0 && isFacingRight) || (horizontalInput > 0 && !isFacingRight))
         {
             isFacingRight = !isFacingRight;
@@ -114,21 +118,21 @@ public class MovementPlayer : MonoBehaviour
             transform.localScale = scale;
         }
     }
-
-    // Karakterin yerde olup olmadýðýný kontrol etme metodu
+ 
+    // Karakterin yerde olup olmadigini kontrol etme metodu
     void CheckGrounded()
     {
-        // Karakterin yerde olup olmadýðýný kontrol et
+        // Karakterin yerde olup olmadigini kontrol et
         Vector3Int cellPosition = groundTilemap.WorldToCell(transform.position - new Vector3(0f, 0.5f, 0f));
         isGrounded = groundTilemap.HasTile(cellPosition);
 
-        // Karakter yerde deðilse ve düþüyorsa animasyonu baþlat
+        // Karakter yerde degilse ve dusuyorsa animasyonu baþlat
         if (!isGrounded)
         {
             animator.SetBool("isFalling", true);
         }
 
-        // Karakter yerdeyse, zýplama durumunu sýfýrla ve düþüyorsa animasyonu durdur
+        // Karakter yerdeyse, ziplama durumunu sifirla ve dusuyorsa animasyonu durdur
         if (isGrounded)
         {
             hasJumped = false;
@@ -137,25 +141,25 @@ public class MovementPlayer : MonoBehaviour
         }
     }
 
-    // Zýplama giriþini kontrol etme metodu
+    // Ziplama girisini kontrol etme metodu
     void CheckJumpInput()
     {
-        // "Jump" tuþuna basýldýðýnda
+        // "Jump" tusuna basildiginda
         if (Input.GetButtonDown("Jump"))
         {
-            // Eðer yerdeyse
+            // Eger yerdeyse
             if (isGrounded)
             {
-                // Zýplama baþlat
+                // Ziplama baslat
                 isJumping = true;
                 jumpTime = 0f;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForceMin);
                 animator.SetBool("isJumping", true);
             }
-            // Yerde deðilse ve çift zýplama kullanýlabilirse
+            // Yerde degilse ve cift ziplama kullanilabilirse
             else if (!hasJumped && doubleJumpCount < maxDoubleJumps)
             {
-                // Çift zýplama baþlat
+                // Cift ziplama baslat
                 hasJumped = true;
                 doubleJumpCount++;
                 rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
@@ -163,15 +167,22 @@ public class MovementPlayer : MonoBehaviour
             }
         }
 
-        // "Jump" tuþuna basýlý tutulduðu sürece ve zýplama zaman sýnýrýna ulaþýlmamýþsa
+        // "Jump" tusuna basili tutuldugu surece ve ziplama zaman sinirina ulasilmamissa
         if (Input.GetButton("Jump") && isJumping && jumpTime < maxJumpTime)
         {
             jumpTime += Time.deltaTime;
-            float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime);
+            float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime); //Lineer Interpolasyon
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+        else
+        {
+            if (isGrounded)
+            {
+                animator.SetBool("isJumping", false);
+            }
+        }
 
-        // "Jump" tuþu býrakýldýðýnda
+        // "Jump" tusu birakildiginda
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
@@ -180,23 +191,23 @@ public class MovementPlayer : MonoBehaviour
         }
     }
 
-    // Dash giriþini kontrol etme metodu
+    // Dash girisini kontrol etme metodu
     void CheckDashInput()
     {
-        // "Dash" tuþuna basýldýðýnda ve dash kullanýlabilir durumdaysa
+        // "Dash" tusuna basildiginda ve dash kullanilabilir durumdaysa
         if (Input.GetButtonDown("Dash") && canDash)
         {
-            // Eðer shift yapýlmamýþsa
+            // Eger shift yapilmamissa
             if (!isShifting)
             {
-                // Shift yap ve Bullet Time'ý aç
+                //Bullet Time'i aç
                 isShifting = true;
                 ToggleBulletTime();
             }
-            // Eðer shift yapýlmýþsa
+            // Eger shift yapilmissa
             else
             {
-                // Shift'i kapat ve dash yönelimine göre Dash Coroutine'ý baþlat
+                //Bullet Time'i kapat ve dash yonelimine gore Dash Coroutine'i baslat
                 isShifting = false;
                 ToggleBulletTime();
                 Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
@@ -209,76 +220,76 @@ public class MovementPlayer : MonoBehaviour
         }
     }
 
-    // Bullet Time'ý açma/kapatma metodu
+    // Bullet Time'i acma/kapatma metodu
     void ToggleBulletTime()
     {
-        // Eðer Bullet Time açýk deðilse
+        // Eger Bullet Time acik degilse
         if (!isBulletTime)
         {
-            // Bullet Time'ý aç ve zaman ölçeðini düþür
+            // Bullet Time'i ac ve zaman olcegini dusur
             isBulletTime = true;
             Time.timeScale = 0.2f;
         }
-        // Eðer Bullet Time açýksa
+        // Eger Bullet Time aciksa
         else
         {
-            // Bullet Time'ý kapat ve zaman ölçeðini orijinal deðere geri getir
+            // Bullet Time'i kapat ve zaman olcegini orijinal degere geri getir
             isBulletTime = false;
             Time.timeScale = originalTimeScale;
         }
     }
 
-    // Dodge giriþini kontrol etme metodu
+    // Dodge girisini kontrol etme metodu
     void CheckDodgeInput()
     {
-        // "Dodge" tuþuna basýldýðýnda ve dodge kullanýlabilir durumdaysa
+        // "Dodge" tusuna basildiginda ve dodge kullanilabilir durumdaysa
         if (Input.GetButtonDown("Dodge") && canDodge)
         {
-            // Dodge Coroutine'ýný baþlat
+            // Dodge Coroutine'ini baslat
             StartCoroutine(Dodge());
         }
     }
 
-    // Dash iþlemini gerçekleþtiren Coroutine metodu
+    // Dash islemini gerceklestiren Coroutine metodu
     IEnumerator Dash(Vector2 dashDirection)
     {
-        // Dash animasyonunu baþlat ve dash durumunu aktifleþtir
+        // Dash animasyonunu baslat ve dash durumunu aktiflestir
         animator.SetBool("isDashing", true);
         isDashing = true;
         canDash = false;
 
-        // Player ve enemyLayer'ýn çarpýþmalarýný geçici olarak ihmal et
+        // Player ve enemyLayer'in carpismalarini gecici olarak ihmal et
         int playerLayer = LayerMask.NameToLayer("Player");
         int enemyLayer = LayerMask.NameToLayer("enemyLayer");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
-        // Dash hýzýnda hareket et
+        // Dash hizinda hareket et
         rb.velocity = dashDirection * dashDistance / dashDuration;
 
-        // Dash süresi kadar bekle
+        // Dash suresi kadar bekle
         yield return new WaitForSeconds(dashDuration);
 
-        // Collision'larý tekrar aktifleþtir
+        // Collision'lari tekrar aktiflestir
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
 
-        // Dash durumunu kapat, animasyonu kapat ve hýzý sýfýrla
+        // Dash durumunu kapat, animasyonu kapat ve hizi sifirla
         isDashing = false;
         animator.SetBool("isDashing", false);
         rb.velocity = Vector2.zero;
 
-        // Bir sonraki Dash'in yapýlabilmesi için bekle
+        // Bir sonraki Dash'in yapilabilmesi için bekle
         yield return new WaitForSeconds(1f);
         canDash = true;
     }
 
-    // Dodge iþlemini gerçekleþtiren Coroutine metodu
+    // Dodge islemini gerceklestiren Coroutine metodu
     IEnumerator Dodge()
     {
-        // Dodge animasyonunu baþlat ve dodge durumunu aktifleþtir
+        // Dodge animasyonunu baslat ve dodge durumunu aktiflestir
         isDodging = true;
         canDodge = false;
 
-        // Dodge yönünü belirle
+        // Dodge yonunu belirle
         float dodgeDirection = isFacingRight ? -1f : 1f;
         Vector2 dodgeVelocity = new Vector2(dodgeDirection, 0f).normalized;
 
@@ -286,7 +297,7 @@ public class MovementPlayer : MonoBehaviour
         Vector2 startPosition = rb.position;
         Vector2 targetPosition = startPosition + dodgeVelocity * dodgeDistance;
 
-        // Dodge süresince lerp (lineer interpolation) kullanarak hareket et
+        // Dodge suresince linner interpolasyon kullanarak hareket et
         float startTime = Time.time;
         while (Time.time < startTime + dodgeDuration)
         {
