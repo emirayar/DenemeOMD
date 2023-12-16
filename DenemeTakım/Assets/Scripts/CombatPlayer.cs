@@ -17,7 +17,8 @@ public class CombatPlayer : MonoBehaviour
 
     void Start()
     {
-        
+        enabled = false;
+
         GameObject enemyObject = GameObject.Find("Enemy");
         if (enemyObject != null)
         {
