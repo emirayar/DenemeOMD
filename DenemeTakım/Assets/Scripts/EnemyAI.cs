@@ -47,7 +47,7 @@ public class EnemyAI : MonoBehaviour
                 }
             }
         }
-        
+
         if (isAttacking)
         {
             attackCooldownTimer += Time.deltaTime;
