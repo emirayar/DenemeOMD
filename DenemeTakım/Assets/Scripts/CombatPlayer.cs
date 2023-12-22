@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CombatPlayer : MonoBehaviour
 {
+    public AudioClip[] audioClips;
+    private int currentAudioClipsIndex = 0;
+    private AudioSource audioSource;
+    
+    
+    
     public Animator animator;
     public float comboTime = 0.7f;
     public float moveSpeedDuringCombo = 1f;
@@ -18,7 +24,7 @@ public class CombatPlayer : MonoBehaviour
     void Start()
     {
         enabled = false;
-
+        audioSource = GetComponent<AudioSource>();
         GameObject enemyObject = GameObject.Find("Enemy");
         if (enemyObject != null)
         {
@@ -39,10 +45,12 @@ public class CombatPlayer : MonoBehaviour
             if (isComboActive)
             {
                 Attack2();
+                AttackSounds();
             }
             else
             {
                 Attack();
+                AttackSounds();
             }
         }
 
@@ -149,6 +157,15 @@ public class CombatPlayer : MonoBehaviour
         else
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+    }
+    void AttackSounds()
+    {
+        if (audioClips.Length > 0)
+        {
+            AudioSource.PlayClipAtPoint(audioClips[currentAudioClipsIndex], transform.position);
+
+            currentAudioClipsIndex = (currentAudioClipsIndex + 1) % audioClips.Length;
         }
     }
 }

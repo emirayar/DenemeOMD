@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2706354327054729165}
   - component: {fileID: 2920574991306455782}
   - component: {fileID: 4782540939249659508}
+  - component: {fileID: 7368134859486996589}
   m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
@@ -31,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3861457010053376933}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.12, y: 6.11, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
@@ -188,6 +189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc9c9ba40a7efb4b9ee253f1564a273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   animator: {fileID: 5188593577988090399}
   comboTime: 0.7
   moveSpeedDuringCombo: 1
@@ -337,8 +341,22 @@ MonoBehaviour:
   groundTilemap: {fileID: 0}
   animator: {fileID: 5188593577988090399}
   maxDoubleJumps: 1
-  doubleJumpForce: 5
+  doubleJumpForce: 7
   dashSpeed: 20
+--- !u!114 &7368134859486996589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3861457010053376933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d85e0a81ba9354c8c5bbde8cf174af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logManager: {fileID: 0}
+  getsound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
 --- !u!1 &4041480211811502073
 GameObject:
   m_ObjectHideFlags: 0
