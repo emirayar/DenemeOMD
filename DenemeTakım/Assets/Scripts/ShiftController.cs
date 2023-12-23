@@ -1,0 +1,129 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShiftController : MonoBehaviour
+{
+    // Dash ozellikleri
+    public float dashDistance = 20f;
+    public float dashDuration = 0.2f;
+    public float dashSpeed = 25f;
+
+    // Dash kontrol degiskenleri
+    public bool isDashing;
+    private bool canDash = true;
+    private bool isShifting;
+
+    // Bullet Time kontrol degiskenleri
+    private bool isBulletTime;
+    private float originalTimeScale;
+
+    //TrailRenderer bilesenini aliriz
+    private TrailRenderer trailRenderer;
+
+    // Arrow Controller scriptini ekleriz.
+    public ControllerArrow arrow;
+
+    // Animator bileseni
+    private Animator animator;
+
+    public NewPlayerMovement playerMovement;
+
+    // Baslangic metodu - Oyun basladiginda bir kere çalisir
+    void Start()
+    {
+        originalTimeScale = Time.timeScale;
+        trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer.emitting = false; //Baslangicta Trail'imiz kapali olur.
+        animator = GetComponent<Animator>();
+    }
+    void Update()
+    {
+        CheckDashInput();
+    }
+
+    // Dash girisini kontrol etme metodu    
+    public void CheckDashInput()
+    {
+        // "Dash" tusuna basildiginda ve dash kullanilabilir durumdaysa
+        if (Input.GetButtonDown("Dash") && canDash)
+        {
+            // Eger shift yapilmamissa
+            if (!isShifting)
+            {
+                //Bullet Time'i aç
+                isShifting = true;
+                ToggleBulletTime();
+            }
+            // Eger shift yapilmissa
+            else
+            {
+                //Bullet Time'i kapat ve dash yonelimine gore Dash Coroutine'i baslat
+                isShifting = false;
+                ToggleBulletTime();
+                Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+                if (dashDirection != Vector2.zero)
+                {
+                    StartCoroutine(Dash(dashDirection));
+                }
+            }
+        }
+    }
+
+    // Bullet Time'i acma/kapatma metodu
+    void ToggleBulletTime()
+    {
+        // Eger Bullet Time acik degilse
+        if (!isBulletTime)
+        {
+            // Bullet Time'i ac, zaman olcegini dusur ve Trail'i baslat.
+            isBulletTime = true;
+            Time.timeScale = 0.2f;
+            trailRenderer.emitting = true;
+            arrow.enabled = true;
+            arrow.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        // Eger Bullet Time aciksa
+        else
+        {
+            // Bullet Time'i kapat, zaman olcegini orijinal degere geri getir ve Trail'i kapat.
+            isBulletTime = false;
+            Time.timeScale = originalTimeScale;
+            trailRenderer.emitting = false;
+            arrow.enabled = false;
+            arrow.GetComponent<SpriteRenderer>().enabled = false;
+        }
+    }
+    // Dash islemini gerceklestiren Coroutine metodu
+    IEnumerator Dash(Vector2 dashDirection)
+    {
+        // Dash animasyonunu baslat ve dash durumunu aktiflestir
+        animator.SetBool("isDashing", true);
+        isDashing = true;
+        canDash = false;
+
+        // Player ve enemyLayer'in carpismalarini gecici olarak ihmal et
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int enemyLayer = LayerMask.NameToLayer("enemyLayer");
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+
+        // Dash hizinda hareket et
+        playerMovement.rb.velocity = dashDirection * (dashDistance / dashDuration);
+
+        // Dash suresi kadar bekle
+        yield return new WaitForSeconds(dashDuration);
+
+        // Collision'lari tekrar aktiflestir
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
+
+        // Dash durumunu kapat, animasyonu kapat ve hizi sifirla
+        isDashing = false;
+        animator.SetBool("isDashing", false);
+        playerMovement.rb.velocity = Vector2.zero;
+
+        // Bir sonraki Dash'in yapilabilmesi için bekle
+        yield return new WaitForSeconds(1f);
+        canDash = true;
+    }
+}

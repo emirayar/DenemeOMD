@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 4782540939249659508}
   - component: {fileID: 7368134859486996589}
   m_Layer: 3
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,11 +338,11 @@ MonoBehaviour:
   dashDuration: 0.2
   dodgeDistance: 0.5
   dodgeDuration: 0.1
-  groundTilemap: {fileID: 0}
-  animator: {fileID: 5188593577988090399}
   maxDoubleJumps: 1
   doubleJumpForce: 7
   dashSpeed: 20
+  groundTilemap: {fileID: 0}
+  animator: {fileID: 5188593577988090399}
 --- !u!114 &7368134859486996589
 MonoBehaviour:
   m_ObjectHideFlags: 0
