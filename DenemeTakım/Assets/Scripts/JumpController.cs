@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,53 +25,53 @@ public class JumpController : MonoBehaviour
 
     //PlayerMovement bileseni
     public PlayerMovement playerMovement;
-
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
         animator = GetComponent<Animator>();
     }
-    // Karakterin yerde olup olmadigini kontrol etme metodu
-    public void CheckGrounded()
+
+    void Update()
     {
-        // Karakterin yerde olup olmadigini kontrol et
-        Vector3Int cellPosition = playerMovement.groundTilemap.WorldToCell(transform.position - new Vector3(0f, 0.5f, 0f));
-        isGrounded = playerMovement.groundTilemap.HasTile(cellPosition);
+        CheckGrounded();
+        CheckJumpInput();
+        CheckFalling();
 
-        // Karakter yerde degilse ve dusuyorsa animasyonu baþlat
-        if (!isGrounded)
-        {
-            animator.SetBool("isFalling", true);
-        }
+    }
 
-        // Karakter yerdeyse, ziplama durumunu sifirla ve dusuyorsa animasyonu durdur
+    void CheckGrounded()
+    {
+        // Karakterin yerde olup olmadýðýný kontrol et
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.2f);
+
+        isGrounded = playerMovement.rb.velocity.y <= 0 && hit.collider != null;
+
+        // Karakter yerdeyse, zýplama durumunu sýfýrla
         if (isGrounded)
         {
             hasJumped = false;
             doubleJumpCount = 0;
-            animator.SetBool("isFalling", false);
         }
     }
 
-    // Ziplama girisini kontrol etme metodu
-    public void CheckJumpInput()
+    void CheckJumpInput()
     {
-        // "Jump" tusuna basildiginda
+        // "Jump" tuþuna basýldýðýnda
         if (Input.GetButtonDown("Jump"))
         {
-            // Eger yerdeyse
+            // Eðer yerdeyse
             if (isGrounded)
             {
-                // Ziplama baslat
+                // Zýplama baþlat
                 isJumping = true;
                 jumpTime = 0f;
                 playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, jumpForceMin);
                 animator.SetBool("isJumping", true);
             }
-            // Yerde degilse ve cift ziplama kullanilabilirse
+            // Yerde deðilse ve çift zýplama kullanýlabilirse
             else if (!hasJumped && doubleJumpCount < maxDoubleJumps)
             {
-                // Cift ziplama baslat
+                // Çift zýplama baþlat
                 hasJumped = true;
                 doubleJumpCount++;
                 playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, doubleJumpForce);
@@ -79,11 +79,11 @@ public class JumpController : MonoBehaviour
             }
         }
 
-        // "Jump" tusuna basili tutuldugu surece ve ziplama zaman sinirina ulasilmamissa
+        // "Jump" tuþuna basýlý tutulduðu sürece ve zýplama zaman sýnýrýna ulaþýlmamýþsa
         if (Input.GetButton("Jump") && isJumping && jumpTime < maxJumpTime)
         {
             jumpTime += Time.deltaTime;
-            float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime); //Lineer Interpolasyon
+            float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime); // Lineer Interpolasyon
             playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, jumpForce);
         }
         else
@@ -94,7 +94,7 @@ public class JumpController : MonoBehaviour
             }
         }
 
-        // "Jump" tusu birakildiginda
+        // "Jump" tuþu býrakýldýðýnda
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
@@ -102,6 +102,15 @@ public class JumpController : MonoBehaviour
             animator.SetBool("isJumping", false);
         }
     }
-
+    void CheckFalling()
+    {
+        if (playerMovement.rb.velocity.y < 0f)
+        {
+            animator.SetBool("isFalling", true);
+        }
+        else
+        {
+            animator.SetBool("isFalling", false);
+        }
+    }
 }
-*/

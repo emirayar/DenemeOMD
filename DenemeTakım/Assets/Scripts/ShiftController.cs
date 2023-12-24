@@ -27,7 +27,7 @@ public class ShiftController : MonoBehaviour
     // Animator bileseni
     private Animator animator;
 
-    public NewPlayerMovement playerMovement;
+    public PlayerMovement playerMovement;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
