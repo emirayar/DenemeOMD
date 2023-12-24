@@ -25,10 +25,15 @@ public class JumpController : MonoBehaviour
 
     //PlayerMovement bileseni
     public PlayerMovement playerMovement;
+
+    public CapsuleCollider2D capsuleCollider2d;
+    [SerializeField] public LayerMask groundlayerMask;
+
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
         animator = GetComponent<Animator>();
+        capsuleCollider2d = GetComponent<CapsuleCollider2D> (); 
     }
 
     void Update()
@@ -42,9 +47,22 @@ public class JumpController : MonoBehaviour
     void CheckGrounded()
     {
         // Karakterin yerde olup olmadýðýný kontrol et
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.2f);
+        RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.2f, groundlayerMask);
 
-        isGrounded = playerMovement.rb.velocity.y <= 0 && hit.collider != null;
+        Color rayColor;
+
+        if (raycastHit.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        Debug.DrawRay(capsuleCollider2d.bounds.center, Vector2.down * (capsuleCollider2d.bounds.extents.y + 0.2f), rayColor);
+        isGrounded = raycastHit.collider != null;
+
 
         // Karakter yerdeyse, zýplama durumunu sýfýrla
         if (isGrounded)
@@ -52,7 +70,9 @@ public class JumpController : MonoBehaviour
             hasJumped = false;
             doubleJumpCount = 0;
         }
+        
     }
+    
 
     void CheckJumpInput()
     {

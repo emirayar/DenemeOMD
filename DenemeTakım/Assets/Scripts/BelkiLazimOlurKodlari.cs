@@ -18,3 +18,5 @@ public class BelkiLazimOlurKodlari : MonoBehaviour
     }
 }
 */
+
+//isGrounded = playerMovement.rb.velocity.y <= 0;

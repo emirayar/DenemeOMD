@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 89713702}
   - component: {fileID: 89713701}
   - component: {fileID: 89713703}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2768,7 +2768,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 22705639896296281, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2852405458396969728, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2812,7 +2812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3616665729886549970, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7540858189833634753, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Name
@@ -2820,7 +2820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7540858189833634753, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3071,7 +3071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4753168654105732424, guid: bfe46d1db2acb58418334f8c0cdeaa93, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4753168654105732424, guid: bfe46d1db2acb58418334f8c0cdeaa93, type: 3}
       propertyPath: m_TagString
@@ -3119,7 +3119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5530310783165236839, guid: bfe46d1db2acb58418334f8c0cdeaa93, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3136,7 +3136,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 22705639896296281, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2852405458396969728, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3180,7 +3180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3616665729886549970, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7540858189833634753, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Name
@@ -3188,7 +3188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7540858189833634753, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3314,7 +3314,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 909168340}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -3596,7 +3596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2081821656}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -3757,11 +3757,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3864061948075300238, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.47
+      value: 4.79
       objectReference: {fileID: 0}
     - target: {fileID: 3864061948075300238, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.35
+      value: 6.37
       objectReference: {fileID: 0}
     - target: {fileID: 3864061948075300238, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3800,8 +3800,16 @@ PrefabInstance:
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 4439031146873887424, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
+      propertyPath: capsuleCollider2d
+      value: 
+      objectReference: {fileID: 8625867309891088972}
+    - target: {fileID: 4439031146873887424, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439031146873887424, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
+      propertyPath: groundlayerMask.m_Bits
+      value: 384
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3824,7 +3832,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 22705639896296281, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2852405458396969728, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3868,7 +3876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3616665729886549970, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7540858189833634753, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Name
@@ -3876,7 +3884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7540858189833634753, guid: b4e42a3c871ecc54e9dbe92f9b87fc31, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3924,6 +3932,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   animator: {fileID: 8625867309891088962}
   comboTime: 0.7
+--- !u!70 &8625867309891088972 stripped
+CapsuleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 4858360398519364940, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
+  m_PrefabInstance: {fileID: 5633325361537473201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
