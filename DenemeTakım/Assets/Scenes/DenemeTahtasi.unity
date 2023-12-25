@@ -3079,11 +3079,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4885500567959925528, guid: bfe46d1db2acb58418334f8c0cdeaa93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.1
+      value: -4.02
       objectReference: {fileID: 0}
     - target: {fileID: 4885500567959925528, guid: bfe46d1db2acb58418334f8c0cdeaa93, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.09
+      value: 5.99
       objectReference: {fileID: 0}
     - target: {fileID: 4885500567959925528, guid: bfe46d1db2acb58418334f8c0cdeaa93, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3736,7 +3736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8541370032249989249, guid: 2aa33c75d694a964c8c04763899621eb, type: 3}
       propertyPath: m_Name
-      value: katana
+      value: katanaOnGround
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3811,7 +3811,8 @@ PrefabInstance:
       propertyPath: groundlayerMask.m_Bits
       value: 384
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4439031146873887424, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3821,6 +3822,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3861457010053376933, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8625867309891088966}
+    - targetCorrespondingSourceObject: {fileID: 3861457010053376933, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8625867309891088979}
   m_SourcePrefab: {fileID: 100100000, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
 --- !u!1001 &6358701070322902827
 PrefabInstance:
@@ -3937,6 +3941,39 @@ CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 4858360398519364940, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
   m_PrefabInstance: {fileID: 5633325361537473201}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8625867309891088975 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5043559550114343421, guid: 60151dedc41ae3843bb37488b9a6c93b, type: 3}
+  m_PrefabInstance: {fileID: 5633325361537473201}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904355720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 059b25a0b1ac8324c9677e59369018a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8625867309891088979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904355720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b3395a25fab5fd42876abf8f24bd94b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForceMin: 1
+  jumpForceMax: 5
+  maxJumpTime: 0.1
+  maxDoubleJumps: 1
+  doubleJumpForce: 5
+  playerMovement: {fileID: 8625867309891088975}
+  capsuleCollider2d: {fileID: 8625867309891088972}
+  groundlayerMask:
+    serializedVersion: 2
+    m_Bits: 384
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

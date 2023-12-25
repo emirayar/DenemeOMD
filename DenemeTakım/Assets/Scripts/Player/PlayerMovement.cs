@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     public ShiftController shiftController;
 
+    public float rayDirection;
+
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
@@ -42,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         // Kullanici girislerini kontrol et
         MovementInput();
         CheckDodgeInput();
+        CheckRayDirection();
     }
 
     void MovementInput()
@@ -115,4 +118,10 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(1f);
         canDodge = true;
     }
+    void CheckRayDirection()
+    {
+        // Ray yönünü güncelle
+        rayDirection = isFacingRight ? 1f : -1f;
+    }
+
 }

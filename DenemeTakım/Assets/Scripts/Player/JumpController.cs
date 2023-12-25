@@ -38,10 +38,14 @@ public class JumpController : MonoBehaviour
 
     void Update()
     {
-        CheckGrounded();
         CheckJumpInput();
         CheckFalling();
 
+    }
+    void FixedUpdate()
+    {
+        CheckGrounded();
+        CheckLedges();
     }
 
     void CheckGrounded()
@@ -121,6 +125,49 @@ public class JumpController : MonoBehaviour
             jumpTime = 0f;
             animator.SetBool("isJumping", false);
         }
+    }
+    void CheckLedges()
+    {
+        RaycastHit2D raycastHitTop = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.max.y), Vector2.right * playerMovement.rayDirection, 1f, groundlayerMask);
+
+        Color rayColorTop;
+
+        if (raycastHitTop.collider != null)
+        {
+            rayColorTop = Color.green;
+        }
+        else
+        {
+            rayColorTop = Color.red;
+        }
+
+        Debug.DrawRay(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.max.y), Vector2.right * playerMovement.rayDirection * 1f, rayColorTop);
+
+        RaycastHit2D raycastHitCenter = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection, 1f, groundlayerMask);
+
+        Color rayColorCenter;
+
+        if (raycastHitCenter.collider != null)
+        {
+            rayColorCenter = Color.green;
+        }
+        else
+        {
+            rayColorCenter = Color.red;
+        }
+
+        Debug.DrawRay(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection * 1f, rayColorCenter);
+
+        //Tepedeki ray boþta ve merkezdeki ray collidera deðiyorsa ledge climb yap
+        if (raycastHitTop.collider == null && raycastHitCenter.collider != null && !isGrounded)
+        {
+            PerformLedgeClimb();
+        }
+    }
+    void PerformLedgeClimb()
+    {
+        Vector2 ledgeClimbPosition = new Vector2(capsuleCollider2d.bounds.center.x + playerMovement.rayDirection, capsuleCollider2d.bounds.max.y);
+        transform.position = ledgeClimbPosition;
     }
     void CheckFalling()
     {
