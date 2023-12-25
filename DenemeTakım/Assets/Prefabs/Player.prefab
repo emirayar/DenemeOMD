@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6797483207987442549}
   - component: {fileID: 7232408689670980303}
   - component: {fileID: 3630335738025771176}
-  - component: {fileID: 128944651422646134}
+  - component: {fileID: 257471757121057567}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -369,7 +369,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   animator: {fileID: 5188593577988090399}
   comboTime: 0.7
---- !u!114 &128944651422646134
+--- !u!114 &257471757121057567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,8 +462,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 546113741
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 65f5d03cdaaf3b34592a374fd3990934, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
