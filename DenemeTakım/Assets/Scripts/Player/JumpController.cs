@@ -26,14 +26,20 @@ public class JumpController : MonoBehaviour
     //PlayerMovement bileseni
     public PlayerMovement playerMovement;
 
+    //CapsuleCollider bileseni
     public CapsuleCollider2D capsuleCollider2d;
-    [SerializeField] public LayerMask groundlayerMask;
+
+    //LayerMask Bileseni
+    public LayerMask groundlayerMask;
+
+    //Duvar kontrol degiskeni
+    private bool isTouchingWall;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
-        animator = GetComponent<Animator>();
-        capsuleCollider2d = GetComponent<CapsuleCollider2D> (); 
+        animator = GetComponent<Animator>(); //Animator Caching
+        capsuleCollider2d = GetComponent<CapsuleCollider2D> (); //CapsuleCollider Caching
     }
 
     void Update()
@@ -157,6 +163,8 @@ public class JumpController : MonoBehaviour
         }
 
         Debug.DrawRay(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection * 1f, rayColorCenter);
+
+        isTouchingWall = raycastHitCenter.collider != null;
 
         //Tepedeki ray boþta ve merkezdeki ray collidera deðiyorsa ledge climb yap
         if (raycastHitTop.collider == null && raycastHitCenter.collider != null && !isGrounded)

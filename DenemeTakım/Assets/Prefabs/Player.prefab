@@ -16,7 +16,9 @@ GameObject:
   - component: {fileID: 2920574991306455782}
   - component: {fileID: 5043559550114343421}
   - component: {fileID: 6797483207987442549}
-  - component: {fileID: 4439031146873887424}
+  - component: {fileID: 7232408689670980303}
+  - component: {fileID: 3630335738025771176}
+  - component: {fileID: 128944651422646134}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -317,6 +319,7 @@ MonoBehaviour:
   animator: {fileID: 5188593577988090399}
   rb: {fileID: 9007858641902500595}
   shiftController: {fileID: 6797483207987442549}
+  rayDirection: 0
 --- !u!114 &6797483207987442549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,7 +338,38 @@ MonoBehaviour:
   isDashing: 0
   arrow: {fileID: 8914997287560324949}
   playerMovement: {fileID: 5043559550114343421}
---- !u!114 &4439031146873887424
+--- !u!114 &7232408689670980303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3861457010053376933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d85e0a81ba9354c8c5bbde8cf174af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logManager: {fileID: 0}
+  getsound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
+--- !u!114 &3630335738025771176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3861457010053376933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc9c9ba40a7efb4b9ee253f1564a273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  animator: {fileID: 5188593577988090399}
+  comboTime: 0.7
+--- !u!114 &128944651422646134
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,6 +387,10 @@ MonoBehaviour:
   maxDoubleJumps: 1
   doubleJumpForce: 5
   playerMovement: {fileID: 5043559550114343421}
+  capsuleCollider2d: {fileID: 4858360398519364940}
+  groundlayerMask:
+    serializedVersion: 2
+    m_Bits: 384
 --- !u!1 &4041480211811502073
 GameObject:
   m_ObjectHideFlags: 0

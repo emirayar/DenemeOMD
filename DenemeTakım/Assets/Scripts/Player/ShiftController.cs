@@ -12,7 +12,7 @@ public class ShiftController : MonoBehaviour
     // Dash kontrol degiskenleri
     public bool isDashing;
     private bool canDash = true;
-    private bool isShifting;
+
 
     // Bullet Time kontrol degiskenleri
     private bool isBulletTime;
@@ -48,18 +48,21 @@ public class ShiftController : MonoBehaviour
         // "Dash" tusuna basildiginda ve dash kullanilabilir durumdaysa
         if (Input.GetButtonDown("Dash") && canDash)
         {
-            // Eger shift yapilmamissa
-            if (!isShifting)
-            {
-                //Bullet Time'i aç
-                isShifting = true;
-                ToggleBulletTime();
-            }
-            // Eger shift yapilmissa
-            else
+
+            //Bullet Time'i aç
+            ToggleBulletTime();
+            
+        }
+
+        // "Dash" tusu birakildiginda
+        if (Input.GetButtonUp("Dash"))
+        {
+
+
+            // Eger shift yapilmis ve Bullet Time aciksa
+            if (isBulletTime)
             {
                 //Bullet Time'i kapat ve dash yonelimine gore Dash Coroutine'i baslat
-                isShifting = false;
                 ToggleBulletTime();
                 Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
@@ -70,6 +73,7 @@ public class ShiftController : MonoBehaviour
             }
         }
     }
+
 
     // Bullet Time'i acma/kapatma metodu
     void ToggleBulletTime()
