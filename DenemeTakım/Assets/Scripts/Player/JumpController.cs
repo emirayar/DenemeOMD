@@ -34,6 +34,8 @@ public class JumpController : MonoBehaviour
 
     //Duvar kontrol degiskeni
     private bool isTouchingWall;
+    private bool isSlidingWall;
+    private float wallSlidingSpeed = 2f;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
@@ -46,14 +48,42 @@ public class JumpController : MonoBehaviour
     {
         CheckJumpInput();
         CheckFalling();
+        PerformWallSliding();
 
     }
+    
     void FixedUpdate()
     {
         CheckGrounded();
         CheckLedges();
-    }
+        CheckWallSliding();
 
+    }
+   
+    void CheckWallSliding()
+    {
+        RaycastHit2D raycastHitCenter = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection, 1f, groundlayerMask);
+
+        isTouchingWall = raycastHitCenter.collider != null;
+
+        if (isTouchingWall && !isGrounded && playerMovement.rb.velocity.y < 0) 
+        {
+            isSlidingWall = true;
+        }else
+        {
+            isSlidingWall = false;
+        }
+    }
+    void PerformWallSliding()
+    {
+        if (isSlidingWall)
+        {
+            if(playerMovement.rb.velocity.y < wallSlidingSpeed)
+            {
+                playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, -wallSlidingSpeed);
+            }
+        }
+    }
     void CheckGrounded()
     {
         // Karakterin yerde olup olmadýðýný kontrol et
@@ -83,7 +113,6 @@ public class JumpController : MonoBehaviour
         
     }
     
-
     void CheckJumpInput()
     {
         // "Jump" tuþuna basýldýðýnda
@@ -163,8 +192,6 @@ public class JumpController : MonoBehaviour
         }
 
         Debug.DrawRay(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection * 1f, rayColorCenter);
-
-        isTouchingWall = raycastHitCenter.collider != null;
 
         //Tepedeki ray boþta ve merkezdeki ray collidera deðiyorsa ledge climb yap
         if (raycastHitTop.collider == null && raycastHitCenter.collider != null && !isGrounded)
