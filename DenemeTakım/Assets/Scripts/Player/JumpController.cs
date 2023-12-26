@@ -10,7 +10,7 @@ public class JumpController : MonoBehaviour
     public float maxJumpTime = 0.1f;
 
     // Ziplama kontrol degiskenleri
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isJumping;
     private float jumpTime;
     private bool hasJumped;
@@ -34,7 +34,7 @@ public class JumpController : MonoBehaviour
 
     //Duvar kontrol degiskeni
     private bool isTouchingWall;
-    private bool isSlidingWall;
+    public bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
@@ -69,15 +69,15 @@ public class JumpController : MonoBehaviour
 
         if (isTouchingWall && !isGrounded && playerMovement.rb.velocity.y < 0) 
         {
-            isSlidingWall = true;
+            isWallSliding = true;
         }else
         {
-            isSlidingWall = false;
+            isWallSliding = false;
         }
     }
     void PerformWallSliding()
     {
-        if (isSlidingWall)
+        if (isWallSliding)
         {
             if(playerMovement.rb.velocity.y < wallSlidingSpeed)
             {

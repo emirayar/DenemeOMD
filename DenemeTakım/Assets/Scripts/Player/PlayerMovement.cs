@@ -26,8 +26,10 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
 
     public ShiftController shiftController;
+    public JumpController jumpController;
 
     public float rayDirection;
+    public Vector2 movement;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
@@ -49,21 +51,26 @@ public class PlayerMovement : MonoBehaviour
 
     void MovementInput()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
-        animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
+            float horizontalInput = Input.GetAxis("Horizontal");
+            Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+            animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
 
-        // If the character is dashing, update the velocity based on dash speed
-        if (shiftController.isDashing)
-        {
-            movement = rb.velocity.normalized * shiftController.dashSpeed;
+            // If the character is dashing, update the velocity based on dash speed
+            if (shiftController.isDashing)
+            {
+                movement = rb.velocity.normalized * shiftController.dashSpeed;
+            }
+            // Update the rigidbody's velocity with the movement vector
+            rb.velocity = movement;
+
+            // Karakterin yuzunu cevir
+            FlipCharacter(horizontalInput);
+            
+            if (jumpController.isWallSliding)
+            {
+                movement = new Vector2(Input.GetAxis("Horizontal") * 0f, rb.velocity.y);
+                rb.velocity = movement;
         }
-        // Update the rigidbody's velocity with the movement vector
-        rb.velocity = movement;
-
-        // Karakterin yuzunu cevir
-        FlipCharacter(horizontalInput);
-
     }
 
     // Karakteri cevirme metodu

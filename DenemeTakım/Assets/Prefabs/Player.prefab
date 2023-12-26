@@ -319,7 +319,9 @@ MonoBehaviour:
   animator: {fileID: 5188593577988090399}
   rb: {fileID: 9007858641902500595}
   shiftController: {fileID: 6797483207987442549}
+  jumpController: {fileID: 257471757121057567}
   rayDirection: 0
+  movement: {x: 0, y: 0}
 --- !u!114 &6797483207987442549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +386,7 @@ MonoBehaviour:
   jumpForceMin: 1
   jumpForceMax: 5
   maxJumpTime: 0.1
+  isGrounded: 0
   maxDoubleJumps: 1
   doubleJumpForce: 5
   playerMovement: {fileID: 5043559550114343421}
@@ -391,6 +394,7 @@ MonoBehaviour:
   groundlayerMask:
     serializedVersion: 2
     m_Bits: 384
+  isWallSliding: 0
 --- !u!1 &4041480211811502073
 GameObject:
   m_ObjectHideFlags: 0
