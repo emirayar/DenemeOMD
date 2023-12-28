@@ -340,6 +340,7 @@ MonoBehaviour:
   isDashing: 0
   arrow: {fileID: 8914997287560324949}
   playerMovement: {fileID: 5043559550114343421}
+  jumpController: {fileID: 257471757121057567}
 --- !u!114 &7232408689670980303
 MonoBehaviour:
   m_ObjectHideFlags: 0

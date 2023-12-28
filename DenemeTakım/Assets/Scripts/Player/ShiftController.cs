@@ -13,7 +13,6 @@ public class ShiftController : MonoBehaviour
     public bool isDashing;
     private bool canDash = true;
 
-
     // Bullet Time kontrol degiskenleri
     private bool isBulletTime;
     private float originalTimeScale;
@@ -28,6 +27,10 @@ public class ShiftController : MonoBehaviour
     private Animator animator;
 
     public PlayerMovement playerMovement;
+
+    public JumpController jumpController;
+
+    private Vector2 dashDirection;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
@@ -46,19 +49,15 @@ public class ShiftController : MonoBehaviour
     public void CheckDashInput()
     {
         // "Dash" tusuna basildiginda ve dash kullanilabilir durumdaysa
-        if (Input.GetButtonDown("Dash") && canDash)
+        if (Input.GetButtonDown("Dash") && canDash && !jumpController.isWallSliding)
         {
-
             //Bullet Time'i aç
             ToggleBulletTime();
-            
         }
 
         // "Dash" tusu birakildiginda
         if (Input.GetButtonUp("Dash"))
         {
-
-
             // Eger shift yapilmis ve Bullet Time aciksa
             if (isBulletTime)
             {
@@ -70,6 +69,7 @@ public class ShiftController : MonoBehaviour
                 {
                     StartCoroutine(Dash(dashDirection));
                 }
+               
             }
         }
     }
@@ -125,9 +125,12 @@ public class ShiftController : MonoBehaviour
         isDashing = false;
         animator.SetBool("isDashing", false);
         playerMovement.rb.velocity = Vector2.zero;
-
-        // Bir sonraki Dash'in yapilabilmesi için bekle
-        yield return new WaitForSeconds(1f);
+        
+        // Bir sonraki Dash'in yapýlabilmesi için zemine inene kadar bekle
+        while (!jumpController.isGrounded)
+        {
+            yield return null;
+        }
         canDash = true;
     }
 }
