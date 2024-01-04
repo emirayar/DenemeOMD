@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Katana : MonoBehaviour
 {
-    private CombatPlayer combatPlayerScript;
+    private CombatController combatControllerScript;
     public LogManager logManager;
     public AudioClip getsound;
     void Start()
     {
-        combatPlayerScript = GetComponent<CombatPlayer>();
+        combatControllerScript = GetComponent<CombatController>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -19,7 +19,7 @@ public class Katana : MonoBehaviour
             AudioSource.PlayClipAtPoint(getsound, other.transform.position);
             Destroy(other.gameObject);
             logManager.Log("Katana Alýndý");
-            combatPlayerScript.enabled = true;
+            combatControllerScript.enabled = true;
         }
     }
 }
