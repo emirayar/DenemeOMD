@@ -663,12 +663,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  dodgeDistance: 0.5
-  dodgeDuration: 0.1
-  animator: {fileID: 8664852766584780803}
-  rb: {fileID: 6515546584896611274}
-  shiftController: {fileID: 2124969581234479481}
-  jumpController: {fileID: 4234152453211976497}
   rayDirection: 0
   movement: {x: 0, y: 0}
 --- !u!114 &2124969581234479481
@@ -687,9 +681,6 @@ MonoBehaviour:
   dashDuration: 0.2
   dashSpeed: 25
   isDashing: 0
-  arrow: {fileID: 2094060328369759370}
-  playerMovement: {fileID: 4348630918270509039}
-  jumpController: {fileID: 4234152453211976497}
 --- !u!114 &2329904763762469835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,7 +693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d85e0a81ba9354c8c5bbde8cf174af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logManager: {fileID: 7971349064415051639}
   getsound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
 --- !u!114 &4234152453211976497
 MonoBehaviour:
@@ -722,8 +712,6 @@ MonoBehaviour:
   isGrounded: 0
   maxDoubleJumps: 1
   doubleJumpForce: 5
-  playerMovement: {fileID: 4348630918270509039}
-  capsuleCollider2d: {fileID: 4003332200707082976}
   groundlayerMask:
     serializedVersion: 2
     m_Bits: 384

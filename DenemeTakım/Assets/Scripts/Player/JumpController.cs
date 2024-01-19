@@ -5,9 +5,9 @@ using UnityEngine;
 public class JumpController : MonoBehaviour
 {
     //Ziplama ozellikleri
-    public float jumpForceMin = 1f;
-    public float jumpForceMax = 5f;
-    public float maxJumpTime = 0.1f;
+    [SerializeField] float jumpForceMin = 1f;
+    [SerializeField] float jumpForceMax = 5f;
+    [SerializeField] float maxJumpTime = 0.1f;
 
     // Ziplama kontrol degiskenleri
     public bool isGrounded;
@@ -17,31 +17,35 @@ public class JumpController : MonoBehaviour
     private int doubleJumpCount;
 
     // Çift ziplama ozellikleri
-    public int maxDoubleJumps = 1;
-    public float doubleJumpForce = 5f;
+    [SerializeField] int maxDoubleJumps = 1;
+    [SerializeField] float doubleJumpForce = 5f;
 
     // Animator bileseni
     private Animator animator;
 
     //PlayerMovement bileseni
-    public PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
 
     //CapsuleCollider bileseni
-    public CapsuleCollider2D capsuleCollider2d;
+    private CapsuleCollider2D capsuleCollider2d;
 
     //LayerMask Bileseni
-    public LayerMask groundlayerMask;
+    [SerializeField] LayerMask groundlayerMask;
 
     //Duvar kontrol degiskeni
     private bool isTouchingWall;
     public bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
+    private Rigidbody2D rb;
+
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
         animator = GetComponent<Animator>(); //Animator Caching
         capsuleCollider2d = GetComponent<CapsuleCollider2D> (); //CapsuleCollider Caching
+        playerMovement = GetComponent<PlayerMovement> ();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -67,7 +71,7 @@ public class JumpController : MonoBehaviour
 
         isTouchingWall = raycastHitTop.collider != null && raycastHitCenter.collider != null;
 
-        if (isTouchingWall && !isGrounded && playerMovement.rb.velocity.y < 0) 
+        if (isTouchingWall && !isGrounded && rb.velocity.y < 0) 
         {
             isWallSliding = true;
         }else
@@ -79,9 +83,9 @@ public class JumpController : MonoBehaviour
     {
         if (isWallSliding)
         {
-            if(playerMovement.rb.velocity.y < wallSlidingSpeed)
+            if(rb.velocity.y < wallSlidingSpeed)
             {
-                playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, -wallSlidingSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlidingSpeed);
             }
         }
     }
@@ -125,7 +129,7 @@ public class JumpController : MonoBehaviour
                 // Zýplama baþlat
                 isJumping = true;
                 jumpTime = 0f;
-                playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, jumpForceMin);
+                rb.velocity = new Vector2(rb.velocity.x, jumpForceMin);
                 animator.SetBool("isJumping", true);
             }
             // Yerde deðilse ve çift zýplama kullanýlabilirse
@@ -134,7 +138,7 @@ public class JumpController : MonoBehaviour
                 // Çift zýplama baþlat
                 hasJumped = true;
                 doubleJumpCount++;
-                playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, doubleJumpForce);
+                rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
                 animator.SetBool("isJumping", true);
             }
         }
@@ -144,7 +148,7 @@ public class JumpController : MonoBehaviour
         {
             jumpTime += Time.deltaTime;
             float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime); // Lineer Interpolasyon
-            playerMovement.rb.velocity = new Vector2(playerMovement.rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
         else
         {
@@ -207,7 +211,7 @@ public class JumpController : MonoBehaviour
     }
     void CheckFalling()
     {
-        if (playerMovement.rb.velocity.y < 0f)
+        if (rb.velocity.y < 0f)
         {
             animator.SetBool("isFalling", true);
         }

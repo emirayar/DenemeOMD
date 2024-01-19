@@ -8,25 +8,17 @@ public class PlayerMovement : MonoBehaviour
     // Hareket ve ziplama ozellikleri
     public float moveSpeed = 5f;
 
-    // Dodge ozellikleri
-    public float dodgeDistance = 0.5f;
-    public float dodgeDuration = 0.1f;
-
-    // Dodge kontrol degiskenleri
-    private bool isDodging;
-    private bool canDodge = true;
-
     // Yon kontrol degiskenleri
     private bool isFacingRight = true;
 
     // Animator bileseni
-    public Animator animator;
+    private Animator animator;
 
     // Fiziksel ozellikleri yonetmek icin Rigidbody bileseni
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
 
-    public ShiftController shiftController;
-    public JumpController jumpController;
+    private ShiftController shiftController;
+    private JumpController jumpController;
 
     public float rayDirection;
     public Vector2 movement;
@@ -34,18 +26,17 @@ public class PlayerMovement : MonoBehaviour
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
-    }
-    void FixedUpdate()
-    {
-        // Rigidbody bilesenini al
+        shiftController = GetComponent<ShiftController> ();
+        jumpController = GetComponent<JumpController> ();
+        animator = GetComponent<Animator> ();
         rb = GetComponent<Rigidbody2D>();
     }
+
     // Guncelleme metodu - Her karede bir kere calisir
     void Update()
     {
         // Kullanici girislerini kontrol et
         MovementInput();
-        CheckDodgeInput();
         CheckRayDirection();
     }
 
@@ -84,46 +75,6 @@ public class PlayerMovement : MonoBehaviour
             scale.x *= -1;
             transform.localScale = scale;
         }
-    }
-
-    // Dodge girisini kontrol etme metodu
-    void CheckDodgeInput()
-    {
-        // "Dodge" tusuna basildiginda ve dodge kullanilabilir durumdaysa
-        if (Input.GetButtonDown("Dodge") && canDodge)
-        {
-            // Dodge Coroutine'ini baslat
-            StartCoroutine(Dodge());
-        }
-    }
-    // Dodge islemini gerceklestiren Coroutine metodu
-    IEnumerator Dodge()
-    {
-        // Dodge animasyonunu baslat ve dodge durumunu aktiflestir
-        isDodging = true;
-        canDodge = false;
-
-        // Dodge yonunu belirle
-        float dodgeDirection = isFacingRight ? -1f : 1f;
-        Vector2 dodgeVelocity = new Vector2(dodgeDirection, 0f).normalized;
-
-        // Dodge hareketini hesapla
-        Vector2 startPosition = rb.position;
-        Vector2 targetPosition = startPosition + dodgeVelocity * dodgeDistance;
-
-        // Dodge suresince linner interpolasyon kullanarak hareket et
-        float startTime = Time.time;
-        while (Time.time < startTime + dodgeDuration)
-        {
-            float t = (Time.time - startTime) / dodgeDuration;
-            rb.MovePosition(Vector2.Lerp(startPosition, targetPosition, t));
-            yield return null;
-        }
-
-        // Dodge durumunu kapat ve bir sonraki Dodge için bekle
-        isDodging = false;
-        yield return new WaitForSeconds(1f);
-        canDodge = true;
     }
     void CheckRayDirection()
     {

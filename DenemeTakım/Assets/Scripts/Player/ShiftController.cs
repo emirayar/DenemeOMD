@@ -5,8 +5,8 @@ using UnityEngine;
 public class ShiftController : MonoBehaviour
 {
     // Dash ozellikleri
-    public float dashDistance = 20f;
-    public float dashDuration = 0.2f;
+    [SerializeField] float dashDistance = 20f;
+    [SerializeField] float dashDuration = 0.2f;
     public float dashSpeed = 25f;
 
     // Dash kontrol degiskenleri
@@ -21,16 +21,16 @@ public class ShiftController : MonoBehaviour
     private TrailRenderer trailRenderer;
 
     // Arrow Controller scriptini ekleriz.
-    public ControllerArrow arrow;
+    private ControllerArrow arrow;
 
     // Animator bileseni
     private Animator animator;
 
-    public PlayerMovement playerMovement;
-
-    public JumpController jumpController;
-
+    private JumpController jumpController;
+    
     private Vector2 dashDirection;
+
+    private Rigidbody2D rb;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
@@ -39,6 +39,9 @@ public class ShiftController : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false; //Baslangicta Trail'imiz kapali olur.
         animator = GetComponent<Animator>();
+        arrow = GetComponentInChildren<ControllerArrow>(); 
+        jumpController = GetComponent<JumpController> ();
+        rb = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
@@ -113,7 +116,7 @@ public class ShiftController : MonoBehaviour
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
         // Dash hizinda hareket et
-        playerMovement.rb.velocity = dashDirection * (dashDistance / dashDuration);
+        rb.velocity = dashDirection * (dashDistance / dashDuration);
 
         // Dash suresi kadar bekle
         yield return new WaitForSeconds(dashDuration);
@@ -124,7 +127,7 @@ public class ShiftController : MonoBehaviour
         // Dash durumunu kapat, animasyonu kapat ve hizi sifirla
         isDashing = false;
         animator.SetBool("isDashing", false);
-        playerMovement.rb.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         
         // Bir sonraki Dash'in yapýlabilmesi için zemine inene kadar bekle
         while (!jumpController.isGrounded)

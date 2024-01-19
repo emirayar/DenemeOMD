@@ -5,11 +5,12 @@ using UnityEngine;
 public class Katana : MonoBehaviour
 {
     private CombatController combatControllerScript;
-    public LogManager logManager;
-    public AudioClip getsound;
+    private LogManager logManager;
+    [SerializeField] AudioClip getsound;
     void Start()
     {
         combatControllerScript = GetComponent<CombatController>();
+        logManager = GetComponentInChildren<LogManager> ();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

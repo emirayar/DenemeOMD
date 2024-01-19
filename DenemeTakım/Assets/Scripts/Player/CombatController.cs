@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CombatController : MonoBehaviour
 {
-    public AudioClip[] audioClips;
+    [SerializeField] AudioClip[] audioClips;
     private int currentAudioClipsIndex = 0;
 
     private Animator animator;
@@ -13,10 +13,13 @@ public class CombatController : MonoBehaviour
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
+    private PlayerMovement playerMovement;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         enabled = false;
+        playerMovement = GetComponent<PlayerMovement> ();
     }
 
     private void Update()
@@ -33,7 +36,7 @@ public class CombatController : MonoBehaviour
             StartCoroutine(PerformCombo());
         }
     }
-
+    
     void AttackSounds()
     {
         AudioSource.PlayClipAtPoint(audioClips[currentAudioClipsIndex], transform.position);
@@ -47,8 +50,6 @@ public class CombatController : MonoBehaviour
         timeSinceLastAttack = 0f;
         animator.SetTrigger(comboCounter + "Attack");
         AttackSounds();
-
-        
 
         if (comboCounter >= maxCombo)
         {
