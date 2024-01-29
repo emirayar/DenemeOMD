@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 movement = new Vector2(Input.GetAxis("Horizontal") * 0f, rb.velocity.y);
                 rb.velocity = movement;
-        }
+            }
     }
 
     // Karakteri cevirme metodu

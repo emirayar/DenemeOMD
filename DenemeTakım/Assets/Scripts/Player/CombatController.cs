@@ -13,13 +13,21 @@ public class CombatController : MonoBehaviour
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
+    public float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
+    public float maxMoveSpeed = 15f; // Maksimum hýz
+
+    private float currentMoveSpeed; // Anlýk hýz
+
     private PlayerMovement playerMovement;
+    private Rigidbody2D rb;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
         enabled = false;
         playerMovement = GetComponent<PlayerMovement> ();
+        rb = GetComponent<Rigidbody2D> ();
+        currentMoveSpeed = initialMoveSpeed;
     }
 
     private void Update()
@@ -35,6 +43,7 @@ public class CombatController : MonoBehaviour
             comboCounter++;
             StartCoroutine(PerformCombo());
         }
+        currentMoveSpeed = Mathf.Lerp(currentMoveSpeed, maxMoveSpeed, 0.01f);
     }
     
     void AttackSounds()
@@ -42,6 +51,11 @@ public class CombatController : MonoBehaviour
         AudioSource.PlayClipAtPoint(audioClips[currentAudioClipsIndex], transform.position);
 
         currentAudioClipsIndex = (currentAudioClipsIndex + 1) % audioClips.Length;
+    }
+    public void MoveForwardDuringAttack()
+    {
+        float horizontalSpeed = currentMoveSpeed * Mathf.Sign(transform.localScale.x);
+        rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
     }
 
     private IEnumerator PerformCombo()
