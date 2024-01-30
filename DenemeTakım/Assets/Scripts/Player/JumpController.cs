@@ -16,6 +16,9 @@ public class JumpController : MonoBehaviour
     private bool hasJumped;
     private int doubleJumpCount;
 
+    private float rbVelocity;
+    private bool canJump = true;
+
     // Çift ziplama ozellikleri
     [SerializeField] int maxDoubleJumps = 1;
     [SerializeField] float doubleJumpForce = 5f;
@@ -43,8 +46,8 @@ public class JumpController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>(); //Animator Caching
-        capsuleCollider2d = GetComponent<CapsuleCollider2D> (); //CapsuleCollider Caching
-        playerMovement = GetComponent<PlayerMovement> ();
+        capsuleCollider2d = GetComponent<CapsuleCollider2D>(); //CapsuleCollider Caching
+        playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -55,7 +58,7 @@ public class JumpController : MonoBehaviour
         PerformWallSliding();
 
     }
-    
+
     void FixedUpdate()
     {
         CheckGrounded();
@@ -63,7 +66,7 @@ public class JumpController : MonoBehaviour
         CheckWallSliding();
 
     }
-   
+
     void CheckWallSliding()
     {
         RaycastHit2D raycastHitCenter = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection, 0.4f, groundlayerMask);
@@ -71,10 +74,10 @@ public class JumpController : MonoBehaviour
 
         isTouchingWall = raycastHitTop.collider != null && raycastHitCenter.collider != null;
 
-        if (isTouchingWall && !isGrounded && rb.velocity.y < 0) 
+        if (isTouchingWall && !isGrounded && rb.velocity.y < 0)
         {
             isWallSliding = true;
-        }else
+        } else
         {
             isWallSliding = false;
         }
@@ -83,7 +86,7 @@ public class JumpController : MonoBehaviour
     {
         if (isWallSliding)
         {
-            if(rb.velocity.y < wallSlidingSpeed)
+            if (rb.velocity.y < wallSlidingSpeed)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlidingSpeed);
             }
@@ -115,13 +118,13 @@ public class JumpController : MonoBehaviour
             hasJumped = false;
             doubleJumpCount = 0;
         }
-        
+
     }
-    
+
     void CheckJumpInput()
     {
         // "Jump" tuþuna basýldýðýnda
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && canJump)
         {
             // Eðer yerdeyse
             if (isGrounded)
@@ -144,7 +147,7 @@ public class JumpController : MonoBehaviour
         }
 
         // "Jump" tuþuna basýlý tutulduðu sürece ve zýplama zaman sýnýrýna ulaþýlmamýþsa
-        if (Input.GetButton("Jump") && isJumping && jumpTime < maxJumpTime)
+        if (Input.GetButton("Jump") && isJumping && jumpTime < maxJumpTime && canJump)
         {
             jumpTime += Time.deltaTime;
             float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime); // Lineer Interpolasyon
@@ -209,9 +212,23 @@ public class JumpController : MonoBehaviour
         Vector2 ledgeClimbPosition = new Vector2(capsuleCollider2d.bounds.center.x + playerMovement.rayDirection, capsuleCollider2d.bounds.max.y);
         transform.position = ledgeClimbPosition;
     }
-    void CheckFalling()
+    IEnumerator FallDamage() //30.01.2024
     {
-        if (rb.velocity.y < 0f)
+        animator.SetBool("isFallDamaged", true);
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("isFallDamaged", false);
+    }
+    IEnumerator FallDamageMove() //30.01.2024
+    {
+        playerMovement.moveSpeed = 2f;
+        yield return new WaitForSeconds(2f);
+        playerMovement.moveSpeed = 5f;
+    }
+    void CheckFalling() //30.01.2024 Fall Damage eklendi.
+    {
+        rbVelocity = rb.velocity.y;
+
+        if (rbVelocity < 0f)
         {
             animator.SetBool("isFalling", true);
         }
@@ -219,5 +236,52 @@ public class JumpController : MonoBehaviour
         {
             animator.SetBool("isFalling", false);
         }
+        
+        if (rbVelocity <= -10f && rbVelocity >= -20f && isGrounded)
+        {
+            StartCoroutine(FallDamage());
+            StartCoroutine(FallDamageMove());
+        }
+
+
+        if (rbVelocity <= -20f && isGrounded)
+        {
+            Debug.Log("Big Fall Damage");
+        }
     }
+
+
+
+    /*void CheckFalling()
+    {
+        rbVelocity = rb.velocity.y;
+
+        if (rbVelocity < 0f)
+        {
+            animator.SetBool("isFalling", true);
+        }
+        else
+        {
+            animator.SetBool("isFalling", false);
+        }
+
+        if (-5f >= rbVelocity && rbVelocity >= -20f && isGrounded)
+        {
+            Debug.Log("Fall Damage Yedin");
+            animator.SetBool("isFallDamaged", true);
+        }
+        else
+        {
+            animator.SetBool("isFallDamaged", false);
+        }
+
+        if (rbVelocity <= -20f && isGrounded)
+        {
+            Debug.Log("Big Fall Damage Yedin");
+        }
+    }*/
+    // Kod bu haldeyken Fall Damage çalýþýyor ancak isFallDamaged boolu o kadar kýsa sürede true olup ardýndan false oluyor ki bazen animasyona girmiyor o yüzden bende 0.1 saniye boyunca açýk kalmasýna çevirdim.
+    // kodu yalnýzca belli bir süreliðine çalýþtýrmak içinse Unity Coroutine fonksiyonunu kullanýyoruz.
+    //ayný þekilde yere düþtükten sonra 2 saniyeliðine 2f hýzýnda gitmesi için de Coroutine kullandým.
+    // Coroutine görünce kafanýz karýþmasýn diye kodun eski halini de ekledim -ayar
 }
