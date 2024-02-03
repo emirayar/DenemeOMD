@@ -5,6 +5,9 @@ using System.Collections;
 // Oyuncu karakterinin hareketini kontrol eden C# script'i
 public class PlayerMovement : MonoBehaviour
 {
+    // effect özellikleri
+    public ParticleSystem dust;
+
     // Hareket ve ziplama ozellikleri
     public float moveSpeed = 5f;
 
@@ -65,21 +68,32 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Karakteri cevirme metodu
+  
     void FlipCharacter(float horizontalInput)
     {
-        // Karakterin yuzunu çevirme
+        // Karakterin yüzünü çevirme
         if ((horizontalInput < 0 && isFacingRight) || (horizontalInput > 0 && !isFacingRight))
         {
             isFacingRight = !isFacingRight;
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
+
+            // CreateDust fonksiyonunu buraya taþýyýn
+            CreateDust();
         }
     }
+
     void CheckRayDirection()
     {
         // Ray yönünü güncelle
         rayDirection = isFacingRight ? 1f : -1f;
     }
+    void CreateDust() // 03.02.2024 dust eklendi
+    {
+        // dust yarat
+        dust.Play();
+    }
+
 
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class JumpController : MonoBehaviour
 {
+
+    // effect özellikleri
+    public ParticleSystem dust;
+
     //Ziplama ozellikleri
     [SerializeField] float jumpForceMin = 1f;
     [SerializeField] float jumpForceMax = 5f;
@@ -134,6 +138,7 @@ public class JumpController : MonoBehaviour
                 jumpTime = 0f;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForceMin);
                 animator.SetBool("isJumping", true);
+                CreateDust();
             }
             // Yerde deðilse ve çift zýplama kullanýlabilirse
             else if (!hasJumped && doubleJumpCount < maxDoubleJumps)
@@ -143,6 +148,7 @@ public class JumpController : MonoBehaviour
                 doubleJumpCount++;
                 rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
                 animator.SetBool("isJumping", true);
+                CreateDust();
             }
         }
 
@@ -241,6 +247,7 @@ public class JumpController : MonoBehaviour
         {
             StartCoroutine(FallDamage());
             StartCoroutine(FallDamageMove());
+            CreateDust();
         }
 
 
@@ -250,7 +257,11 @@ public class JumpController : MonoBehaviour
         }
     }
 
-
+    void CreateDust() //03.02.2024 dust eklendi
+    {
+        // dust yarat
+        dust.Play();
+    }
 
     /*void CheckFalling()
     {
