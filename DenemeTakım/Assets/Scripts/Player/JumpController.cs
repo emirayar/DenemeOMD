@@ -5,7 +5,7 @@ using UnityEngine;
 public class JumpController : MonoBehaviour
 {
 
-    // effect özellikleri
+    // Effect özellikleri
     public ParticleSystem dust;
 
     //Ziplama ozellikleri
@@ -60,15 +60,14 @@ public class JumpController : MonoBehaviour
         CheckJumpInput();
         CheckFalling();
         PerformWallSliding();
+        CheckGrounded();
 
     }
 
     void FixedUpdate()
-    {
-        CheckGrounded();
+    { 
         CheckLedges();
         CheckWallSliding();
-
     }
 
     void CheckWallSliding()
@@ -138,7 +137,6 @@ public class JumpController : MonoBehaviour
                 jumpTime = 0f;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForceMin);
                 animator.SetBool("isJumping", true);
-                CreateDust();
             }
             // Yerde deðilse ve çift zýplama kullanýlabilirse
             else if (!hasJumped && doubleJumpCount < maxDoubleJumps)
@@ -148,7 +146,6 @@ public class JumpController : MonoBehaviour
                 doubleJumpCount++;
                 rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
                 animator.SetBool("isJumping", true);
-                CreateDust();
             }
         }
 
@@ -259,40 +256,8 @@ public class JumpController : MonoBehaviour
 
     void CreateDust() //03.02.2024 dust eklendi
     {
-        // dust yarat
+        // Dust particle'i calistir
         dust.Play();
     }
 
-    /*void CheckFalling()
-    {
-        rbVelocity = rb.velocity.y;
-
-        if (rbVelocity < 0f)
-        {
-            animator.SetBool("isFalling", true);
-        }
-        else
-        {
-            animator.SetBool("isFalling", false);
-        }
-
-        if (-5f >= rbVelocity && rbVelocity >= -20f && isGrounded)
-        {
-            Debug.Log("Fall Damage Yedin");
-            animator.SetBool("isFallDamaged", true);
-        }
-        else
-        {
-            animator.SetBool("isFallDamaged", false);
-        }
-
-        if (rbVelocity <= -20f && isGrounded)
-        {
-            Debug.Log("Big Fall Damage Yedin");
-        }
-    }*/
-    // Kod bu haldeyken Fall Damage çalýþýyor ancak isFallDamaged boolu o kadar kýsa sürede true olup ardýndan false oluyor ki bazen animasyona girmiyor o yüzden bende 0.1 saniye boyunca açýk kalmasýna çevirdim.
-    // kodu yalnýzca belli bir süreliðine çalýþtýrmak içinse Unity Coroutine fonksiyonunu kullanýyoruz.
-    //ayný þekilde yere düþtükten sonra 2 saniyeliðine 2f hýzýnda gitmesi için de Coroutine kullandým.
-    // Coroutine görünce kafanýz karýþmasýn diye kodun eski halini de ekledim -ayar
 }
