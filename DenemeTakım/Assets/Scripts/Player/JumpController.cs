@@ -5,43 +5,43 @@ using UnityEngine;
 public class JumpController : MonoBehaviour
 {
 
-    // Effect özellikleri
+    [Header("Effect özellikleri")]// Effect özellikleri
     public ParticleSystem dust;
 
-    //Ziplama ozellikleri
+    [Header("Ziplama ozellikleri")]//Ziplama ozellikleri
     [SerializeField] float jumpForceMin = 1f;
     [SerializeField] float jumpForceMax = 5f;
     [SerializeField] float maxJumpTime = 0.1f;
 
-    // Ziplama kontrol degiskenleri
-    public bool isGrounded;
+    [Header("Ziplama kontrol degiskenleri")]// Ziplama kontrol degiskenleri
+    [HideInInspector] public bool isGrounded;
     private bool isJumping;
     private float jumpTime;
-    private bool hasJumped;
+    private bool hasJumped; 
     private int doubleJumpCount;
 
     private float rbVelocity;
     private bool canJump = true;
 
-    // Çift ziplama ozellikleri
+    [Header("Çift ziplama ozellikleri")]// Çift ziplama ozellikleri
     [SerializeField] int maxDoubleJumps = 1;
     [SerializeField] float doubleJumpForce = 5f;
 
-    // Animator bileseni
+    [Header("Animator bileseni")]// Animator bileseni
     private Animator animator;
 
-    //PlayerMovement bileseni
+    [Header("PlayerMovement bileseni")]//PlayerMovement bileseni
     private PlayerMovement playerMovement;
 
-    //CapsuleCollider bileseni
+    [Header("CapsuleCollider bileseni")]//CapsuleCollider bileseni
     private CapsuleCollider2D capsuleCollider2d;
 
-    //LayerMask Bileseni
+    [Header("LayerMask Bileseni")]//LayerMask Bileseni
     [SerializeField] LayerMask groundlayerMask;
 
-    //Duvar kontrol degiskeni
+    [Header("Duvar kontrol degiskeni")]//Duvar kontrol degiskeni
     private bool isTouchingWall;
-    public bool isWallSliding;
+    [HideInInspector] public bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
     private Rigidbody2D rb;

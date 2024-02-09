@@ -5003,6 +5003,37 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1833557507117246034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7828438578213068003}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7828438578213068003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833557507117246034}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.63, y: -0.04, z: -42.48777}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1805020237366489804}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1941442058749909825
 GameObject:
   m_ObjectHideFlags: 0
@@ -10013,6 +10044,7 @@ Transform:
   - {fileID: 518504161308978067}
   - {fileID: 1795708336526119890}
   - {fileID: 4458071044262624656}
+  - {fileID: 7828438578213068003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6321554823090333519
@@ -10355,6 +10387,11 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
   - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  attackPoint: {fileID: 7828438578213068003}
+  attackRange: 0.5
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 64
   initialMoveSpeed: 5
   maxMoveSpeed: 15
 --- !u!1 &5516239403941541108

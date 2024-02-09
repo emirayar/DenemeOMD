@@ -13,6 +13,10 @@ public class CombatController : MonoBehaviour
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRange;
+    [SerializeField] private LayerMask attackMask;
+
     public float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     public float maxMoveSpeed = 15f; // Maksimum hýz
 
@@ -45,7 +49,11 @@ public class CombatController : MonoBehaviour
         }
         currentMoveSpeed = Mathf.Lerp(currentMoveSpeed, maxMoveSpeed, 0.01f);
     }
-    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
     void AttackSounds()
     {
         AudioSource.PlayClipAtPoint(audioClips[currentAudioClipsIndex], transform.position);

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ShiftController : MonoBehaviour
 {
-    // Dash ozellikleri
+    [Header("Dash ozellikleri")]// Dash ozellikleri
     [SerializeField] float dashDistance = 20f;
     [SerializeField] float dashDuration = 0.2f;
     public float dashSpeed = 25f;
 
     // Dash kontrol degiskenleri
-    public bool isDashing;
+    [HideInInspector] public bool isDashing;
     private bool canDash = true;
 
     // Bullet Time kontrol degiskenleri

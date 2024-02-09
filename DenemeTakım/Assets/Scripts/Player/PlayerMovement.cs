@@ -23,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private ShiftController shiftController;
     private JumpController jumpController;
 
-    public float rayDirection;
-    public Vector2 movement;
+    [HideInInspector]public float rayDirection;
+    [HideInInspector]public Vector2 movement;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
