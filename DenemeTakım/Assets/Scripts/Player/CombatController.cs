@@ -13,6 +13,8 @@ public class CombatController : MonoBehaviour
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
+    [SerializeField] private int damageGiven = 50;
+
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange;
     [SerializeField] private LayerMask attackMask;
@@ -29,8 +31,8 @@ public class CombatController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         enabled = false;
-        playerMovement = GetComponent<PlayerMovement> ();
-        rb = GetComponent<Rigidbody2D> ();
+        playerMovement = GetComponent<PlayerMovement>();
+        rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = initialMoveSpeed;
     }
 
@@ -65,6 +67,15 @@ public class CombatController : MonoBehaviour
         float horizontalSpeed = currentMoveSpeed * Mathf.Sign(transform.localScale.x);
         rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
     }
+    private void GiveDamage()
+    {
+        // Hasar verme iþlemi
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, attackMask);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<Health>().TakeDamage(damageGiven); // Hasar miktarýný ayarlayabilirsiniz
+        }
+    }
 
     private IEnumerator PerformCombo()
     {
@@ -73,17 +84,8 @@ public class CombatController : MonoBehaviour
         animator.SetTrigger(comboCounter + "Attack");
         AttackSounds();
 
-        if (comboCounter >= maxCombo)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-        else
-        {
-            // Bekletme süresi boyunca baþka saldýrýya izin verme
-            yield return new WaitForSeconds(0);
-        }
-
         // Bekletme süresi sonrasýnda combo sýfýrla
+        yield return new WaitForSeconds(0.5f);
         isAttacking = false;
 
     }
