@@ -3,13 +3,14 @@ using System.Collections;
 
 public class CombatController : MonoBehaviour
 {
-    [SerializeField] AudioClip[] audioClips;
-    private int currentAudioClipsIndex = 0;
-
+    [SerializeField] AudioClip[] attackClips;
+    [SerializeField] AudioClip hitClips;
+    private int currentAttackClipsIndex = 0;
+    private bool isHitted = false;
     private Animator animator;
     private bool isAttacking = false;
     private int comboCounter = 0;
-    private int maxCombo = 2;
+    private int maxCombo = 3;
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
@@ -58,9 +59,16 @@ public class CombatController : MonoBehaviour
     }
     void AttackSounds()
     {
-        AudioSource.PlayClipAtPoint(audioClips[currentAudioClipsIndex], transform.position);
+        if (!isHitted)
+        {
+            AudioSource.PlayClipAtPoint(attackClips[currentAttackClipsIndex], transform.position);
 
-        currentAudioClipsIndex = (currentAudioClipsIndex + 1) % audioClips.Length;
+            currentAttackClipsIndex = (currentAttackClipsIndex + 1) % attackClips.Length;
+        }
+    }
+    void HitSound()
+    {
+        AudioSource.PlayClipAtPoint(hitClips,transform.position);
     }
     public void MoveForwardDuringAttack()
     {
@@ -74,6 +82,8 @@ public class CombatController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             enemy.GetComponent<Health>().TakeDamage(damageGiven); // Hasar miktarýný ayarlayabilirsiniz
+            isHitted = true;
+            HitSound();
         }
     }
 
@@ -85,8 +95,8 @@ public class CombatController : MonoBehaviour
         AttackSounds();
 
         // Bekletme süresi sonrasýnda combo sýfýrla
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         isAttacking = false;
-
+        isHitted = false;
     }
 }

@@ -10016,6 +10016,7 @@ GameObject:
   - component: {fileID: 7625834352863871172}
   - component: {fileID: 6424733040275148988}
   - component: {fileID: 6409148806939385627}
+  - component: {fileID: 5681673434142764466}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -10384,9 +10385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f007a40999f0d3744847443ed0744d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips:
+  attackClips:
   - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
   - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  hitClips: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
+  damageGiven: 25
   attackPoint: {fileID: 7828438578213068003}
   attackRange: 0.5
   attackMask:
@@ -10394,6 +10397,19 @@ MonoBehaviour:
     m_Bits: 64
   initialMoveSpeed: 5
   maxMoveSpeed: 15
+--- !u!114 &5681673434142764466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943390572170097204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b6eee941f50df409f4823008f3ed16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &5516239403941541108
 GameObject:
   m_ObjectHideFlags: 0
