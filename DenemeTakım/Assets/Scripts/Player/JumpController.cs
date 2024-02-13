@@ -240,7 +240,7 @@ public class JumpController : MonoBehaviour
             animator.SetBool("isFalling", false);
         }
         
-        if (rbVelocity <= -10f && rbVelocity >= -20f && isGrounded)
+        if (rbVelocity <= -15f && rbVelocity >= -20f && isGrounded)
         {
             StartCoroutine(FallDamage());
             StartCoroutine(FallDamageMove());

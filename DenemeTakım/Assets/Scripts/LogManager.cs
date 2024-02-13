@@ -6,18 +6,27 @@ public class LogManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textMeshProUGUI;
 
+    [SerializeField]
+    private AudioClip logSound;
+
     private float displayDuration = 2f;
     private float displayTimer;
-
+    private bool isDisplayingLog = false;
+    void Start()
+    {
+    }
     void Update()
     {
-        if (displayTimer > 0)
+        if (isDisplayingLog)
         {
-            displayTimer -= Time.deltaTime;
-
-            if (displayTimer <= 0)
+            if (displayTimer > 0)
+            {
+                displayTimer -= Time.deltaTime;
+            }
+            else
             {
                 ClearLog();
+                isDisplayingLog = false;
             }
         }
     }
@@ -26,11 +35,18 @@ public class LogManager : MonoBehaviour
     {
         if (textMeshProUGUI != null)
         {
+            if (isDisplayingLog)
+            {
+                ClearLog();
+            }
+
             textMeshProUGUI.text += message;
-            
             displayTimer = displayDuration;
+            isDisplayingLog = true;
+            AudioSource.PlayClipAtPoint(logSound, transform.position);
         }
     }
+
     private void ClearLog()
     {
         if (textMeshProUGUI != null)

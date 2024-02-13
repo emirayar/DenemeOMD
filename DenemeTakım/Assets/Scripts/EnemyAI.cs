@@ -2,26 +2,33 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform target;
     public float moveSpeed = 2.0f;
     public float detectionRadius = 5.0f;
     public float attackRange = 2.0f;
     public float attackCooldown = 1.0f;
-    public Transform[] patrolPoints;
     public float patrolSpeed = 1.0f;
     public Animator animator;
 
+    private GameObject target;
+    private GameObject[] patrolPoints;
     private int currentPatrolPointIndex = 0;
     private bool isPatrolling = true;
     private bool isFacingRight = true;
     private bool isAttacking = false;
     private float attackCooldownTimer = 0.0f;
 
+    private void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player");
+
+        patrolPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
+    }
+
     private void Update()
     {
         if (target != null)
         {
-            float distanceToTarget = Vector3.Distance(target.position, transform.position);
+            float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
 
             if (isPatrolling)
             {
@@ -64,7 +71,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (patrolPoints.Length > 0)
         {
-            Vector3 targetPoint = patrolPoints[currentPatrolPointIndex].position;
+            Vector3 targetPoint = patrolPoints[currentPatrolPointIndex].transform.position;
             Vector3 moveDirection = (targetPoint - transform.position).normalized;
 
             if (Vector3.Distance(transform.position, targetPoint) < 0.1f)
@@ -80,8 +87,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Chase()
     {
-        Vector3 moveDirection = (target.position - transform.position).normalized;
-        float distanceToTarget = Vector3.Distance(target.position, transform.position);
+        Vector3 moveDirection = (target.transform.position - transform.position).normalized;
+        float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
 
         if (distanceToTarget <= attackRange)
         {

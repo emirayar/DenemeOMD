@@ -1,9 +1,8 @@
 using UnityEngine;
-using System.Collections;
 
 public class Health : MonoBehaviour
 {
-    public int maxHealth = 100;//Düþmanýn maksimum saðlýðý
+    public int maxHealth = 100; //Düþmanýn maksimum saðlýðý
     private int currentHealth;   // Mevcut saðlýk
 
     private Animator animator;
@@ -31,6 +30,6 @@ public class Health : MonoBehaviour
         animator.SetTrigger("Die");
         // Düþman öldüðünde SpawnManager'a haber ver
         FindObjectOfType<SpawnManager>().EnemyKilled();
-        Destroy(gameObject); // Düþmaný yok et
+        Destroy(gameObject, 2f); // Düþmaný yok et (2 saniye sonra)
     }
 }

@@ -6092,7 +6092,7 @@ GameObject:
   - component: {fileID: 246859469}
   m_Layer: 0
   m_Name: Enemy Patrol Point (1)
-  m_TagString: Untagged
+  m_TagString: PatrolPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6700,7 +6700,7 @@ GameObject:
   - component: {fileID: 1521111612}
   m_Layer: 0
   m_Name: Enemy Patrol Point
-  m_TagString: Untagged
+  m_TagString: PatrolPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7077,18 +7077,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6915065289145513530, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 541942560}
-    - target: {fileID: 6915065289145513530, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
-      propertyPath: patrolPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 1521111612}
-    - target: {fileID: 6915065289145513530, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
-      propertyPath: patrolPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 246859469}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -32,6 +32,8 @@ public class ShiftController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private LogManager logManager;
+
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
@@ -42,13 +44,13 @@ public class ShiftController : MonoBehaviour
         arrow = GetComponentInChildren<ControllerArrow>(); 
         jumpController = GetComponent<JumpController> ();
         rb = GetComponent<Rigidbody2D>();
+        logManager = GetComponentInChildren<LogManager>();
     }
     void Update()
     {
         CheckDashInput();
     }
 
-    // Dash girisini kontrol etme metodu    
     public void CheckDashInput()
     {
         // "Dash" tusuna basildiginda ve dash kullanilabilir durumdaysa
@@ -66,18 +68,34 @@ public class ShiftController : MonoBehaviour
             {
                 //Bullet Time'i kapat ve dash yonelimine gore Dash Coroutine'i baslat
                 ToggleBulletTime();
-                Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
-                if (dashDirection != Vector2.zero)
+                // Karakter yerdeyken, alt, sað alt ve sol alt yönlerde dash yapmasýný engelle
+                if (jumpController.isGrounded)
                 {
-                    StartCoroutine(Dash(dashDirection));
+                    Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+                    if (dashDirection.y >= 0) // Y ekseninde yukarýya doðru bir hareket varsa
+                    {
+                        StartCoroutine(Dash(dashDirection));
+                    }
+                    else if (dashDirection.y < 0)
+                    {
+                        logManager.Log("You can't dash to ground");
+                    }
                 }
-               
+                else // Karakter yerde deðilse herhangi bir sýnýrlama yapma
+                {
+                    Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+                    if (dashDirection != Vector2.zero)
+                    {
+                        StartCoroutine(Dash(dashDirection));
+                    }
+                }
             }
         }
+
     }
-
-
     // Bullet Time'i acma/kapatma metodu
     void ToggleBulletTime()
     {
@@ -128,7 +146,7 @@ public class ShiftController : MonoBehaviour
         isDashing = false;
         animator.SetBool("isDashing", false);
         rb.velocity = Vector2.zero;
-        
+
         // Bir sonraki Dash'in yapýlabilmesi için zemine inene kadar bekle
         while (!jumpController.isGrounded)
         {
