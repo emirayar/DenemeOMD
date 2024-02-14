@@ -61,7 +61,6 @@ public class EnemyAI : MonoBehaviour
             if (attackCooldownTimer >= attackCooldown)
             {
                 isAttacking = false;
-                animator.SetTrigger("CombatIdle");
                 attackCooldownTimer = 0.0f;
             }
         }
