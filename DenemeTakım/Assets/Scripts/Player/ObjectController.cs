@@ -26,7 +26,7 @@ public class ObjectController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(2) && isHoldingItem)
+        if (Input.GetMouseButtonUp(1) && isHoldingItem)
         {
             AimAndThrow();
         }
