@@ -10412,7 +10412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  slider: {fileID: 0}
+  currentHealth: 0
+  slider: {fileID: 5018005178533020246}
 --- !u!114 &7417830094797494334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15837,19 +15838,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076871987853560198, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -0.3253
+      value: -1.0266
       objectReference: {fileID: 0}
     - target: {fileID: 2076871987853560198, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -1.0912
+      value: -1.5295
       objectReference: {fileID: 0}
     - target: {fileID: 2076871987853560198, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0043029785
+      value: 0.0000038147
       objectReference: {fileID: 0}
     - target: {fileID: 2076871987853560198, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0007171631
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: 4124410342371768751, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_Name
@@ -15901,27 +15902,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0.95000005
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0.95000005
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 97.3551
+      value: 118.44
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 9.0901
+      value: 15.096901
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15953,11 +15954,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.4000015
+      value: -0.043640137
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000034571
+      value: 0.0033874512
       objectReference: {fileID: 0}
     - target: {fileID: 8312552634365899662, guid: b76bb62cfdd58314f94ee65bf6cc25b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16061,4 +16062,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
   slider: {fileID: 5018005178533020246}

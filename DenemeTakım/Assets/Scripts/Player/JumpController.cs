@@ -27,22 +27,25 @@ public class JumpController : MonoBehaviour
     [SerializeField] int maxDoubleJumps = 1;
     [SerializeField] float doubleJumpForce = 5f;
 
-    [Header("Animator bileseni")]// Animator bileseni
+    // Animator bileseni
     private Animator animator;
 
-    [Header("PlayerMovement bileseni")]//PlayerMovement bileseni
+    //PlayerMovement bileseni
     private PlayerMovement playerMovement;
 
-    [Header("CapsuleCollider bileseni")]//CapsuleCollider bileseni
+    //CapsuleCollider bileseni
     private CapsuleCollider2D capsuleCollider2d;
 
     [Header("LayerMask Bileseni")]//LayerMask Bileseni
     [SerializeField] LayerMask groundlayerMask;
 
-    [Header("Duvar kontrol degiskeni")]//Duvar kontrol degiskeni
+    //Duvar kontrol degiskeni
     private bool isTouchingWall;
     [HideInInspector] public bool isWallSliding;
     private float wallSlidingSpeed = 2f;
+
+    private PlayerHealth playerHealth;
+    private int fallDamage = 5;
 
     private Rigidbody2D rb;
 
@@ -53,6 +56,7 @@ public class JumpController : MonoBehaviour
         capsuleCollider2d = GetComponent<CapsuleCollider2D>(); //CapsuleCollider Caching
         playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
+        playerHealth = GetComponent<PlayerHealth> ();
     }
 
     void Update()
@@ -242,6 +246,7 @@ public class JumpController : MonoBehaviour
         
         if (rbVelocity <= -15f && rbVelocity >= -20f && isGrounded)
         {
+            playerHealth.TakeDamage(fallDamage);
             StartCoroutine(FallDamage());
             StartCoroutine(FallDamageMove());
             CreateDust();

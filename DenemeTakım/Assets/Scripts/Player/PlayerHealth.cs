@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
-    private int currentHealth;
+    [SerializeField] private int currentHealth;
     public Slider slider; // 15.02.2024 slider deðiþkeni eklendi
     private void Start()
     {
@@ -13,7 +13,6 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void setHealth(int currentHealth)
-
     {
         slider.value = currentHealth;
     }
@@ -21,12 +20,15 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= damage;
 
+        setHealth(currentHealth);
+
         // Saðlýk deðerini kontrol et, örneðin karakter öldüyse baþka bir iþlem yapabilirsiniz
         if (currentHealth <= 0)
         {
             Die();
         }
     }
+
 
     private void Die()
     {

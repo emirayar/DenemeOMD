@@ -26,6 +26,7 @@ public class CombatController : MonoBehaviour
     private float currentMoveSpeed; // Anlýk hýz
 
     private PlayerMovement playerMovement;
+    private JumpController jumpController;
     private Rigidbody2D rb;
 
     private void Start()
@@ -35,6 +36,7 @@ public class CombatController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = initialMoveSpeed;
+        jumpController = GetComponent<JumpController>();
     }
 
     private void Update()
@@ -72,8 +74,11 @@ public class CombatController : MonoBehaviour
     }
     public void MoveForwardDuringAttack()
     {
-        float horizontalSpeed = currentMoveSpeed * Mathf.Sign(transform.localScale.x);
-        rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
+        if (rb.velocity.x < 0.01f)
+        {
+            float horizontalSpeed = currentMoveSpeed * Mathf.Sign(transform.localScale.x);
+            rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
+        }
     }
     private void GiveDamage()
     {
