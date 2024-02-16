@@ -20,6 +20,8 @@ public class CombatController : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private LayerMask attackMask;
 
+    private bool enemyUnder;
+
     public float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     public float maxMoveSpeed = 15f; // Maksimum hýz
 
@@ -28,6 +30,7 @@ public class CombatController : MonoBehaviour
     private PlayerMovement playerMovement;
     private JumpController jumpController;
     private Rigidbody2D rb;
+    private CapsuleCollider2D capsuleCollider2d;
 
     private void Start()
     {
@@ -37,6 +40,7 @@ public class CombatController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = initialMoveSpeed;
         jumpController = GetComponent<JumpController>();
+        capsuleCollider2d = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
@@ -51,6 +55,7 @@ public class CombatController : MonoBehaviour
             }
             comboCounter++;
             StartCoroutine(PerformCombo());
+
         }
         currentMoveSpeed = Mathf.Lerp(currentMoveSpeed, maxMoveSpeed, 0.01f);
     }
@@ -80,15 +85,26 @@ public class CombatController : MonoBehaviour
             rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
         }
     }
-    private void GiveDamage()
+    private void CheckEnemy()
     {
-        // Hasar verme iþlemi
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, attackMask);
-        foreach (Collider2D enemy in hitEnemies)
+        RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.2f, attackMask);
+        enemyUnder = raycastHit.collider != null;
+    }
+    private void GiveDamage() 
+    /*metodunu kullanarak, "attackPoint" adlý pozisyondan belirli bir yarýçapa sahip bir dairesel alanda, 
+    "attackMask" adlý katmanda yer alan tüm Collider'larý tespit eder. Bu, saldýrýnýn etki alanýný temsil eder.
+    Bu bölgedeki tüm düþmanlarý temsil eden Collider'lar bir dizi içinde toplanýr (hitEnemies).*/
+    {
+        if (!enemyUnder)
         {
-            enemy.GetComponent<Health>().TakeDamage(damageGiven); // Hasar miktarýný ayarlayabilirsiniz
-            isHitted = true;
-            HitSound();
+            // Hasar verme iþlemi
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, attackMask);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemy.GetComponent<Health>().TakeDamage(damageGiven); // Hasar miktarýný ayarlayabilirsiniz
+                isHitted = true;
+                HitSound();
+            }
         }
     }
 
