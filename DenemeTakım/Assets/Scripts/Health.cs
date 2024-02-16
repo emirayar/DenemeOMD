@@ -30,6 +30,14 @@ public class Health : MonoBehaviour
         animator.SetTrigger("Die");
         // Düþman öldüðünde SpawnManager'a haber ver
         FindObjectOfType<SpawnManager>().EnemyKilled();
+
+        gameObject.layer = LayerMask.NameToLayer("Died");
+
+        // Player ve enemyLayer'in carpismalarini gecici olarak ihmal et
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int enemyLayer = LayerMask.NameToLayer("Died");
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+
         Destroy(gameObject, 2f); // Düþmaný yok et (2 saniye sonra)
     }
 }

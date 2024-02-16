@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Katana
   - PatrolPoint
+  - Esya
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Ground
   - Esya
   - Furniture
-  - 
+  - Died
   - 
   - 
   - 
