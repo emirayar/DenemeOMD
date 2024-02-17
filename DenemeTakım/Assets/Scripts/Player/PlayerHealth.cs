@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerHealth : MonoBehaviour
     //Lineer interpolasyon kullanarak çubuðun yavaþ yavaþ hareket etmesi için kullandýðýmýz timer
     private float lerptimer;
 
+    private CinemachineImpulseSource impulseSource;
+
     [Header("Health Bars")]
     // Saðlýk çubuðunun önyüzü ve arka yüzü için Image bileþenleri
     [SerializeField] private Image frontHealthBar;
@@ -27,6 +30,7 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        impulseSource = GetComponentInChildren<CinemachineImpulseSource> ();
     }
 
     // Her güncellemede saðlýk durumunu kontrol eder ve UI'yi günceller.
@@ -104,6 +108,7 @@ public class PlayerHealth : MonoBehaviour
         // Mevcut saðlýk deðeri hasar kadar azaltýlýr.
         currentHealth -= damage;
         lerptimer = 0f;
+        impulseSource.GenerateImpulse();
 
         // Saðlýk sýfýrlanýrsa, ölüm iþlevi çaðýrýlýr.
         if (currentHealth <= 0)

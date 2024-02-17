@@ -251,7 +251,6 @@ public class JumpController : MonoBehaviour
             CreateDust();
         }
 
-
         if (rbVelocity <= -20f && isGrounded)
         {
             Debug.Log("Big Fall Damage");

@@ -31,7 +31,6 @@ public class CombatController : MonoBehaviour
 
     private float currentMoveSpeed; // Anlýk hýz
 
-    private PlayerMovement playerMovement;
     private JumpController jumpController;
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCollider2d;
@@ -40,7 +39,6 @@ public class CombatController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         enabled = false;
-        playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = initialMoveSpeed;
         jumpController = GetComponent<JumpController>();
