@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class ObjectController : MonoBehaviour
 {
+    [Header("Throw Point")]
     [SerializeField] private Transform throwableObjectPoint; // Fýrlatýlabilir nesne noktasý
     [SerializeField] private LayerMask itemLayer; // Eþya katmaný
+    
+    [Header("Pickup and Throw Variables")]
     [SerializeField] private float pickupRadius = 2f; // Eþyayý almak için kullanýlan yarýçap
     [SerializeField] private float throwForce = 10f; // Fýrlatma kuvveti
-
+    
+    [Header("Trajectory Variables")]
     [SerializeField] private int numPoints = 30; // Çizgi için kullanýlacak nokta sayýsý
     [SerializeField] private float lineWidth = 0.1f; // Çizgi kalýnlýðý
 

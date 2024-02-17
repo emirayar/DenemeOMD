@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShiftController : MonoBehaviour
 {
-    [Header("Dash ozellikleri")]// Dash ozellikleri
+    [Header("Dash Variables")]// Dash ozellikleri
     [SerializeField] float dashDistance = 20f;
     [SerializeField] float dashDuration = 0.2f;
     public float dashSpeed = 25f;

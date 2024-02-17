@@ -5,15 +5,14 @@ using UnityEngine;
 public class JumpController : MonoBehaviour
 {
 
-    [Header("Effect özellikleri")]// Effect özellikleri
+    [Header("Effect Variables")]// Effect özellikleri
     public ParticleSystem dust;
 
-    [Header("Ziplama ozellikleri")]//Ziplama ozellikleri
+    [Header("Jump Variables")]//Ziplama ozellikleri
     [SerializeField] float jumpForceMin = 1f;
     [SerializeField] float jumpForceMax = 5f;
     [SerializeField] float maxJumpTime = 0.1f;
 
-    [Header("Ziplama kontrol degiskenleri")]// Ziplama kontrol degiskenleri
     [HideInInspector] public bool isGrounded;
     private bool isJumping;
     private float jumpTime;
@@ -23,7 +22,7 @@ public class JumpController : MonoBehaviour
     private float rbVelocity;
     private bool canJump = true;
 
-    [Header("Çift ziplama ozellikleri")]// Çift ziplama ozellikleri
+    [Header("Double Jump Variables")]// Çift ziplama ozellikleri
     [SerializeField] int maxDoubleJumps = 1;
     [SerializeField] float doubleJumpForce = 5f;
 
@@ -36,7 +35,7 @@ public class JumpController : MonoBehaviour
     //CapsuleCollider bileseni
     private CapsuleCollider2D capsuleCollider2d;
 
-    [Header("LayerMask Bileseni")]//LayerMask Bileseni
+    [Header("LayerMask")]//LayerMask Bileseni
     [SerializeField] LayerMask groundlayerMask;
 
     //Duvar kontrol degiskeni

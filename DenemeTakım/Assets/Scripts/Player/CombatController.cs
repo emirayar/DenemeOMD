@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CombatController : MonoBehaviour
 {
+    [Header("Audio Clips")]
     [SerializeField] AudioClip[] attackClips;
     [SerializeField] AudioClip hitClips;
     private int currentAttackClipsIndex = 0;
@@ -14,16 +15,19 @@ public class CombatController : MonoBehaviour
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
+    [Header("Damage")]
     [SerializeField] private int damageGiven = 50;
-
+    
+    [Header("Attack Point")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange;
     [SerializeField] private LayerMask attackMask;
 
     private bool enemyUnder;
-
-    public float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
-    public float maxMoveSpeed = 15f; // Maksimum hýz
+    
+    [Header("Move During Attack Variables")]
+    [SerializeField] private float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
+    [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
 
     private float currentMoveSpeed; // Anlýk hýz
 
