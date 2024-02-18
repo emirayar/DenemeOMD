@@ -10569,6 +10569,7 @@ MonoBehaviour:
   dashDistance: 20
   dashDuration: 0.2
   dashSpeed: 25
+  dashClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   isDashing: 0
 --- !u!114 &7625834352863871172
 MonoBehaviour:

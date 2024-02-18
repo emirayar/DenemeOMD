@@ -9,6 +9,9 @@ public class ShiftController : MonoBehaviour
     [SerializeField] float dashDuration = 0.2f;
     public float dashSpeed = 25f;
 
+    [Header("Audio Clip")]
+    [SerializeField] AudioClip dashClip;
+
     // Dash kontrol degiskenleri
     [HideInInspector] public bool isDashing;
     private bool canDash = true;
@@ -34,6 +37,8 @@ public class ShiftController : MonoBehaviour
 
     private LogManager logManager;
 
+    private float bulletTimeTimer;
+
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
@@ -48,8 +53,16 @@ public class ShiftController : MonoBehaviour
     }
     void Update()
     {
+        // Bullet Time süresi dolmuþsa, Bullet Time'ý kapat
+        if (isBulletTime && Time.time - bulletTimeTimer >= 1f)
+        {
+            ToggleBulletTime();
+            DashAction();
+        }
+
         CheckDashInput();
     }
+
 
     public void CheckDashInput()
     {
@@ -58,6 +71,8 @@ public class ShiftController : MonoBehaviour
         {
             //Bullet Time'i aç
             ToggleBulletTime();
+            // Bullet Time baþlangýç zamanýný kaydet
+            bulletTimeTimer = Time.time;
         }
 
         // "Dash" tusu birakildiginda
@@ -69,33 +84,40 @@ public class ShiftController : MonoBehaviour
                 //Bullet Time'i kapat ve dash yonelimine gore Dash Coroutine'i baslat
                 ToggleBulletTime();
 
-                // Karakter yerdeyken, alt, sað alt ve sol alt yönlerde dash yapmasýný engelle
-                if (jumpController.isGrounded)
-                {
-                    Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+                DashAction();
 
-                    if (dashDirection.y >= 0) // Y ekseninde yukarýya doðru bir hareket varsa
-                    {
-                        StartCoroutine(Dash(dashDirection));
-                    }
-                    else if (dashDirection.y < 0)
-                    {
-                        logManager.Log("You can't dash to ground");
-                    }
-                }
-                else // Karakter yerde deðilse herhangi bir sýnýrlama yapma
-                {
-                    Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-
-                    if (dashDirection != Vector2.zero)
-                    {
-                        StartCoroutine(Dash(dashDirection));
-                    }
-                }
             }
         }
 
     }
+
+    void DashAction()
+    {
+        // Karakter yerdeyken, alt, sað alt ve sol alt yönlerde dash yapmasýný engelle
+        if (jumpController.isGrounded)
+        {
+            Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+            if (dashDirection.y >= 0) // Y ekseninde yukarýya doðru bir hareket varsa
+            {
+                StartCoroutine(Dash(dashDirection));
+            }
+            else if (dashDirection.y < 0)
+            {
+                logManager.Log("You can't dash to ground");
+            }
+        }
+        else // Karakter yerde deðilse herhangi bir sýnýrlama yapma
+        {
+            Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+            if (dashDirection != Vector2.zero)
+            {
+                StartCoroutine(Dash(dashDirection));
+            }
+        }
+    }
+
     // Bullet Time'i acma/kapatma metodu
     void ToggleBulletTime()
     {
@@ -146,6 +168,7 @@ public class ShiftController : MonoBehaviour
         isDashing = false;
         animator.SetBool("isDashing", false);
         rb.velocity = Vector2.zero;
+        AudioSource.PlayClipAtPoint(dashClip, transform.position);
 
         // Bir sonraki Dash'in yapýlabilmesi için zemine inene kadar bekle
         while (!jumpController.isGrounded)
