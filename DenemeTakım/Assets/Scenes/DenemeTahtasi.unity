@@ -6865,6 +6865,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1341428505}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1844998645 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1374398288153098542, guid: 46ee1456a24691f45a864d2ebb09c958, type: 3}
+  m_PrefabInstance: {fileID: 541942559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1945335248
 GameObject:
   m_ObjectHideFlags: 0
@@ -7091,12 +7096,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 243002945297975298, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1844998645}
     - target: {fileID: 1605279030489959220, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 1605279030489959220, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 2560058048377926441, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560058048377926441, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6523203248289584252, guid: 9d277e0008eb9b749bd97d1f369c1337, type: 3}
