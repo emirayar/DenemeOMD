@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 5004515109902789147}
   - component: {fileID: 5599747376287059906}
   - component: {fileID: 3326562101235031047}
+  - component: {fileID: 5453407797288545543}
   m_Layer: 6
   m_Name: SpawnedEnemy
   m_TagString: Untagged
@@ -408,6 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
   healthSlider: {fileID: 3600691534821127860}
 --- !u!114 &3326562101235031047
 MonoBehaviour:
@@ -462,6 +464,20 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: -1, y: 0, z: 0}
+--- !u!114 &5453407797288545543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6148198239157993073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ed297147a57fb4fbc7c5653510835a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 2308798948890346993}
+  health: {fileID: 5599747376287059906}
 --- !u!1 &6200964341051773764
 GameObject:
   m_ObjectHideFlags: 0

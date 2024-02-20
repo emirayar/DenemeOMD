@@ -1,15 +1,18 @@
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
+
 public class Health : MonoBehaviour
 {
     public int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
+    private int healthBarRange = 1;
     private Animator animator;
     private CinemachineImpulseSource impulseSource;
     private Knockback knockback;
     private Transform player;
-    public Slider healthSlider; // Saðlýk çubuðu
+    public Slider healthSlider;
+    private LayerMask playerMask;
 
     void Start()
     {
@@ -19,18 +22,18 @@ public class Health : MonoBehaviour
         knockback = GetComponent<Knockback>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        // Saðlýk çubuðunu bulmak için slider'ý arayýn
-        healthSlider = GameObject.FindWithTag("HealthSlider").GetComponent<Slider>();
-
         // Baþlangýçta saðlýk deðerini ayarlayýn
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
+
     }
+
     private void Update()
     {
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
     }
+
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -45,6 +48,12 @@ public class Health : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, healthBarRange);
     }
 
     private void Die()
