@@ -13,6 +13,7 @@ public class Health : MonoBehaviour
     private Transform player;
     public Slider healthSlider;
     private LayerMask playerMask;
+    public bool isDetected = true;
 
     void Start()
     {

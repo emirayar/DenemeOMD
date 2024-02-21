@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4645130214358131997}
   - component: {fileID: 7373947304728111032}
   - component: {fileID: 4291957983197182843}
+  - component: {fileID: 8222532702078124553}
   m_Layer: 8
   m_Name: Apple
   m_TagString: Esya
@@ -173,3 +174,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8222532702078124553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205480521690456306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd65c19cb477d14bbbb6cae2f0870ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRadius: 5
+  explosionForce: 10
+  delayBeforeDetonation: 5

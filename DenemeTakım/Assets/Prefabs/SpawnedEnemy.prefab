@@ -411,6 +411,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 3600691534821127860}
+  isDetected: 1
 --- !u!114 &3326562101235031047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,6 +479,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 2308798948890346993}
   health: {fileID: 5599747376287059906}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 264
 --- !u!1 &6200964341051773764
 GameObject:
   m_ObjectHideFlags: 0

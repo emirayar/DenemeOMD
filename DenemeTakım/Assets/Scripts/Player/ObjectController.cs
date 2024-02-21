@@ -118,6 +118,13 @@ public class ObjectController : MonoBehaviour
         currentItemCollider.enabled = true; // Eþyanýn collider'ýný tekrar etkinleþtir
         currentItemRigidbody.isKinematic = false;
 
+        Bomb bomb = currentItem.GetComponent<Bomb>();
+        if (bomb != null)
+        {
+            bomb.StartDetonationTimer(); // Patlamayý baþlat
+        }
+
+
         // Fýrlatma yönüne doðru bir kuvvet uygula
         Vector2 throwForceVector = throwDirection * throwForce;
         currentItemRigidbody.AddForce(throwForceVector, ForceMode2D.Impulse);
