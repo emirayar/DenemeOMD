@@ -12,8 +12,7 @@ public class Health : MonoBehaviour
     private Knockback knockback;
     private Transform player;
     public Slider healthSlider;
-    private LayerMask playerMask;
-    public bool isDetected = true;
+    [HideInInspector]public bool isDetected = true;
 
     void Start()
     {
@@ -67,7 +66,6 @@ public class Health : MonoBehaviour
         int playerLayer = LayerMask.NameToLayer("Player");
         int enemyLayer = LayerMask.NameToLayer("Died");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
-
         Destroy(gameObject, 2f);
     }
 }
