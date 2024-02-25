@@ -17,14 +17,14 @@ public class CombatController : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField] private int damageGiven = 50;
-    
+
     [Header("Attack Point")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange;
     [SerializeField] private LayerMask attackMask;
 
     private bool enemyUnder;
-    
+
     [Header("Move During Attack Variables")]
     [SerializeField] private float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
@@ -77,7 +77,7 @@ public class CombatController : MonoBehaviour
     }
     void HitSound()
     {
-        AudioSource.PlayClipAtPoint(hitClips,transform.position);
+        AudioSource.PlayClipAtPoint(hitClips, transform.position);
     }
     public void MoveForwardDuringAttack()
     {
@@ -92,7 +92,7 @@ public class CombatController : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.2f, attackMask);
         enemyUnder = raycastHit.collider != null;
     }
-    private void GiveDamage() 
+    private void GiveDamage()
     /*metodunu kullanarak, "attackPoint" adlý pozisyondan belirli bir yarýçapa sahip bir dairesel alanda, 
     "attackMask" adlý katmanda yer alan tüm Collider'larý tespit eder. Bu, saldýrýnýn etki alanýný temsil eder.
     Bu bölgedeki tüm düþmanlarý temsil eden Collider'lar bir dizi içinde toplanýr (hitEnemies).*/

@@ -14,6 +14,8 @@ public class Health : MonoBehaviour
     public Slider healthSlider;
     [HideInInspector]public bool isDetected = true;
 
+    private Rigidbody2D rb;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -21,7 +23,7 @@ public class Health : MonoBehaviour
         impulseSource = GetComponent<CinemachineImpulseSource>();
         knockback = GetComponent<Knockback>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-
+        rb = GetComponent<Rigidbody2D>();
         // Baþlangýçta saðlýk deðerini ayarlayýn
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
@@ -66,6 +68,7 @@ public class Health : MonoBehaviour
         int playerLayer = LayerMask.NameToLayer("Player");
         int enemyLayer = LayerMask.NameToLayer("Died");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+        rb.isKinematic = true;
         Destroy(gameObject, 2f);
     }
 }
