@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs;
     public List<Transform> spawnPoints = new List<Transform>();
     private Transform lastSpawnPointUsed;
 
@@ -19,8 +19,18 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnEnemy()
     {
-        // Eðer son spawn noktasý yoksa veya spawn noktalarý listesi boþsa, rastgele bir spawn noktasý seç
-        if (lastSpawnPointUsed == null || spawnPoints.Count == 0)
+        // Eðer spawn noktalarý listesi boþsa spawn iþlemi yapma
+        if (spawnPoints.Count == 0 || enemyPrefabs.Length == 0)
+        {
+            Debug.LogWarning("Spawn points or enemy prefabs are not set!");
+            return;
+        }
+
+        // Rastgele bir düþman prefabý seç
+        GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+
+        // Eðer son spawn noktasý yoksa veya son spawn noktasý kullanýlmadýysa, rastgele bir spawn noktasý seç
+        if (lastSpawnPointUsed == null || !spawnPoints.Contains(lastSpawnPointUsed))
         {
             lastSpawnPointUsed = spawnPoints[Random.Range(0, spawnPoints.Count)];
         }
@@ -35,9 +45,10 @@ public class SpawnManager : MonoBehaviour
         // Z konumunu 0 olarak ayarla
         Vector3 spawnPosition = new Vector3(lastSpawnPointUsed.position.x, lastSpawnPointUsed.position.y, 0f);
 
-        // Seçilen spawn noktasýnda düþmaný oluþtur
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        // Seçilen spawn noktasýnda rastgele bir düþman prefabý oluþtur
+        GameObject newEnemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity);
     }
+
     public void EnemyKilled()
     {
         // Bir düþman öldürüldüðünde, bir sonraki düþmaný doður

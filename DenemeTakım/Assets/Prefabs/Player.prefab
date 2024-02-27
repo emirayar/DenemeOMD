@@ -10604,7 +10604,10 @@ MonoBehaviour:
   doubleJumpForce: 5
   groundlayerMask:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 704
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
   isWallSliding: 0
 --- !u!114 &6409148806939385627
 MonoBehaviour:

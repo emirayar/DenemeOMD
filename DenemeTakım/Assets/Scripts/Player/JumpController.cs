@@ -37,6 +37,8 @@ public class JumpController : MonoBehaviour
 
     [Header("LayerMask")]//LayerMask Bileseni
     [SerializeField] LayerMask groundlayerMask;
+    [SerializeField] LayerMask enemyLayer;
+
 
     //Duvar kontrol degiskeni
     private bool isTouchingWall;
@@ -45,6 +47,7 @@ public class JumpController : MonoBehaviour
 
     private PlayerHealth playerHealth;
     private int fallDamage = 5;
+    private int fallDamageRadius = 5;
 
     private Rigidbody2D rb;
 
@@ -242,9 +245,22 @@ public class JumpController : MonoBehaviour
         {
             animator.SetBool("isFalling", false);
         }
-        
+
         if (rbVelocity <= -15f && rbVelocity >= -20f && isGrounded)
         {
+            // Patlama yarýçapý ve etkileþime girecek objeleri belirleme
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, fallDamageRadius, enemyLayer);
+
+            foreach (Collider2D collider in colliders)
+            {
+                // Eðer düþman layer'ýna sahip bir objeyle temas edildiyse
+                Health enemyHealth = collider.GetComponent<Health>();
+                if (enemyHealth != null)
+                {
+                    // Hasar verme iþlemini gerçekleþtir
+                    enemyHealth.TakeDamage(20);
+                }
+            }
             playerHealth.TakeDamage(fallDamage);
             StartCoroutine(FallDamage());
             StartCoroutine(FallDamageMove());
