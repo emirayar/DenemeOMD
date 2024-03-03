@@ -599,7 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseRange: 10
-  attackRange: 1
+  attackRange: 1.5
   chaseSpeed: 5
   attackPoint: {fileID: 3716126951058121896}
   playerLayer:

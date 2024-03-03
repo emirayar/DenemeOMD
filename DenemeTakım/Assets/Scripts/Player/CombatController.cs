@@ -34,6 +34,13 @@ public class CombatController : MonoBehaviour
     private JumpController jumpController;
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCollider2d;
+    private Stamina stamina;
+
+    // Stamina sistemi için eklenen deðiþkenler
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaRegenRate = 5f; // Zamanla doldurma hýzý
+    public float staminaCostPerAttack = 20f; // Saldýrý baþýna harcanan stamina miktarý
 
     private void Start()
     {
@@ -43,6 +50,10 @@ public class CombatController : MonoBehaviour
         currentMoveSpeed = initialMoveSpeed;
         jumpController = GetComponent<JumpController>();
         capsuleCollider2d = GetComponent<CapsuleCollider2D>();
+        stamina = GetComponent<Stamina>();
+
+        // Stamina baþlangýç deðeri ayarý
+        currentStamina = maxStamina;
     }
 
     private void Update()
@@ -55,30 +66,40 @@ public class CombatController : MonoBehaviour
             {
                 comboCounter = 0;
             }
-            comboCounter++;
-            StartCoroutine(PerformCombo());
-
+            if (stamina.currentStamina > 10) // Stamina kontrolü
+            {
+                comboCounter++;
+                StartCoroutine(PerformCombo());
+                stamina.UseStamina(10); // Stamina kullanýmý
+            }
+            else
+            {
+                Debug.Log("Not enough stamina"); // Stamina yetersizse uyarý ver
+            }
         }
         currentMoveSpeed = Mathf.Lerp(currentMoveSpeed, maxMoveSpeed, 0.01f);
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+
     void AttackSounds()
     {
         if (!isHitted)
         {
             AudioSource.PlayClipAtPoint(attackClips[currentAttackClipsIndex], transform.position);
-
             currentAttackClipsIndex = (currentAttackClipsIndex + 1) % attackClips.Length;
         }
     }
+
     void HitSound()
     {
         AudioSource.PlayClipAtPoint(hitClips, transform.position);
     }
+
     public void MoveForwardDuringAttack()
     {
         if (rb.velocity.x < 0.01f)
@@ -87,15 +108,14 @@ public class CombatController : MonoBehaviour
             rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
         }
     }
+
     private void CheckEnemy()
     {
         RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.2f, attackMask);
         enemyUnder = raycastHit.collider != null;
     }
+
     private void GiveDamage()
-    /*metodunu kullanarak, "attackPoint" adlý pozisyondan belirli bir yarýçapa sahip bir dairesel alanda, 
-    "attackMask" adlý katmanda yer alan tüm Collider'larý tespit eder. Bu, saldýrýnýn etki alanýný temsil eder.
-    Bu bölgedeki tüm düþmanlarý temsil eden Collider'lar bir dizi içinde toplanýr (hitEnemies).*/
     {
         if (!enemyUnder)
         {

@@ -10249,6 +10249,7 @@ GameObject:
   - component: {fileID: 7417830094797494334}
   - component: {fileID: 2979590581267449878}
   - component: {fileID: 5901973474458545572}
+  - component: {fileID: 4493869825814229274}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -10633,6 +10634,10 @@ MonoBehaviour:
     m_Bits: 64
   initialMoveSpeed: 5
   maxMoveSpeed: 15
+  maxStamina: 100
+  currentStamina: 0
+  staminaRegenRate: 5
+  staminaCostPerAttack: 20
 --- !u!114 &5681673434142764466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10825,6 +10830,21 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &4493869825814229274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943390572170097204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf783e664327c5a4693082ef92f91374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 100
+  currentStamina: 0
+  staminaRegenRate: 5
 --- !u!1 &5516239403941541108
 GameObject:
   m_ObjectHideFlags: 0

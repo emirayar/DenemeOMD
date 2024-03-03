@@ -39,6 +39,8 @@ public class ShiftController : MonoBehaviour
 
     private float bulletTimeTimer;
 
+    private Stamina stamina;
+
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
     void Start()
     {
@@ -50,6 +52,7 @@ public class ShiftController : MonoBehaviour
         jumpController = GetComponent<JumpController> ();
         rb = GetComponent<Rigidbody2D>();
         logManager = GetComponentInChildren<LogManager>();
+        stamina = GetComponent<Stamina>();
     }
     void Update()
     {
@@ -64,15 +67,23 @@ public class ShiftController : MonoBehaviour
     }
 
 
-    public void CheckDashInput()
+    private void CheckDashInput()
     {
         // "Dash" tusuna basildiginda ve dash kullanilabilir durumdaysa
         if (Input.GetButtonDown("Dash") && canDash && !jumpController.isWallSliding)
         {
-            //Bullet Time'i aç
-            ToggleBulletTime();
-            // Bullet Time baþlangýç zamanýný kaydet
-            bulletTimeTimer = Time.time;
+            // Eðer stamina 20'nin altýndaysa dash iþlemi gerçekleþtirme
+            if (stamina.currentStamina >= 20)
+            {
+                //Bullet Time'i aç
+                ToggleBulletTime();
+                // Bullet Time baþlangýç zamanýný kaydet
+                bulletTimeTimer = Time.time;
+            }
+            else
+            {
+                Debug.Log("Not enough stamina");
+            }
         }
 
         // "Dash" tusu birakildiginda
@@ -158,6 +169,8 @@ public class ShiftController : MonoBehaviour
         // Dash hizinda hareket et
         rb.velocity = dashDirection * (dashDistance / dashDuration);
 
+        stamina.UseStamina(20);
+
         // Dash suresi kadar bekle
         yield return new WaitForSeconds(dashDuration);
 
@@ -170,9 +183,11 @@ public class ShiftController : MonoBehaviour
         rb.velocity = Vector2.zero;
         AudioSource.PlayClipAtPoint(dashClip, transform.position);
 
-        // Bir sonraki Dash'in yapýlabilmesi için zemine inene kadar bekle
-        while (!jumpController.isGrounded)
+        float cooldownDuration = 1f;
+        float timeElapsed = 0f;
+        while (!jumpController.isGrounded || timeElapsed < cooldownDuration)
         {
+            timeElapsed += Time.deltaTime;
             yield return null;
         }
         canDash = true;
