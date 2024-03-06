@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    public float explosionRadius = 5f; // Patlama yarýçapý
-    public float explosionForce = 10f; // Patlama kuvveti
-    public float delayBeforeDetonation = 5f; // Patlamadan önceki bekleme süresi
+    [SerializeField] float explosionRadius = 5f; // Patlama yarýçapý
+    [SerializeField] float explosionForce = 10f; // Patlama kuvveti
+    [SerializeField] float delayBeforeDetonation;// Patlamadan önceki bekleme süresi
 
     private bool isDetonated = false; // Patlatýldý mý?
 

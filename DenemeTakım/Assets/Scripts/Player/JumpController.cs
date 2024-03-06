@@ -32,6 +32,8 @@ public class JumpController : MonoBehaviour
     //PlayerMovement bileseni
     private PlayerMovement playerMovement;
 
+    private ShiftController shiftController;
+
     //CapsuleCollider bileseni
     private CapsuleCollider2D capsuleCollider2d;
 
@@ -58,7 +60,8 @@ public class JumpController : MonoBehaviour
         capsuleCollider2d = GetComponent<CapsuleCollider2D>(); //CapsuleCollider Caching
         playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
-        playerHealth = GetComponent<PlayerHealth> ();
+        playerHealth = GetComponent<PlayerHealth>();
+        shiftController = GetComponent<ShiftController>();
     }
 
     void Update()
@@ -237,7 +240,7 @@ public class JumpController : MonoBehaviour
     {
         rbVelocity = rb.velocity.y;
 
-        if (rbVelocity < 0f)
+        if (rb.velocity.y < 0f)
         {
             animator.SetBool("isFalling", true);
         }
@@ -246,8 +249,19 @@ public class JumpController : MonoBehaviour
             animator.SetBool("isFalling", false);
         }
 
-        if (rbVelocity <= -15f && rbVelocity >= -20f && isGrounded)
+        if (rb.velocity.y <= -15f && rb.velocity.y >= -20f && isGrounded && !shiftController.isDashing)
         {
+            FallDamageController();
+        }
+
+        if (rb.velocity.y <= -20f && isGrounded && !shiftController.isDashing)
+        {
+            Debug.Log("Big Fall Damage");
+        }
+    }
+
+    void FallDamageController()
+    {
             // Patlama yarýçapý ve etkileþime girecek objeleri belirleme
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, fallDamageRadius, enemyLayer);
 
@@ -265,12 +279,6 @@ public class JumpController : MonoBehaviour
             StartCoroutine(FallDamage());
             StartCoroutine(FallDamageMove());
             CreateDust();
-        }
-
-        if (rbVelocity <= -20f && isGrounded)
-        {
-            Debug.Log("Big Fall Damage");
-        }
     }
 
     void CreateDust() //03.02.2024 dust eklendi

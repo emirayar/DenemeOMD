@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Stamina : MonoBehaviour
 {
-    public float maxStamina = 100f;
+    public float maxStamina;
     public float currentStamina;
-    public float staminaRegenRate = 5f; // Zamanla doldurma hýzý
+    [SerializeField] float staminaRegenRate;// Zamanla doldurma hýzý
 
     void Start()
     {
