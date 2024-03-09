@@ -5,7 +5,7 @@ using UnityEngine;
 public class JumpController : MonoBehaviour
 {
 
-    [Header("Effect Variables")]// Effect özellikleri
+    [Header("Effect Variables")]// Effect özellikler
     public ParticleSystem dust;
 
     [Header("Jump Variables")]//Ziplama ozellikleri

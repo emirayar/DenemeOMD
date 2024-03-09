@@ -329,7 +329,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &3903238365890840192
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -467,7 +467,6 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 640
-  isFacingRight: 1
   initialMoveSpeed: 5
   maxMoveSpeed: 15
 --- !u!114 &5757825523168447926

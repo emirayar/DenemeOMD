@@ -10844,7 +10844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxStamina: 100
   currentStamina: 0
-  staminaRegenRate: 5
+  staminaRegenRate: 10
 --- !u!1 &5516239403941541108
 GameObject:
   m_ObjectHideFlags: 0
@@ -11256,7 +11256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ApplyAfter: 2
   m_ChannelMask: -1
-  m_Gain: 0.16
+  m_Gain: 0.2
   m_Use2DDistance: 1
   m_UseCameraSpace: 1
   m_ReactionSettings:
