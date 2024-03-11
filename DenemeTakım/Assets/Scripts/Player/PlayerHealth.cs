@@ -85,7 +85,7 @@ public class PlayerHealth : MonoBehaviour
         {
             // Arka saðlýk çubuðunun rengi mavi olarak ayarlanýr.
             // Bu, oyuncuya saðlýk çubuðunun ön tarafýnda bir deðiþiklik olduðunu gösterir.
-            BackHealthBar.color = Color.blue;
+            BackHealthBar.color = Color.green;
 
             // Arka saðlýk çubuðunun doluluk oraný, mevcut saðlýk oranýna eþitlenir.
             BackHealthBar.fillAmount = hFraction;
