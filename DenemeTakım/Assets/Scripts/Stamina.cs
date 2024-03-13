@@ -12,21 +12,22 @@ public class Stamina : MonoBehaviour
     // Saðlýk çubuðunun önyüzü ve arka yüzü için Image bileþenleri
     public Image frontStaminaBar; // Deðiþtirildi: public olarak tanýmlandý
     public Image backStaminaBar; // Deðiþtirildi: public olarak tanýmlandý
-
+    public Image decreasingEffect;
     // Saðlýk çubuðunun geçiþ hýzý
     private float chipSpeed = 9f;
     private float lerptimer;
     public Color fullColor = Color.green; // Dolu renk
     public Color emptyColor = Color.red;
+
     void Start()
     {
-       
         backStaminaBar.color = emptyColor;
         currentStamina = maxStamina;
     }
 
     void Update()
     {
+        DecreasingEffect();
         StaminaAutoRegen();
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         UpdateStaminaUI();
@@ -36,17 +37,15 @@ public class Stamina : MonoBehaviour
     {
         // Ön ve arka saðlýk çubuklarýnýn doluluk oranlarý alýnýr.
         float fillForeBar = frontStaminaBar.fillAmount;
-        float fillBackBar = backStaminaBar.fillAmount; // Deðiþtirildi: backStaminaBar olarak düzeltildi
+        float fillBackBar = backStaminaBar.fillAmount;
 
         // Mevcut saðlýk oraný hesaplanýr.
         float hFraction = currentStamina / maxStamina;
 
         // Arka saðlýk çubuðunun doluluk oraný, mevcut saðlýk oranýna eþit olana kadar yavaþça güncellenir.
-        // Eðer arka saðlýk çubuðunun doluluk oraný mevcut saðlýk oranýndan büyükse, çubuðun doluluk oraný yavaþça azaltýlýr.
         if (fillBackBar > hFraction)
         {
-            // Ön saðlýk çubuðu, mevcut saðlýk oranýna eþitlenene kadar yavaþça azaltýlýr.
-            // Bu iþlem, saðlýk çubuklarýnýn eþ zamanlý olarak güncellenmesini saðlar.
+            // Arka saðlýk çubuðu, mevcut saðlýk oranýna eþitlenene kadar yavaþça azaltýlýr.
             frontStaminaBar.fillAmount = hFraction;
 
             // Arka saðlýk çubuðu rengi beyaz olarak ayarlanýr.
@@ -66,7 +65,6 @@ public class Stamina : MonoBehaviour
         if (fillForeBar < hFraction)
         {
             // Arka saðlýk çubuðunun rengi mavi olarak ayarlanýr.
-            // Bu, oyuncuya saðlýk çubuðunun ön tarafýnda bir deðiþiklik olduðunu gösterir.
             backStaminaBar.color = fullColor;
 
             // Arka saðlýk çubuðunun doluluk oraný, mevcut saðlýk oranýna eþitlenir.
@@ -100,13 +98,28 @@ public class Stamina : MonoBehaviour
         lerptimer = 0f;
         if (currentStamina >= amount)
         {
-           
             currentStamina -= amount;
             return true; // Stamina yeterliyse true döndür
         }
         else
         {
             return false; // Stamina yetersizse false döndür
+        }
+    }
+
+    void DecreasingEffect()
+    {
+        if (currentStamina < 50)
+        {
+            Color currentColor = decreasingEffect.color;
+            currentColor.a = 0.5f; // Alpha deðerini deðiþtirin
+            decreasingEffect.color = currentColor;
+        }
+        else
+        {
+            Color currentColor = decreasingEffect.color;
+            currentColor.a = 0f; // Alpha deðerini sýfýrlayýn
+            decreasingEffect.color = currentColor;
         }
     }
 }
