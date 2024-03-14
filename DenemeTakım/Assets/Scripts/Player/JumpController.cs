@@ -9,8 +9,8 @@ public class JumpController : MonoBehaviour
     public ParticleSystem dust;
 
     [Header("Jump Variables")]//Ziplama ozellikleri
-    [SerializeField] float jumpForceMin = 1f;
-    [SerializeField] float jumpForceMax = 5f;
+    public float jumpForceMin = 1f;
+    public float jumpForceMax = 5f;
     [SerializeField] float maxJumpTime = 0.1f;
 
     [HideInInspector] public bool isGrounded;

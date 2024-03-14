@@ -75,10 +75,12 @@ public class CombatController : MonoBehaviour
             else
             {
                 Debug.Log("Not enough stamina"); // Stamina yetersizse uyarý ver
+                stamina.DecreasingEffect(); // Stamina yetersiz olduðunda DecreasingEffect fonksiyonunu çaðýr
             }
         }
         currentMoveSpeed = Mathf.Lerp(currentMoveSpeed, maxMoveSpeed, 0.01f);
     }
+
 
     private void OnDrawGizmos()
     {

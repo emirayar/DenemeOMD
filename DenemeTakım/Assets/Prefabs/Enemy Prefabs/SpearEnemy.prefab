@@ -352,9 +352,9 @@ GameObject:
   - component: {fileID: 813906398739058139}
   - component: {fileID: 7850733273813052936}
   - component: {fileID: 2051199533940533723}
-  - component: {fileID: 5241820073891008420}
   - component: {fileID: 2791584437742452640}
   - component: {fileID: 527182308509074096}
+  - component: {fileID: 3060323791069863005}
   m_Layer: 6
   m_Name: SpearEnemy
   m_TagString: Untagged
@@ -572,20 +572,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &5241820073891008420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6423806916457037860}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25daca3ee85b48f48b118dbcc61c0566, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 3
-  moveSpeed: 5
 --- !u!114 &2791584437742452640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,7 +595,6 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 640
-  isFacingRight: 1
   initialMoveSpeed: 5
   maxMoveSpeed: 15
 --- !u!114 &527182308509074096
@@ -665,3 +650,24 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &3060323791069863005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423806916457037860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43645a5a6152d29499c59396b8050f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 10
+  viewAngle: 180
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 640
+  visibleTargets: []

@@ -19,6 +19,9 @@ public class Stamina : MonoBehaviour
     public Color fullColor = Color.green; // Dolu renk
     public Color emptyColor = Color.red;
 
+    private bool decreasingEffectActive = false;
+    private float decreasingEffectDuration = 0.2f;
+
     void Start()
     {
         backStaminaBar.color = emptyColor;
@@ -27,7 +30,6 @@ public class Stamina : MonoBehaviour
 
     void Update()
     {
-        DecreasingEffect();
         StaminaAutoRegen();
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         UpdateStaminaUI();
@@ -107,19 +109,47 @@ public class Stamina : MonoBehaviour
         }
     }
 
-    void DecreasingEffect()
+    public void DecreasingEffect()
     {
-        if (currentStamina < 50)
-        {
-            Color currentColor = decreasingEffect.color;
-            currentColor.a = 0.5f; // Alpha deðerini deðiþtirin
-            decreasingEffect.color = currentColor;
+        if (!decreasingEffectActive)
+        { 
+            StartCoroutine(StartDecreasingEffect()); 
         }
-        else
+    }
+
+    IEnumerator StartDecreasingEffect()
+    {
+        decreasingEffectActive = true;
+        float elapsedTime = 0f;
+        Color initialColor = decreasingEffect.color;
+        Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0.5f); // Hedef rengi belirle
+
+        while (elapsedTime < decreasingEffectDuration)
         {
-            Color currentColor = decreasingEffect.color;
-            currentColor.a = 0f; // Alpha deðerini sýfýrlayýn
-            decreasingEffect.color = currentColor;
+            elapsedTime += Time.deltaTime;
+
+            // Alpha deðeri zamanla artar, ardýndan düþer
+            decreasingEffect.color = Color.Lerp(initialColor, targetColor, elapsedTime / decreasingEffectDuration);
+
+            yield return null;
         }
+
+        decreasingEffect.color = targetColor; // Alpha deðerini hedef alýnan deðere ayarlayýn
+
+        yield return new WaitForSeconds(0.2f); // Bekleme süresi
+
+        elapsedTime = 0f;
+        while (elapsedTime < decreasingEffectDuration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            // Alpha deðeri zamanla azalýr, ardýndan artar
+            decreasingEffect.color = Color.Lerp(targetColor, initialColor, elapsedTime / decreasingEffectDuration);
+
+            yield return null;
+        }
+
+        decreasingEffect.color = initialColor; // Alfa deðeri baþlangýç rengine ayarlayýn
+        decreasingEffectActive = false;
     }
 }

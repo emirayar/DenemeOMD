@@ -83,6 +83,7 @@ public class ShiftController : MonoBehaviour
             else
             {
                 Debug.Log("Not enough stamina");
+                stamina.DecreasingEffect();
             }
         }
 

@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 3941591747518187387}
   - component: {fileID: 5757825523168447926}
   - component: {fileID: 4033900620250351526}
+  - component: {fileID: 1831913447664198349}
   m_Layer: 6
   m_Name: ShieldEnemy
   m_TagString: Untagged
@@ -451,7 +452,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6612071306644414184}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed8f6cea0542a394eb048c4147b92f50, type: 3}
   m_Name: 
@@ -529,7 +530,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6612071306644414184}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60115f0977d648a40a343eebc01d0475, type: 3}
   m_Name: 
@@ -549,6 +550,27 @@ MonoBehaviour:
   PlayerDamageTaken: 0
   initialMoveSpeed: 5
   maxMoveSpeed: 15
+--- !u!114 &1831913447664198349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612071306644414184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43645a5a6152d29499c59396b8050f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 10
+  viewAngle: 180
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 640
+  visibleTargets: []
 --- !u!1 &8143938469293421949
 GameObject:
   m_ObjectHideFlags: 0
