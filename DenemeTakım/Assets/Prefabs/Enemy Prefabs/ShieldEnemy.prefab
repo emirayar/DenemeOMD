@@ -226,11 +226,10 @@ GameObject:
   - component: {fileID: 5868407836404499062}
   - component: {fileID: 3941591747518187387}
   - component: {fileID: 5757825523168447926}
-  - component: {fileID: 4033900620250351526}
   - component: {fileID: 1831913447664198349}
   m_Layer: 6
   m_Name: ShieldEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -523,33 +522,6 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
---- !u!114 &4033900620250351526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6612071306644414184}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60115f0977d648a40a343eebc01d0475, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chaseRange: 10
-  attackRange: 2
-  chaseSpeed: 5
-  attackPoint: {fileID: 1993328850396653710}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  damageGiven: 15
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 640
-  isFacingRight: 1
-  PlayerDamageTaken: 0
-  initialMoveSpeed: 5
-  maxMoveSpeed: 15
 --- !u!114 &1831913447664198349
 MonoBehaviour:
   m_ObjectHideFlags: 0

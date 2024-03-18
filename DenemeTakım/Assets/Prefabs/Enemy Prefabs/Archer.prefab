@@ -146,9 +146,10 @@ GameObject:
   - component: {fileID: 6432488905813279182}
   - component: {fileID: 2674420824213896212}
   - component: {fileID: 1462870910851238163}
+  - component: {fileID: 7689447449639462185}
   m_Layer: 6
   m_Name: Archer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,7 +235,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -345,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackForce: 10
   knockbackDuration: 0.2
-  knockbackDirection: {x: 0, y: 0}
+  knockbackDirection: {x: 1, y: 0.1}
 --- !u!114 &6432488905813279182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,7 +383,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 8186063355309783647, guid: 590997f57e0cff54a9b510fc6f813f55, type: 3}
   firePoint: {fileID: 5350480544723677934}
   arrowForce: 3
-  arrowHeightOffset: 0
+  arrowHeightOffset: 0.1
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 640
@@ -439,6 +440,27 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &7689447449639462185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3120186563909727831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43645a5a6152d29499c59396b8050f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 15
+  viewAngle: 180
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 640
+  visibleTargets: []
 --- !u!1 &5624412455542041066
 GameObject:
   m_ObjectHideFlags: 0

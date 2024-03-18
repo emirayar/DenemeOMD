@@ -35,6 +35,7 @@ public class CombatController : MonoBehaviour
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCollider2d;
     private Stamina stamina;
+    private ObjectController objectController;
 
     // Stamina sistemi için eklenen deðiþkenler
     public float maxStamina = 100f;
@@ -51,6 +52,7 @@ public class CombatController : MonoBehaviour
         jumpController = GetComponent<JumpController>();
         capsuleCollider2d = GetComponent<CapsuleCollider2D>();
         stamina = GetComponent<Stamina>();
+        objectController = GetComponent<ObjectController>();
 
         // Stamina baþlangýç deðeri ayarý
         currentStamina = maxStamina;
@@ -60,7 +62,7 @@ public class CombatController : MonoBehaviour
     {
         timeSinceLastAttack += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && !isAttacking)
+        if (Input.GetMouseButtonDown(0) && !isAttacking && !objectController.isHoldingItem)
         {
             if (comboCounter >= maxCombo || timeSinceLastAttack >= attackCooldown)
             {

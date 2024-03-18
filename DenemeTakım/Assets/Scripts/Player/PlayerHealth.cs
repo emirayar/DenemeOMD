@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Variables")]
     // Maksimum saðlýk puaný
-    [SerializeField] private float maxHealth = 100f;
+    public float maxHealth = 100f;
 
     // Oyuncunun mevcut saðlýk puaný
     private float currentHealth;

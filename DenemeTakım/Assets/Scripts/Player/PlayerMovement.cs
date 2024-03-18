@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
-        animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
         // If the character is dashing, update the velocity based on dash speed
         if (shiftController.isDashing)

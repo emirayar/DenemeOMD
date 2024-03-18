@@ -184,11 +184,8 @@ public class ShiftController : MonoBehaviour
         rb.velocity = Vector2.zero;
         AudioSource.PlayClipAtPoint(dashClip, transform.position);
 
-        float cooldownDuration = 1f;
-        float timeElapsed = 0f;
-        while (!jumpController.isGrounded || timeElapsed < cooldownDuration)
+        while (!jumpController.isGrounded)
         {
-            timeElapsed += Time.deltaTime;
             yield return null;
         }
         canDash = true;

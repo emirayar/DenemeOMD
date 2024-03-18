@@ -2,53 +2,86 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] float explosionRadius = 5f; // Patlama yarýçapý
-    [SerializeField] float explosionForce = 10f; // Patlama kuvveti
-    [SerializeField] float delayBeforeDetonation;// Patlamadan önceki bekleme süresi
+    [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float maxExplosionForce = 25f; // Maksimum patlama kuvveti
+    [SerializeField] private float maxDamageDistance = 5f; // Maksimum hasar mesafesi
+    [SerializeField] private float detonationTime = 5f; // Patlama zamanlayýcýsý
 
-    private bool isDetonated = false; // Patlatýldý mý?
+    private bool isDetonating = false; // Patlama sürecinde mi?
 
-    public void StartDetonationTimer()
+    private ObjectController objectController;
+
+    private void Start()
     {
-        Invoke("Detonate", delayBeforeDetonation);
+        objectController = FindObjectOfType<ObjectController>();
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Bomba çarptýðýnda bekletme iþlemini iptal etmek için Invoke fonksiyonunu iptal et
-        CancelInvoke("Detonate");
-
-        // Bekleme süresi sonunda patlat
-        Detonate();
-    }
-
-    void Detonate()
-    {
-        if (!isDetonated)
+        if (objectController.isThrowed)
         {
-            // Bombanýn patlamasý için patlama konumu ve yarýçapýný belirle
-            Vector3 explosionPosition = transform.position;
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPosition, explosionRadius);
-
-            // Her bir çarpýþma noktasýndaki nesnelere kuvvet uygula
-            foreach (Collider2D hitCollider in colliders)
+            // Bomba bir nesneye çarptýðýnda patlamayý baþlat
+            if ((collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy")))
             {
-                Rigidbody2D rb = hitCollider.GetComponent<Rigidbody2D>();
-                if (rb != null)
-                {
-                    // Nesneye patlama kuvveti uygula
-                    Vector2 direction = rb.transform.position - transform.position;
-                    float distance = direction.magnitude;
-                    float falloff = 1 - (distance / explosionRadius);
-                    Vector2 force = direction.normalized * explosionForce * falloff;
-                    rb.AddForce(force, ForceMode2D.Impulse);
-                }
+                Detonate();
             }
-
-            // Bombayý yok et
-            Destroy(gameObject);
-            isDetonated = true;
         }
     }
 
+
+    public void StartDetonationTimer()
+    {
+        if (!isDetonating)
+        {
+            isDetonating = true;
+            Invoke("Detonate", detonationTime); // Belirtilen süre sonunda Detonate fonksiyonunu çaðýr
+        }
+    }
+
+    private void Detonate()
+    {
+        Collider2D[] objectsInExplosionRadius = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+
+        foreach (Collider2D obj in objectsInExplosionRadius)
+        {
+            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+            PlayerHealth playerHealth = obj.GetComponent<PlayerHealth>();
+            Health health = obj.GetComponent<Health>();
+
+            if (rb != null)
+            {
+                ApplyExplosionForceAndDamage(rb, obj.transform.position - transform.position, playerHealth, health);
+            }
+        }
+
+        Destroy(gameObject);
+    }
+
+    private void ApplyExplosionForceAndDamage(Rigidbody2D rb, Vector2 direction, PlayerHealth playerHealth, Health health)
+    {
+        float distance = direction.magnitude;
+        if (distance > 0)
+        {
+            // Hasar mesafesini belirle ve hasarý hesapla
+            float damageDistanceRatio = Mathf.Clamp01(distance / maxDamageDistance);
+            int damage = Mathf.RoundToInt(damageDistanceRatio * (playerHealth != null ? playerHealth.maxHealth : health.maxHealth));
+
+            // Patlama kuvvetini doðru yönde ve maksimum sýnýrda uygula
+            float explosionForce = Mathf.Min(maxExplosionForce, maxExplosionForce * damageDistanceRatio);
+            rb.AddForce(direction.normalized * explosionForce, ForceMode2D.Impulse);
+
+            // Hasarý uygula
+            if (playerHealth != null)
+                playerHealth.TakeDamage(damage);
+            else if (health != null)
+                health.TakeDamage(damage);
+        }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    }
 }

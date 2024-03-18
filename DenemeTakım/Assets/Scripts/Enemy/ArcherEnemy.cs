@@ -20,65 +20,57 @@ public class ArcherEnemy : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private LineOfSight lineOfSight;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         InvokeRepeating("CheckDistance", 0f, 0.5f); // Her yarým saniyede bir uzaklýðý kontrol et
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
+        lineOfSight = GetComponent<LineOfSight> ();
     }
 
     private void CheckDistance()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        // Eðer düþman oyuncunun menzilinde ve doðrudan hattý varsa ve saldýrmýyorsa
-        if (distanceToPlayer <= chaseRange && !isAttacking && HasLineOfSight())
+        if (lineOfSight.visibleTargets.Count > 0)
         {
-            // Oyuncuyu takip et
-            Vector2 direction = (player.position - transform.position).normalized;
+            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-            // Karakterin yönünü belirle
-            if (direction.x > 0)
-                transform.rotation = Quaternion.Euler(0, 0, 0); // Saða bakýyorsa
+            // Eðer düþman oyuncunun menzilinde ve doðrudan hattý varsa ve saldýrmýyorsa
+            if (distanceToPlayer <= chaseRange && !isAttacking)
+            {
+                // Oyuncuyu takip et
+                Vector2 direction = (player.position - transform.position).normalized;
+
+                // Karakterin yönünü belirle
+                if (direction.x > 0)
+                    transform.rotation = Quaternion.Euler(0, 0, 0); // Saða bakýyorsa
+                else
+                    transform.rotation = Quaternion.Euler(0, 180, 0); // Sola bakýyorsa
+
+                // Rigidbody'nin hýzýný ayarla
+                rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y);
+
+            }
             else
-                transform.rotation = Quaternion.Euler(0, 180, 0); // Sola bakýyorsa
+            {
+                // Eðer düþman oyuncunun menzilinde deðilse veya doðrudan hattý yoksa, dur
+                rb.velocity = Vector2.zero;
+            }
 
-            // Rigidbody'nin hýzýný ayarla
-            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y);
-
-        }
-        else
-        {
-            // Eðer düþman oyuncunun menzilinde deðilse veya doðrudan hattý yoksa, dur
-            rb.velocity = Vector2.zero;
-        }
-
-        // Oyuncu saldýrý menziline girdiyse ve saldýrmýyorsa
-        if (distanceToPlayer <= attackRange && !isAttacking && HasLineOfSight())
-        {
-            // Saldýrý animasyonunu oynat
-            animator.SetTrigger("Attack");
-            // Saldýrý durumunu iþaretle
-            isAttacking = true;
-            // Saldýrý animasyonunun süresi boyunca beklemek için coroutine baþlat
-            StartCoroutine(ResetAttackCooldown());
+            // Oyuncu saldýrý menziline girdiyse ve saldýrmýyorsa
+            if (distanceToPlayer <= attackRange && !isAttacking)
+            {
+                // Saldýrý animasyonunu oynat
+                animator.SetTrigger("Attack");
+                // Saldýrý durumunu iþaretle
+                isAttacking = true;
+                // Saldýrý animasyonunun süresi boyunca beklemek için coroutine baþlat
+                StartCoroutine(ResetAttackCooldown());
+            }
         }
     }
-
-    private bool HasLineOfSight()
-    {
-        // Düþmanýn ve oyuncunun pozisyonlarýný al
-        Vector2 enemyPosition = transform.position;
-        Vector2 playerPosition = player.position;
-
-        // Düþman ile oyuncu arasýnda bir hattýn olup olmadýðýný kontrol et
-        RaycastHit2D hit = Physics2D.Linecast(enemyPosition, playerPosition, obstacleLayerMask);
-
-        // Eðer hiçbir engel yoksa, yani doðrudan bir hattý varsa, true döndür
-        return (hit.collider == null);
-    }
-
     IEnumerator ResetAttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldown);
