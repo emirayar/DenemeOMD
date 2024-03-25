@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd65c19cb477d14bbbb6cae2f0870ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRadius: 3
-  maxExplosionForce: 10
-  maxDamageDistance: 3
+  explosionRadius: 5
+  explosionForceMultiplier: 30
   detonationTime: 5
+  distance: 0

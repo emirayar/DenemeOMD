@@ -40,6 +40,7 @@ public class JumpController : MonoBehaviour
     [Header("LayerMask")]//LayerMask Bileseni
     [SerializeField] LayerMask groundlayerMask;
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] LayerMask ledgeLayerMask;
 
 
     //Duvar kontrol degiskeni
@@ -183,7 +184,7 @@ public class JumpController : MonoBehaviour
     }
     void CheckLedges()
     {
-        RaycastHit2D raycastHitTop = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.max.y), Vector2.right * playerMovement.rayDirection, 1f, groundlayerMask);
+        RaycastHit2D raycastHitTop = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.max.y), Vector2.right * playerMovement.rayDirection, 1f, ledgeLayerMask);
 
         Color rayColorTop;
 
@@ -198,7 +199,7 @@ public class JumpController : MonoBehaviour
 
         Debug.DrawRay(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.max.y), Vector2.right * playerMovement.rayDirection * 1f, rayColorTop);
 
-        RaycastHit2D raycastHitCenter = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection, 1f, groundlayerMask);
+        RaycastHit2D raycastHitCenter = Physics2D.Raycast(new Vector2(capsuleCollider2d.bounds.center.x, capsuleCollider2d.bounds.center.y), Vector2.right * playerMovement.rayDirection, 1f, ledgeLayerMask);
 
         Color rayColorCenter;
 

@@ -103,7 +103,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // Oyuncunun hasar almasýný saðlar
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         // Mevcut saðlýk deðeri hasar kadar azaltýlýr.
         currentHealth -= damage;

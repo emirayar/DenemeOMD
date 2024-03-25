@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] private float explosionRadius = 5f;
-    [SerializeField] private float maxExplosionForce = 25f; // Maksimum patlama kuvveti
-    [SerializeField] private float maxDamageDistance = 5f; // Maksimum hasar mesafesi
-    [SerializeField] private float detonationTime = 5f; // Patlama zamanlayýcýsý
+    [SerializeField] private float explosionRadius;
+    [SerializeField] private float explosionForceMultiplier;
+    [SerializeField] private float detonationTime;
+    
+    [SerializeField] private float distance;
 
-    private bool isDetonating = false; // Patlama sürecinde mi?
+
+
+    private bool isDetonating = false;
 
     private ObjectController objectController;
 
@@ -59,25 +62,26 @@ public class Bomb : MonoBehaviour
 
     private void ApplyExplosionForceAndDamage(Rigidbody2D rb, Vector2 direction, PlayerHealth playerHealth, Health health)
     {
-        float distance = direction.magnitude;
+        distance = direction.magnitude;
+
         if (distance > 0)
         {
-            // Hasar mesafesini belirle ve hasarý hesapla
-            float damageDistanceRatio = Mathf.Clamp01(distance / maxDamageDistance);
-            int damage = Mathf.RoundToInt(damageDistanceRatio * (playerHealth != null ? playerHealth.maxHealth : health.maxHealth));
+            float explosionForce = explosionForceMultiplier / distance ;
 
-            // Patlama kuvvetini doðru yönde ve maksimum sýnýrda uygula
-            float explosionForce = Mathf.Min(maxExplosionForce, maxExplosionForce * damageDistanceRatio);
-            rb.AddForce(direction.normalized * explosionForce, ForceMode2D.Impulse);
+            rb.AddForce(direction.normalized * explosionForce);
+        }
 
-            // Hasarý uygula
-            if (playerHealth != null)
-                playerHealth.TakeDamage(damage);
-            else if (health != null)
-                health.TakeDamage(damage);
+        // Apply damage if the corresponding health component is available
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(100 / direction.magnitude);
+            Debug.Log(100 / direction.magnitude);
+        }else if (health != null)
+        {
+            health.TakeDamage(100 / direction.magnitude);
+            Debug.Log(100 / direction.magnitude);
         }
     }
-
 
     private void OnDrawGizmos()
     {

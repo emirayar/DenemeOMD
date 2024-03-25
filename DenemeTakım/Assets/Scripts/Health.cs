@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public int maxHealth = 100;
-    public int currentHealth;
+    public float currentHealth;
     private int healthBarRange = 1;
     private Animator animator;
     private CinemachineImpulseSource impulseSource;
@@ -36,7 +36,7 @@ public class Health : MonoBehaviour
         healthSlider.value = currentHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         animator.SetTrigger("TakeDamage");
