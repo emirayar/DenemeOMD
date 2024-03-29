@@ -19,7 +19,7 @@ public class MeleeEnemyAI : MonoBehaviour
     private float currentMoveSpeed;
     private Animator animator;
     private LineOfSight lineOfSight;
-    private bool isFacingRight;
+    public bool isFacingRight;
 
     [SerializeField] private float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
@@ -32,10 +32,6 @@ public class MeleeEnemyAI : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
         lineOfSight = GetComponent<LineOfSight>();
-
-        // Düþmanýn hangi yöne bakacaðýný ayarla
-        if (transform.position.x > player.position.x)
-            Flip(); // Saða bakýyorsa
     }
 
     private void Update()

@@ -2,23 +2,36 @@ using UnityEngine;
 
 public class dController : MonoBehaviour
 {
+    private CapsuleCollider2D capsusleCollider;
+
     private Vector2 originalColliderSize;
+    private Vector3 originalScale;
+    
+    private bool isCrouching = false;
 
     private void Start()
     {
-        originalColliderSize = GetComponent<CapsuleCollider2D>().size;
+        capsusleCollider = GetComponent<CapsuleCollider2D>();
+        originalColliderSize = capsusleCollider.size;
+        originalScale = transform.localScale;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Vector3 scale = transform.localScale;
-            scale.y /= 2f;
-            transform.localScale = scale;
-
-            CapsuleCollider2D collider = GetComponent<CapsuleCollider2D>();
-            collider.size = new Vector2(collider.size.x, originalColliderSize.y / 2f);
+            if (!isCrouching)
+            {
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y/2, transform.localScale.z);
+                capsusleCollider.size = new Vector2(capsusleCollider.size.x, capsusleCollider.size.y / 2f);
+                isCrouching = true;
+            }
+            else
+            {
+                transform.localScale = originalScale;
+                capsusleCollider.size = originalColliderSize;
+                isCrouching = false;
+            }
         }
     }
 }

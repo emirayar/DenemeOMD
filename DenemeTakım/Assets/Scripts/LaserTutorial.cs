@@ -5,23 +5,23 @@ using UnityEngine;
 public class LaserTutorial : MonoBehaviour
 {
     public Transform laserfirepoint;
-    public LineRenderer lineRenderer;
-    public PlayerHealth currentHealth; // Doðru deðiþken adý
+    private LineRenderer lineRenderer;
+    public PlayerHealth currentHealth;
 
-    public float damageInterval = 1f; // Lazerin hasar verme aralýðý (örneðin, her 1 saniyede bir)
-    public int laserDamage = 10; // Lazerin verdiði hasar miktarý
+    [SerializeField] private float damageInterval; // Lazerin hasar verme aralýðý (örneðin, her 1 saniyede bir)
+    [SerializeField] private int initialLaserDamage; // Lazerin baþlangýçta verdiði hasar miktarý
+    private int laserDamage; // Lazerin verdiði hasar miktarý
 
     private float nextDamageTime; // Bir sonraki hasar verme zamaný
 
     private void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
         // nextDamageTime'ý baþlangýçta ayarla
         nextDamageTime = Time.time + damageInterval;
 
-        if (currentHealth == null) // Doðru deðiþkeni kontrol et
-        {
-            Debug.LogError("PlayerHealth component is not assigned!");
-        }
+        // Baþlangýç hasarýný ayarla
+        laserDamage = initialLaserDamage;
     }
 
     private void Update()
@@ -43,8 +43,11 @@ public class LaserTutorial : MonoBehaviour
             // Çarpan nesne oyuncu ise
             if (_hit.collider.CompareTag("Player"))
             {
-                // PlayerHealth scriptindeki TakeDamage metodunu kullanarak oyuncunun saðlýk deðerini azalt
-                currentHealth.TakeDamage(laserDamage); // Lazerin verdiði hasar miktarý
+                currentHealth.TakeDamage(laserDamage); 
+                laserDamage += 5;
+            }else
+            {
+                laserDamage = initialLaserDamage;
             }
         }
         else

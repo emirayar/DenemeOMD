@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class LineOfSight : MonoBehaviour
 {
-    public float viewRadius;
+    public float viewRadius; // Görüþ yarýçapý
     [Range(0, 360)]
-    public float viewAngle;
+    public float viewAngle; // Görüþ açýsý
 
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
+    public LayerMask targetMask; // Hedef nesnelerin katman maskesi
+    public LayerMask obstacleMask; // Engellerin katman maskesi
 
-    public List<Transform> visibleTargets = new List<Transform>();
+    public List<Transform> visibleTargets = new List<Transform>(); // Görüþ alanýndaki hedefleri tutan liste
+
+    private MeleeEnemyAI meleeEnemyAI; // MeleeEnemyAI scriptine eriþmek için referans
 
     void Start()
     {
-        StartCoroutine("FindTargetsWithDelay", .2f);
+        meleeEnemyAI = GetComponent<MeleeEnemyAI>(); // MeleeEnemyAI scriptine eriþimi al
+        StartCoroutine("FindTargetsWithDelay", .2f); // Hedefleri bulma fonksiyonunu belirli bir gecikme ile sürekli çalýþtýr
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -23,38 +26,34 @@ public class LineOfSight : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(delay);
-            FindVisibleTargets();
+            FindVisibleTargets(); // Görüþ alanýndaki hedefleri bul
         }
     }
 
     void FindVisibleTargets()
     {
-        visibleTargets.Clear();
-        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask);
+        visibleTargets.Clear(); // Önceki bulunan hedefleri temizle
+        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask); // Görüþ yarýçapý içindeki hedefleri al
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
-            Transform target = targetsInViewRadius[i].transform;
-            Vector2 dirToTarget = (target.position - transform.position).normalized;
+            Transform target = targetsInViewRadius[i].transform; // Hedefin transformu
+            Vector2 dirToTarget = (target.position - transform.position).normalized; // Karakterden hedefe doðru vektör
 
-            // Düþmanýn bakýþ açýsýný ve hedefin pozisyonunu dikkate alarak açýyý hesapla
-            float rightAngle = Vector2.Dot(transform.right, dirToTarget);
-            float leftAngle = Vector2.Dot(-transform.right, dirToTarget);
-
-            // Eðer hedef düþmanýn önünde ise
-            if (rightAngle > 0 || leftAngle > 0)
+            // Hedef karakterin görüþ açýsýnda mý?
+            if (meleeEnemyAI.isFacingRight && Vector2.Angle(transform.right, dirToTarget) < viewAngle / 2 || !meleeEnemyAI.isFacingRight && Vector2.Angle(-transform.right, dirToTarget) < viewAngle / 2)
             {
-                // Eðer hedefin açýsý, düþmanýn bakýþ açýsýnýn yarýsý kadarlýk açýdan küçükse veya eþitse, hedef düþmanýn görüþ alanýndadýr.
-                float dstToTarget = Vector2.Distance(transform.position, target.position);
+                float dstToTarget = Vector2.Distance(transform.position, target.position); // Karakterden hedefe mesafe
 
-                // Engellere çarpýp çarpmadýðýný kontrol et
+                // Engelleri kontrol et
                 if (!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
-                    visibleTargets.Add(target);
+                    visibleTargets.Add(target); // Engel yoksa hedefi görünür hedeflere ekle
                 }
             }
         }
     }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
