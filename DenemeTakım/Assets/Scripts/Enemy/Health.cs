@@ -68,7 +68,7 @@ public class Health : MonoBehaviour
         int playerLayer = LayerMask.NameToLayer("Player");
         int enemyLayer = LayerMask.NameToLayer("Died");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
-        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
         Destroy(gameObject, 2f);
     }
 }

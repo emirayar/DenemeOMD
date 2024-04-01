@@ -49,6 +49,7 @@ public class LineOfSight : MonoBehaviour
                 if (!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); // Engel yoksa hedefi görünür hedeflere ekle
+                    meleeEnemyAI.isAggressive = true;
                 }
             }
         }

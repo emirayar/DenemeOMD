@@ -18,8 +18,8 @@ public class MeleeEnemyAI : MonoBehaviour
     private float attackCooldown = 1f;
     private float currentMoveSpeed;
     private Animator animator;
-    private LineOfSight lineOfSight;
     public bool isFacingRight;
+    public bool isAggressive = false; // Düþmanýn agresif takip durumu
 
     [SerializeField] private float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
@@ -31,17 +31,16 @@ public class MeleeEnemyAI : MonoBehaviour
         currentMoveSpeed = initialMoveSpeed;
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        lineOfSight = GetComponent<LineOfSight>();
     }
 
     private void Update()
     {
-        if (lineOfSight.visibleTargets.Count > 0)
+        if (isAggressive || isAttacking)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-            // Eðer düþman oyuncunun menzilinde ve doðrudan hattý varsa ve saldýrmýyorsa
-            if (distanceToPlayer <= chaseRange && !isAttacking)
+            // Eðer düþman oyuncunun menzilinde veya agresif takip durumunda ve doðrudan hattý varsa ve saldýrmýyorsa
+            if ((distanceToPlayer <= chaseRange || isAggressive) && !isAttacking)
             {
                 // Oyuncuyu takip et
                 Vector2 direction = (player.position - transform.position).normalized;
@@ -83,7 +82,7 @@ public class MeleeEnemyAI : MonoBehaviour
 
     public void MoveForwardDuringAttack()
     {
-        if (rb.velocity.x < 0.01f)
+        if (rb.velocity.x < 0.1f)
         {
             float horizontalSpeed = currentMoveSpeed * (isFacingRight ? 1 : -1);
             rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
