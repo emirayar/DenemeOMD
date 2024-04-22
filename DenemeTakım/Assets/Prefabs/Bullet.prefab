@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8227893209083023526}
   - component: {fileID: 7785650020709629751}
   - component: {fileID: 2127222587062219162}
-  - component: {fileID: 3025616084834084483}
+  - component: {fileID: 4578713542722161753}
   m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 63.83, y: 2.6, z: 0}
-  m_LocalScale: {x: 1, y: 0.97, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,12 +117,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.55
 --- !u!96 &7785650020709629751
 TrailRenderer:
   serializedVersion: 3
@@ -263,7 +263,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3025616084834084483
+--- !u!114 &4578713542722161753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,7 +272,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3578216453899832923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787801b2d8416ef43853e019609c3742, type: 3}
+  m_Script: {fileID: 11500000, guid: 92986ed97e20bd1478ceb2b65659a1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
+  destroyLayer:
+    serializedVersion: 2
+    m_Bits: 968

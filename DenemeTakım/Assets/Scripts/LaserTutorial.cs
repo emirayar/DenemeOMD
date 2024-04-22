@@ -8,19 +8,16 @@ public class LaserTutorial : MonoBehaviour
     private LineRenderer lineRenderer;
     public PlayerHealth currentHealth;
 
-    [SerializeField] private float damageInterval; // Lazerin hasar verme aralýðý (örneðin, her 1 saniyede bir)
-    [SerializeField] private int initialLaserDamage; // Lazerin baþlangýçta verdiði hasar miktarý
-    private int laserDamage; // Lazerin verdiði hasar miktarý
+    [SerializeField] private float damageInterval;
+    [SerializeField] private int initialLaserDamage;
+    private int laserDamage;
 
-    private float nextDamageTime; // Bir sonraki hasar verme zamaný
+    private float nextDamageTime;
 
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        // nextDamageTime'ý baþlangýçta ayarla
         nextDamageTime = Time.time + damageInterval;
-
-        // Baþlangýç hasarýný ayarla
         laserDamage = initialLaserDamage;
     }
 
@@ -29,7 +26,7 @@ public class LaserTutorial : MonoBehaviour
         if (Time.time >= nextDamageTime)
         {
             ShootLaser();
-            nextDamageTime = Time.time + damageInterval; // Bir sonraki hasarý planla
+            nextDamageTime = Time.time + damageInterval;
         }
     }
 
@@ -40,12 +37,12 @@ public class LaserTutorial : MonoBehaviour
         if (_hit)
         {
             Draw2DRay(laserfirepoint.position, _hit.point);
-            // Çarpan nesne oyuncu ise
             if (_hit.collider.CompareTag("Player"))
             {
-                currentHealth.TakeDamage(laserDamage); 
+                currentHealth.TakeDamage(laserDamage);
                 laserDamage += 5;
-            }else
+            }
+            else
             {
                 laserDamage = initialLaserDamage;
             }

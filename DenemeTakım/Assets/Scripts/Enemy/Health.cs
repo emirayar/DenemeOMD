@@ -12,6 +12,7 @@ public class Health : MonoBehaviour
     private Knockback knockback;
     private Transform player;
     public Slider healthSlider;
+    public bool isDied = false;
     [HideInInspector]public bool isDetected = true;
 
     private Rigidbody2D rb;
@@ -69,6 +70,7 @@ public class Health : MonoBehaviour
         int enemyLayer = LayerMask.NameToLayer("Died");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
         rb.velocity = Vector2.zero;
+        isDied = true;
         Destroy(gameObject, 2f);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - PatrolPoint
   - Esya
   - Enemy
+  - Ground
   layers:
   - Default
   - TransparentFX

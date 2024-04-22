@@ -24,11 +24,14 @@ public class MeleeEnemyAI : MonoBehaviour
     [SerializeField] private float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
 
+    private Health health;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = initialMoveSpeed;
+        health = GetComponent<Health>();
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -40,7 +43,7 @@ public class MeleeEnemyAI : MonoBehaviour
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
             // Eðer düþman oyuncunun menzilinde veya agresif takip durumunda ve doðrudan hattý varsa ve saldýrmýyorsa
-            if ((distanceToPlayer <= chaseRange || isAggressive) && !isAttacking)
+            if ((distanceToPlayer <= chaseRange || isAggressive) && !isAttacking && !health.isDied)
             {
                 // Oyuncuyu takip et
                 Vector2 direction = (player.position - transform.position).normalized;
