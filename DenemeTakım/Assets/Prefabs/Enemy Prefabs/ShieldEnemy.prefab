@@ -411,6 +411,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 2185348470274911290}
+  isDied: 0
   isDetected: 1
 --- !u!114 &3807955364727990920
 MonoBehaviour:
@@ -428,7 +429,7 @@ MonoBehaviour:
   health: {fileID: 6454609143962681573}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 264
 --- !u!114 &5868407836404499062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackForce: 10
   knockbackDuration: 0.2
-  knockbackDirection: {x: 0, y: 0}
+  knockbackDirection: {x: 1, y: 0.1}
 --- !u!114 &3941591747518187387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +458,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseRange: 10
-  attackRange: 2
+  attackRange: 1
+  attackRadius: 0.3
   chaseSpeed: 5
   attackPoint: {fileID: 999725048661711646}
   playerLayer:
@@ -467,6 +469,8 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 640
+  isFacingRight: 1
+  isAggressive: 0
   initialMoveSpeed: 5
   maxMoveSpeed: 15
 --- !u!114 &5757825523168447926

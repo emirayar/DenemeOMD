@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     private Knockback knockback;
     private Transform player;
     public Slider healthSlider;
-    public bool isDied = false;
+    [HideInInspector]public bool isDied = false;
     [HideInInspector]public bool isDetected = true;
 
     private Rigidbody2D rb;

@@ -6,7 +6,6 @@ public class LaserTutorial : MonoBehaviour
 {
     public Transform laserfirepoint;
     private LineRenderer lineRenderer;
-    public PlayerHealth currentHealth;
 
     [SerializeField] private float damageInterval;
     [SerializeField] private int initialLaserDamage;
@@ -39,17 +38,27 @@ public class LaserTutorial : MonoBehaviour
             Draw2DRay(laserfirepoint.position, _hit.point);
             if (_hit.collider.CompareTag("Player"))
             {
-                currentHealth.TakeDamage(laserDamage);
-                laserDamage += 5;
+                PlayerHealth playerHealth = _hit.collider.GetComponent<PlayerHealth>();
+                if(playerHealth != null)
+                {
+                    playerHealth.TakeDamage(laserDamage);
+                    laserDamage += 5;
+                }
             }
-            else
+            else if(_hit.collider.CompareTag("Enemy"))
             {
-                laserDamage = initialLaserDamage;
+                Health health = _hit.collider.GetComponent<Health>();
+                if (health != null)
+                {
+                    health.TakeDamage(laserDamage);
+                    laserDamage += 5;
+                }
             }
         }
         else
         {
             Draw2DRay(laserfirepoint.position, laserfirepoint.position + laserfirepoint.right * 100);
+            laserDamage = initialLaserDamage;
         }
     }
 

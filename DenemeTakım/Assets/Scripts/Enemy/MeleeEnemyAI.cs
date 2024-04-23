@@ -7,6 +7,7 @@ public class MeleeEnemyAI : MonoBehaviour
     private Transform player; // Oyuncunun pozisyonunu tutacak transform
     [SerializeField] private float chaseRange = 10f; // Takip menzili
     [SerializeField] private float attackRange = 2f; // Saldýrý menzili
+    [SerializeField] private float attackRadius; // Saldýrý menzili
     [SerializeField] private float chaseSpeed = 5f; // Hareket hýzý
     [SerializeField] private Transform attackPoint; // Saldýrý yapýlacak nokta
     [SerializeField] private LayerMask playerLayer; // Oyuncu katmaný
@@ -34,15 +35,25 @@ public class MeleeEnemyAI : MonoBehaviour
         health = GetComponent<Health>();
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (isFacingRight)
+        {
+            Flip();
+        }
     }
 
     private void Update()
     {
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= chaseRange && health.currentHealth != health.maxHealth && !health.isDied)
+        {
+            isAggressive = true;
+        }
+
         if (isAggressive || isAttacking)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-            // Eðer düþman oyuncunun menzilinde veya agresif takip durumunda ve doðrudan hattý varsa ve saldýrmýyorsa
+            //Eðer düþman oyuncunun menzilinde veya agresif takip durumunda ve saldýrmýyorsa ve ölmediyse.
             if ((distanceToPlayer <= chaseRange || isAggressive) && !isAttacking && !health.isDied)
             {
                 // Oyuncuyu takip et
@@ -64,7 +75,7 @@ public class MeleeEnemyAI : MonoBehaviour
             }
 
             // Oyuncu saldýrý menziline girdiyse ve saldýrmýyorsa
-            if (distanceToPlayer <= attackRange && !isAttacking)
+            if (distanceToPlayer <= attackRange && !isAttacking && !health.isDied)
             {
                 // Saldýrý animasyonunu oynat
                 animator.SetTrigger("Attack");
@@ -95,11 +106,14 @@ public class MeleeEnemyAI : MonoBehaviour
     // Saldýrýyý gerçekleþtir
     private void GiveDamage()
     {
-        // Düþmanýn saldýrý mesafesine girdiði konumda saldýrý yap
-        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
-        foreach (Collider2D player in hitPlayers)
+        if (!health.isDied)
         {
-            player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
+            // Düþmanýn saldýrý mesafesine girdiði konumda saldýrý yap
+            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, playerLayer);
+            foreach (Collider2D player in hitPlayers)
+            {
+                player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
+            }
         }
     }
 

@@ -16,6 +16,7 @@ public class LaserTurret : MonoBehaviour
     void Start()
     {
         fireTimer = fireRate;
+        DetectTarget();
     }
 
     void Update()
@@ -48,7 +49,6 @@ public class LaserTurret : MonoBehaviour
 
     void DetectTarget()
     {
-        Debug.Log("Detecting target...");
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
         foreach (Collider2D collider in colliders)
         {
@@ -58,17 +58,15 @@ public class LaserTurret : MonoBehaviour
             {
                 // Engeller yoksa ve oyuncu g�r�l�yorsa hedef olarak belirle
                 RaycastHit2D playerHit = Physics2D.Raycast(transform.position, direction, detectionRadius, playerMask);
-                if (playerHit.collider != null && playerHit.collider.CompareTag("Player"))
+                if (playerHit.collider != null && (playerHit.collider.CompareTag("Player") || playerHit.collider.CompareTag("Enemy")))
                 {
                     target = playerHit.collider.gameObject;
-                    Debug.Log("Target detected: " + target.name);
                     return;
                 }
             }
         }
 
         target = null;
-        Debug.Log("No target detected.");
     }
 
 

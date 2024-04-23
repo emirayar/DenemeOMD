@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b1531bf5880204b9ca95da40378688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 20
   knockbackDuration: 0.2
   knockbackDirection: {x: 1, y: 0.1}
 --- !u!114 &5599747376287059906
@@ -445,6 +445,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 3600691534821127860}
+  isDied: 0
   isDetected: 1
 --- !u!114 &3326562101235031047
 MonoBehaviour:
@@ -530,6 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 10
   attackRange: 1
+  attackRadius: 0.5
   chaseSpeed: 5
   attackPoint: {fileID: 7926232658994421486}
   playerLayer:
@@ -540,6 +542,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 640
   isFacingRight: 0
+  isAggressive: 0
   initialMoveSpeed: 5
   maxMoveSpeed: 15
 --- !u!114 &6976465522490425381
