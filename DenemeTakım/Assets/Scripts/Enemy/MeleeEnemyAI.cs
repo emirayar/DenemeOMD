@@ -21,6 +21,7 @@ public class MeleeEnemyAI : MonoBehaviour
     private Animator animator;
     public bool isFacingRight;
     public bool isAggressive = false; // Düþmanýn agresif takip durumu
+    private bool isBPressed = false;
 
     [SerializeField] private float initialMoveSpeed = 5f; // Baþlangýçtaki hýz
     [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
@@ -108,7 +109,16 @@ public class MeleeEnemyAI : MonoBehaviour
             rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
         }
     }
-
+    private void CheckParry()
+    {
+        if(Input.GetKey(KeyCode.B))
+        {
+            isBPressed = true;
+        }else
+        {
+            isBPressed = false;
+        }
+    }
     // Saldýrýyý gerçekleþtir
     private void GiveDamage()
     {
@@ -118,13 +128,26 @@ public class MeleeEnemyAI : MonoBehaviour
             Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, playerLayer);
             foreach (Collider2D player in hitPlayers)
             {
-                if (player.GetComponent<Block>().isBlocking)
+                if (!isBPressed && Input.GetKey(KeyCode.B))
                 {
-                    player.GetComponent<Stamina>().UseStamina(20f);
+                    player.GetComponent<Block>().Parry();
+                    Vector2 knockbackDirection = (player.transform.position - transform.position).normalized;
+                    knockBack.knockbackDirection.x = -1 * knockbackDirection.x;
+                    knockBack.ApplyKnockback();
                 }
-                if (!player.GetComponent<Block>().isBlocking || player.GetComponent<Stamina>().currentStamina < 15f)
+                else
                 {
-                    player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
+                    if (player.GetComponent<Block>().isBlocking)
+                    {
+                        player.GetComponent<Stamina>().UseStamina(30f);
+                    }
+                    if (!player.GetComponent<Block>().isBlocking || player.GetComponent<Stamina>().currentStamina < 15f)
+                    {
+                        player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
+                    }
+                    player.GetComponent<Knockback>().knockbackDirection = (transform.position - player.transform.position).normalized;
+                    player.GetComponent<Knockback>().knockbackDirection.x = -1 * player.GetComponent<Knockback>().knockbackDirection.x;
+                    player.GetComponent<Knockback>().ApplyKnockback();
                 }
 
             }

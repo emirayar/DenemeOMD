@@ -41,4 +41,19 @@ public class Block : MonoBehaviour
         isBlocking = false;
         animator.SetBool("isBlocking", false);
     }
+
+    public void Parry()
+    {
+        if (Input.GetKey(KeyCode.B))
+        {
+            Debug.Log("Parry!");
+            isBlocking = true;
+            animator.SetBool("isBlocking", true);
+        }
+        else
+        {
+            isBlocking = false;
+            animator.SetBool("isBlocking", false);
+        }
+    }
 }
