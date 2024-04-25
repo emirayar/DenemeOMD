@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem dust;
 
     // Hareket ve ziplama ozellikleri
-    public float moveSpeed = 5f;
+    public float moveSpeed;
 
     // Yon kontrol degiskenleri
     private bool isFacingRight = true;
@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     private ShiftController shiftController;
     private JumpController jumpController;
+    private CrouchController crouchController;
+    private Block block;
 
     [HideInInspector]public float rayDirection;
     [HideInInspector]public Vector2 movement;
@@ -31,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     {
         shiftController = GetComponent<ShiftController>();
         jumpController = GetComponent<JumpController>();
+        crouchController = GetComponent<CrouchController>();
+        block = GetComponent<Block>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -45,6 +49,13 @@ public class PlayerMovement : MonoBehaviour
 
     void MovementInput()
     {
+        if(crouchController.isCrouching || block.isBlocking)
+        {
+            moveSpeed = 2f;
+        }else
+        {
+            moveSpeed = 5f;
+        }
         float horizontalInput = Input.GetAxis("Horizontal");
         Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
         animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));

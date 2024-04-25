@@ -5103,7 +5103,7 @@ Transform:
   m_GameObject: {fileID: 1833557507117246034}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.63, y: -0.04, z: -42.48777}
+  m_LocalPosition: {x: 0.8, y: -0.04, z: -42.48777}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10325,6 +10325,7 @@ GameObject:
   - component: {fileID: 5901973474458545572}
   - component: {fileID: 4493869825814229274}
   - component: {fileID: 6401373348039057702}
+  - component: {fileID: 7776355089784550523}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -10706,7 +10707,7 @@ MonoBehaviour:
   hitClips: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
   damageGiven: 25
   attackPoint: {fileID: 7828438578213068003}
-  attackRange: 0.5
+  attackRange: 0.2
   attackMask:
     serializedVersion: 2
     m_Bits: 64
@@ -10837,6 +10838,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &7776355089784550523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943390572170097204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd46ba0bae5cc9146a4144332cdb09b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBlocking: 0
 --- !u!1 &4082053347923786299
 GameObject:
   m_ObjectHideFlags: 0
@@ -11116,9 +11130,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1795708336526119890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -353.3904, y: 241}
+  m_AnchorMin: {x: 0.9215718, y: 0.8738504}
+  m_AnchorMax: {x: 0.9215718, y: 0.8738504}
+  m_AnchoredPosition: {x: 111, y: 3}
   m_SizeDelta: {x: 443.2192, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4503107078706558395
@@ -11176,8 +11190,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11440,10 +11454,10 @@ RectTransform:
   - {fileID: 8683921176580885976}
   m_Father: {fileID: 1795708336526119890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323.84, y: 133.8}
-  m_SizeDelta: {x: 145.5538, y: 7.6426}
+  m_AnchorMin: {x: 0.110163234, y: 0.84200007}
+  m_AnchorMax: {x: 0.110163234, y: 0.84200007}
+  m_AnchoredPosition: {x: -1, y: 2.2000122}
+  m_SizeDelta: {x: 145.5538, y: 7.642601}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4333447994498489239
 CanvasRenderer:

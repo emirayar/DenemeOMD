@@ -43,7 +43,7 @@ public class Health : MonoBehaviour
         animator.SetTrigger("TakeDamage");
         impulseSource.GenerateImpulse();
         Vector2 knockbackDirection = (player.position - transform.position).normalized;
-        knockback.knockbackDirection = -1 * knockbackDirection;
+        knockback.knockbackDirection.x = -1 * knockbackDirection.x;
         knockback.ApplyKnockback();
         // Saðlýk deðerini güncelle
         healthSlider.value = currentHealth;

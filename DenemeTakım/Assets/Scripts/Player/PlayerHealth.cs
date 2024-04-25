@@ -26,11 +26,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Image frontHealthBar;
     [SerializeField] private Image BackHealthBar;
 
+    private Animator animator;
+
     // Baþlangýçta oyuncunun maksimum saðlýk deðerine sahip olmasýný saðlar.
     private void Start()
     {
         currentHealth = maxHealth;
         impulseSource = GetComponentInChildren<CinemachineImpulseSource> ();
+        animator = GetComponent<Animator>();
     }
 
     // Her güncellemede saðlýk durumunu kontrol eder ve UI'yi günceller.
@@ -107,6 +110,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Mevcut saðlýk deðeri hasar kadar azaltýlýr.
         currentHealth -= damage;
+        animator.SetTrigger("isDamaged");
         lerptimer = 0f;
         impulseSource.GenerateImpulse();
 

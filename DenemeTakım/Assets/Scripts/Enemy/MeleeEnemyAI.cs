@@ -26,6 +26,7 @@ public class MeleeEnemyAI : MonoBehaviour
     [SerializeField] private float maxMoveSpeed = 15f; // Maksimum hýz
 
     private Health health;
+    private Knockback knockBack;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class MeleeEnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = initialMoveSpeed;
         health = GetComponent<Health>();
+        knockBack = GetComponent<Knockback>();
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -56,17 +58,21 @@ public class MeleeEnemyAI : MonoBehaviour
             //Eðer düþman oyuncunun menzilinde veya agresif takip durumunda ve saldýrmýyorsa ve ölmediyse.
             if ((distanceToPlayer <= chaseRange || isAggressive) && !isAttacking && !health.isDied)
             {
-                // Oyuncuyu takip et
-                Vector2 direction = (player.position - transform.position).normalized;
+                if (!knockBack.isKnockbackked)
+                {
+                    // Oyuncuyu takip et
+                    Vector2 direction = (player.position - transform.position).normalized;
 
-                // Karakterin yönünü belirle
-                if (direction.x < 0 && isFacingRight)
-                    Flip(); // Saða bakýyorsa
-                else if (direction.x > 0 && !isFacingRight)
-                    Flip(); // Sola bakýyorsa
+                    // Karakterin yönünü belirle
+                    if (direction.x < 0 && isFacingRight)
+                        Flip(); // Saða bakýyorsa
+                    else if (direction.x > 0 && !isFacingRight)
+                        Flip(); // Sola bakýyorsa
 
-                // Rigidbody'nin hýzýný ayarla
-                rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y);
+                    // Rigidbody'nin hýzýný ayarla
+                    rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y);
+                }
+
             }
             else
             {
@@ -112,7 +118,15 @@ public class MeleeEnemyAI : MonoBehaviour
             Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, playerLayer);
             foreach (Collider2D player in hitPlayers)
             {
-                player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
+                if (player.GetComponent<Block>().isBlocking)
+                {
+                    player.GetComponent<Stamina>().UseStamina(20f);
+                }
+                if (!player.GetComponent<Block>().isBlocking || player.GetComponent<Stamina>().currentStamina < 15f)
+                {
+                    player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
+                }
+
             }
         }
     }

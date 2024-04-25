@@ -16,7 +16,7 @@ public class CombatController : MonoBehaviour
     private float timeSinceLastAttack = 0f;
 
     [Header("Damage")]
-    [SerializeField] private int damageGiven = 50;
+    [SerializeField] private int damageGiven;
 
     [Header("Attack Point")]
     [SerializeField] private Transform attackPoint;
