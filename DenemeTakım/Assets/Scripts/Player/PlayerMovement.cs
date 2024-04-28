@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
 
     // Yon kontrol degiskenleri
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     // Animator bileseni
     private Animator animator;
@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private JumpController jumpController;
     private CrouchController crouchController;
     private Block block;
+    private SlideController slideController;
 
     [HideInInspector]public float rayDirection;
     [HideInInspector]public Vector2 movement;
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         shiftController = GetComponent<ShiftController>();
         jumpController = GetComponent<JumpController>();
         crouchController = GetComponent<CrouchController>();
+        slideController = GetComponent<SlideController>();
         block = GetComponent<Block>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -49,7 +51,11 @@ public class PlayerMovement : MonoBehaviour
 
     void MovementInput()
     {
-        if(crouchController.isCrouching || block.isBlocking)
+        if (slideController.isGroundSliding)
+        {
+            return;
+        }
+        if (crouchController.isCrouching || block.isBlocking)
         {
             moveSpeed = 2f;
         }else

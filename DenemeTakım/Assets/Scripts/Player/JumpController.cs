@@ -26,13 +26,11 @@ public class JumpController : MonoBehaviour
     [SerializeField] int maxDoubleJumps = 1;
     [SerializeField] float doubleJumpForce = 5f;
 
-    // Animator bileseni
     private Animator animator;
-
-    //PlayerMovement bileseni
     private PlayerMovement playerMovement;
-
     private ShiftController shiftController;
+    private SlideController slideController;
+    private CrouchController crouchController;
 
     //CapsuleCollider bileseni
     private CapsuleCollider2D capsuleCollider2d;
@@ -63,6 +61,8 @@ public class JumpController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerHealth = GetComponent<PlayerHealth>();
         shiftController = GetComponent<ShiftController>();
+        slideController = GetComponent<SlideController>();
+        crouchController = GetComponent<CrouchController>();
     }
 
     void Update()
@@ -137,7 +137,7 @@ public class JumpController : MonoBehaviour
     void CheckJumpInput()
     {
         // "Jump" tuþuna basýldýðýnda
-        if (Input.GetButtonDown("Jump") && canJump)
+        if (Input.GetButtonDown("Jump") && canJump && !crouchController.isCrouching)
         {
             // Eðer yerdeyse
             if (isGrounded)
@@ -160,7 +160,7 @@ public class JumpController : MonoBehaviour
         }
 
         // "Jump" tuþuna basýlý tutulduðu sürece ve zýplama zaman sýnýrýna ulaþýlmamýþsa
-        if (Input.GetButton("Jump") && isJumping && jumpTime < maxJumpTime && canJump)
+        if (Input.GetButton("Jump") && isJumping && jumpTime < maxJumpTime && canJump && !crouchController.isCrouching)
         {
             jumpTime += Time.deltaTime;
             float jumpForce = Mathf.Lerp(jumpForceMin, jumpForceMax, jumpTime / maxJumpTime); // Lineer Interpolasyon
@@ -175,7 +175,7 @@ public class JumpController : MonoBehaviour
         }
 
         // "Jump" tuþu býrakýldýðýnda
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Jump") && !crouchController.isCrouching)
         {
             isJumping = false;
             jumpTime = 0f;

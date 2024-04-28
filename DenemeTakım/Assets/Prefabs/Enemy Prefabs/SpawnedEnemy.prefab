@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b1531bf5880204b9ca95da40378688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 20
+  knockbackForce: 30
   knockbackDuration: 0.2
   knockbackDirection: {x: 1, y: 0.1}
   isKnockbackked: 0
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 10
   attackRange: 1
-  attackRadius: 0.5
+  attackRadius: 1
   chaseSpeed: 5
   attackPoint: {fileID: 7926232658994421486}
   playerLayer:

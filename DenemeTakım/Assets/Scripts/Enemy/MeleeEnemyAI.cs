@@ -111,7 +111,7 @@ public class MeleeEnemyAI : MonoBehaviour
     }
     private void CheckParry()
     {
-        if(Input.GetKey(KeyCode.B))
+        if (Input.GetButton("Block"))
         {
             isBPressed = true;
         }else
@@ -128,9 +128,10 @@ public class MeleeEnemyAI : MonoBehaviour
             Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, playerLayer);
             foreach (Collider2D player in hitPlayers)
             {
-                if (!isBPressed && Input.GetKey(KeyCode.B))
+                if (!isBPressed && Input.GetButton("Block"))
                 {
                     player.GetComponent<Block>().Parry();
+                    animator.SetTrigger("TakeDamage");
                     Vector2 knockbackDirection = (player.transform.position - transform.position).normalized;
                     knockBack.knockbackDirection.x = -1 * knockbackDirection.x;
                     knockBack.ApplyKnockback();
@@ -146,6 +147,7 @@ public class MeleeEnemyAI : MonoBehaviour
                         player.GetComponent<PlayerHealth>().TakeDamage(damageGiven);
                     }
                     player.GetComponent<Knockback>().knockbackDirection = (transform.position - player.transform.position).normalized;
+                    player.GetComponent<Knockback>().knockbackDirection.y = 0.1f;
                     player.GetComponent<Knockback>().knockbackDirection.x = -1 * player.GetComponent<Knockback>().knockbackDirection.x;
                     player.GetComponent<Knockback>().ApplyKnockback();
                 }
