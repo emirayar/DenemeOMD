@@ -9,7 +9,7 @@ public class HealthBarController : MonoBehaviour
     private int detectRadius = 3;
     [SerializeField] private LayerMask layerMask;
 
-    void Update () 
+    void Update()
     {
         Detector();
         OpenClose();
