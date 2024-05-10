@@ -11,7 +11,7 @@ public class CombatController : MonoBehaviour
     private Animator animator;
     private bool isAttacking = false;
     private int comboCounter = 0;
-    private int maxCombo = 3;
+    [SerializeField] private int maxCombo = 3;
     private float attackCooldown = 3f;
     private float timeSinceLastAttack = 0f;
 
