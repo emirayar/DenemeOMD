@@ -58,7 +58,7 @@ public class LaserTurret : MonoBehaviour
             {
                 // Engeller yoksa ve oyuncu g�r�l�yorsa hedef olarak belirle
                 RaycastHit2D playerHit = Physics2D.Raycast(transform.position, direction, detectionRadius, playerMask);
-                if (playerHit.collider != null && (playerHit.collider.CompareTag("Player") || playerHit.collider.CompareTag("Enemy")))
+                if (playerHit.collider != null && (playerHit.collider.CompareTag("Player")))
                 {
                     target = playerHit.collider.gameObject;
                     return;

@@ -15,14 +15,6 @@ public class TurretBullet : MonoBehaviour
                 playerHealth.TakeDamage(10f);
             }
         }
-        if(collision.CompareTag("Enemy"))
-        {
-            Health health = collision.GetComponent<Health>();
-            if (health != null)
-            {
-                health.TakeDamage(10f);
-            }
-        }
 
         // Çarpýlan objenin layer'ýný kontrol et
         if (destroyLayer == (destroyLayer | (1 << collision.gameObject.layer)))

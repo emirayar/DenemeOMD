@@ -103,7 +103,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.083333336
+  - time: 0
     functionName: CheckParry
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -124,7 +124,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.6333333
+  - time: 0.5
     functionName: CheckParry
     data: 
     objectReferenceParameter: {fileID: 0}

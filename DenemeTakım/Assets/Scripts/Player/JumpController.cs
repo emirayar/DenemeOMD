@@ -50,6 +50,8 @@ public class JumpController : MonoBehaviour
     private int fallDamage = 5;
     private int fallDamageRadius = 5;
 
+    private bool canLedge = false;
+
     private Rigidbody2D rb;
 
     // Baslangic metodu - Oyun basladiginda bir kere çalisir
@@ -217,13 +219,17 @@ public class JumpController : MonoBehaviour
         //Tepedeki ray boþta ve merkezdeki ray collidera deðiyorsa ledge climb yap
         if (raycastHitTop.collider == null && raycastHitCenter.collider != null && !isGrounded)
         {
+            canLedge = true;
             PerformLedgeClimb();
         }
     }
     void PerformLedgeClimb()
     {
-        Vector2 ledgeClimbPosition = new Vector2(capsuleCollider2d.bounds.center.x + playerMovement.rayDirection, capsuleCollider2d.bounds.max.y);
-        transform.position = ledgeClimbPosition;
+        if(canLedge && Input.GetAxisRaw("Horizontal") != 0)
+        {
+            Vector2 ledgeClimbPosition = new Vector2(capsuleCollider2d.bounds.center.x + playerMovement.rayDirection, capsuleCollider2d.bounds.max.y);
+            transform.position = ledgeClimbPosition;
+        }
     }
     IEnumerator FallDamage() //30.01.2024
     {

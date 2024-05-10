@@ -72,6 +72,7 @@ public class MeleeEnemyAI : MonoBehaviour
 
                     // Rigidbody'nin hýzýný ayarla
                     rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y);
+                    animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
                 }
 
             }

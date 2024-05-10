@@ -18,16 +18,11 @@ public class LineOfSight : MonoBehaviour
     void Start()
     {
         meleeEnemyAI = GetComponent<MeleeEnemyAI>(); // MeleeEnemyAI scriptine eriþimi al
-        StartCoroutine("FindTargetsWithDelay", .2f); // Hedefleri bulma fonksiyonunu belirli bir gecikme ile sürekli çalýþtýr
     }
 
-    IEnumerator FindTargetsWithDelay(float delay)
+    void Update()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(delay);
-            FindVisibleTargets(); // Görüþ alanýndaki hedefleri bul
-        }
+        FindVisibleTargets(); // Görüþ alanýndaki hedefleri bul
     }
 
     void FindVisibleTargets()
