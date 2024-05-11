@@ -10974,6 +10974,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
   - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   hitClips: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
+  maxCombo: 3
   damageGiven: 25
   attackPoint: {fileID: 7828438578213068003}
   attackRange: 0.2

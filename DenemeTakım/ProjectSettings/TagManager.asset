@@ -9,6 +9,7 @@ TagManager:
   - Esya
   - Enemy
   - Ground
+  - Boss
   layers:
   - Default
   - TransparentFX
