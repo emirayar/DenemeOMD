@@ -15,12 +15,20 @@ public class BossRun : StateMachineBehaviour
     private Vector2 lastPlayerPosition;
     private bool isJumping = false;
 
+    private CapsuleCollider2D capsuleCollider2d;
+    [SerializeField] private LayerMask groundlayerMask;
+    [SerializeField] private LayerMask playerLayer;
+    private bool isGrounded;
+    [SerializeField] private float fallDamageRadius;
+
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = animator.GetComponent<Rigidbody2D>();
         boss = animator.GetComponent<Boss>();
+        capsuleCollider2d = animator.GetComponent<CapsuleCollider2D>();
         lastPlayerPosition = player.position;
         if (boss.isFacingRight)
         {
@@ -59,6 +67,7 @@ public class BossRun : StateMachineBehaviour
             {
                 isJumping = false; // Eðer oyuncu chaseRange içindeyse, zýplama bitmiþ olur.
             }
+            Fall(animator);
         }
     }
 
@@ -95,4 +104,45 @@ public class BossRun : StateMachineBehaviour
 
         return result;
     }
+
+    void Fall(Animator animator)
+    {
+        // Karakterin yerde olup olmadýðýný kontrol et
+        RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.2f, groundlayerMask);
+
+        Color rayColor;
+
+        if (raycastHit.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        Debug.DrawRay(capsuleCollider2d.bounds.center, Vector2.down * (capsuleCollider2d.bounds.extents.y + 0.2f), rayColor);
+        isGrounded = raycastHit.collider != null;
+
+
+        // Karakter yerdeyse, zýplama durumunu sýfýrla
+        if (rb.velocity.y < 0 && isGrounded)
+        {
+            // Patlama yarýçapý ve etkileþime girecek objeleri belirleme
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(animator.transform.position, fallDamageRadius, playerLayer);
+
+            foreach (Collider2D collider in colliders)
+            {
+                // Eðer düþman layer'ýna sahip bir objeyle temas edildiyse
+                PlayerHealth playerHealth = collider.GetComponent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    // Hasar verme iþlemini gerçekleþtir
+                    playerHealth.TakeDamage(40);
+                }
+            }
+        }
+
+    }
 }
+
