@@ -205,10 +205,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageGiven: 20
   attackPoint: {fileID: 7891933337358653214}
-  attackRadius: 0.5
+  attackRadius: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  isKnockbackked: 0
 --- !u!114 &8242685132305562122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 10
-  knockbackDuration: 0.2
+  knockbackDuration: 1
   knockbackDirection: {x: 0, y: 0}
   isKnockbackked: 0
 --- !u!114 &2929109399110640973

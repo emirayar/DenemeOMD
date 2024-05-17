@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class BossRun : StateMachineBehaviour
 {
@@ -12,14 +13,18 @@ public class BossRun : StateMachineBehaviour
     [SerializeField] private float jumpHeight;
     [SerializeField] private float jumpDistance;
     private Boss boss;
-    private Vector2 lastPlayerPosition;
+    private BossAttack bossAttack;
+    private Knockback knockBack;
+    public Vector2 lastPlayerPosition;
     private bool isJumping = false;
+    private CinemachineImpulseSource impulseSource;
 
     private CapsuleCollider2D capsuleCollider2d;
     [SerializeField] private LayerMask groundlayerMask;
     [SerializeField] private LayerMask playerLayer;
     private bool isGrounded;
     [SerializeField] private float fallDamageRadius;
+    private bool canAttack = true;
 
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -28,8 +33,11 @@ public class BossRun : StateMachineBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = animator.GetComponent<Rigidbody2D>();
         boss = animator.GetComponent<Boss>();
+        bossAttack = animator.GetComponent<BossAttack>();
+        knockBack = animator.GetComponent<Knockback>();
         capsuleCollider2d = animator.GetComponent<CapsuleCollider2D>();
-        lastPlayerPosition = player.position;
+        impulseSource = animator.GetComponent<CinemachineImpulseSource>();
+
         if (boss.isFacingRight)
         {
             boss.Flip();
@@ -39,23 +47,24 @@ public class BossRun : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        lastPlayerPosition = player.position;
         if (boss.inZone)
         {
+            float distanceToPlayer = Vector2.Distance(animator.transform.position, player.position);
             Vector2 direction = (player.position - animator.transform.position).normalized;
 
             if (direction.x < 0 && boss.isFacingRight)
-                boss.Flip();
+                 boss.Flip();
             else if (direction.x > 0 && !boss.isFacingRight)
-                boss.Flip();
+                 boss.Flip();
 
             rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
 
-            float distanceToPlayer = Vector2.Distance(animator.transform.position, player.position);
-            if (distanceToPlayer < attackRange)
+            if (distanceToPlayer < attackRange && canAttack)
             {
                 animator.SetTrigger("Attack");
             }
-            else if (distanceToPlayer > chaseRange)
+            if (distanceToPlayer > chaseRange)
             {
                 // Eðer oyuncu chaseRange'in dýþýnda ise ve daha önce belirlenen hedefe ulaþýlmadýysa
                 if (!isJumping)
@@ -68,6 +77,7 @@ public class BossRun : StateMachineBehaviour
                 isJumping = false; // Eðer oyuncu chaseRange içindeyse, zýplama bitmiþ olur.
             }
             Fall(animator);
+            KnockbackController(animator);
         }
     }
 
@@ -108,7 +118,7 @@ public class BossRun : StateMachineBehaviour
     void Fall(Animator animator)
     {
         // Karakterin yerde olup olmadýðýný kontrol et
-        RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.2f, groundlayerMask);
+        RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.3f, groundlayerMask);
 
         Color rayColor;
 
@@ -126,8 +136,10 @@ public class BossRun : StateMachineBehaviour
 
 
         // Karakter yerdeyse, zýplama durumunu sýfýrla
-        if (rb.velocity.y < 0 && isGrounded)
+        if (rb.velocity.y != 0 && isGrounded)
         {
+            impulseSource.GenerateImpulse();
+
             // Patlama yarýçapý ve etkileþime girecek objeleri belirleme
             Collider2D[] colliders = Physics2D.OverlapCircleAll(animator.transform.position, fallDamageRadius, playerLayer);
 
@@ -138,11 +150,24 @@ public class BossRun : StateMachineBehaviour
                 if (playerHealth != null)
                 {
                     // Hasar verme iþlemini gerçekleþtir
-                    playerHealth.TakeDamage(40);
+                    playerHealth.TakeDamage(20);
                 }
             }
         }
-
+    }
+    void KnockbackController(Animator animator)
+    {
+        if (knockBack.isKnockbackked)
+        {
+            animator.SetBool("isKnockbackked", true);
+            rb.velocity = Vector2.zero;
+            canAttack = false;
+        }
+        else
+        {
+            animator.SetBool("isKnockbackked", false);
+            canAttack = true;
+        }
     }
 }
 
