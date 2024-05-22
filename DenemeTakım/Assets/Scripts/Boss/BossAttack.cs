@@ -5,6 +5,8 @@ using UnityEngine;
 public class BossAttack : MonoBehaviour
 {
     private bool isBPressed = false;
+    private bool isAttacking = false;
+    private int attackCount = 1;
 
     private Knockback knockBack;
     private Animator animator;
@@ -13,18 +15,15 @@ public class BossAttack : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRadius;
     [SerializeField] private LayerMask playerLayer;
-    // Start is called before the first frame update
+    [SerializeField] private float shortCooldown = 1f;
+    [SerializeField] private float longCooldown = 3f;
+
     void Start()
     {
         knockBack = GetComponent<Knockback>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void CheckParry()
     {
         if (Input.GetButton("Block"))
@@ -36,6 +35,33 @@ public class BossAttack : MonoBehaviour
             isBPressed = false;
         }
     }
+
+    public void PerformAttack()
+    {
+        if (!isAttacking)
+        {
+            StartCoroutine(AttackRoutine());
+        }
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        isAttacking = true;
+        animator.SetTrigger("Attack" + attackCount);
+        attackCount++;
+
+        if (attackCount >= 3)
+        {
+            attackCount = 1;
+            yield return new WaitForSeconds(longCooldown);
+        }
+        else
+        {
+            yield return new WaitForSeconds(shortCooldown);
+        }
+        isAttacking = false;
+    }
+
     private void GiveDamage()
     {
         // Düþmanýn saldýrý mesafesine girdiði konumda saldýrý yap
@@ -65,7 +91,6 @@ public class BossAttack : MonoBehaviour
                 player.GetComponent<Knockback>().knockbackDirection.x = -1 * player.GetComponent<Knockback>().knockbackDirection.x;
                 player.GetComponent<Knockback>().ApplyKnockback();
             }
-
         }
     }
 }

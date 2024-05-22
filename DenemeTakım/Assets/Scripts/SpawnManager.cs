@@ -8,12 +8,13 @@ public class SpawnManager : MonoBehaviour
     public List<Transform> spawnPoints = new List<Transform>();
     private Transform lastSpawnPointUsed;
 
-    public LogManager logManager;
+    private LogManager logManager;
 
     private int killCounter;
 
     void Start()
     {
+        logManager = FindObjectOfType<LogManager>();
         SpawnEnemy();
     }
 

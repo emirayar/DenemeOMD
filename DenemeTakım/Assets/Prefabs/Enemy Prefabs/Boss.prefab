@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8242685132305562122}
   - component: {fileID: 2929109399110640973}
   - component: {fileID: 7224894512999397485}
+  - component: {fileID: 3818929171293947771}
   m_Layer: 6
   m_Name: Boss
   m_TagString: Boss
@@ -203,13 +204,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8851262a72b336b409496a3df2584bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageGiven: 20
+  damageGiven: 10
   attackPoint: {fileID: 7891933337358653214}
   attackRadius: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  isKnockbackked: 0
+  shortCooldown: 0.2
+  longCooldown: 1
 --- !u!114 &8242685132305562122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +301,31 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &3818929171293947771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977800976604656904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a7683490f9fd941a2a604202018d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  chaseRange: 20
+  attackRange: 1.5
+  jumpHeight: 10
+  jumpDistance: 30
+  lastPlayerPosition: {x: 0, y: 0}
+  groundlayerMask:
+    serializedVersion: 2
+    m_Bits: 136
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  fallDamageRadius: 2
 --- !u!1 &3951286669423460779
 GameObject:
   m_ObjectHideFlags: 0

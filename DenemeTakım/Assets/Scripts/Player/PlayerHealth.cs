@@ -110,6 +110,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Mevcut saðlýk deðeri hasar kadar azaltýlýr.
         currentHealth -= damage;
+        Debug.Log("Player took damage: " + damage);
         animator.SetTrigger("isDamaged");
         lerptimer = 0f;
         impulseSource.GenerateImpulse();

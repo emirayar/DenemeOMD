@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class BossRun : StateMachineBehaviour
+public class BossRun : MonoBehaviour
 {
     private Transform player;
     private Rigidbody2D rb;
@@ -26,17 +26,19 @@ public class BossRun : StateMachineBehaviour
     [SerializeField] private float fallDamageRadius;
     private bool canAttack = true;
 
+    private Animator animator;
+    private bool damageDealt = false;
 
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        rb = animator.GetComponent<Rigidbody2D>();
-        boss = animator.GetComponent<Boss>();
-        bossAttack = animator.GetComponent<BossAttack>();
-        knockBack = animator.GetComponent<Knockback>();
-        capsuleCollider2d = animator.GetComponent<CapsuleCollider2D>();
-        impulseSource = animator.GetComponent<CinemachineImpulseSource>();
+        rb = GetComponent<Rigidbody2D>();
+        boss = GetComponent<Boss>();
+        bossAttack = GetComponent<BossAttack>();
+        knockBack = GetComponent<Knockback>();
+        capsuleCollider2d = GetComponent<CapsuleCollider2D>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        animator = GetComponent<Animator>();
 
         if (boss.isFacingRight)
         {
@@ -44,59 +46,61 @@ public class BossRun : StateMachineBehaviour
         }
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    void Update()
     {
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
         lastPlayerPosition = player.position;
         if (boss.inZone)
         {
-            float distanceToPlayer = Vector2.Distance(animator.transform.position, player.position);
-            Vector2 direction = (player.position - animator.transform.position).normalized;
+            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+            Vector2 direction = (player.position - transform.position).normalized;
 
             if (direction.x < 0 && boss.isFacingRight)
-                 boss.Flip();
+                boss.Flip();
             else if (direction.x > 0 && !boss.isFacingRight)
-                 boss.Flip();
+                boss.Flip();
 
             rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
 
             if (distanceToPlayer < attackRange && canAttack)
             {
-                animator.SetTrigger("Attack");
+                rb.velocity = Vector2.zero;
+                bossAttack.PerformAttack();
             }
             if (distanceToPlayer > chaseRange)
             {
-                // Eðer oyuncu chaseRange'in dýþýnda ise ve daha önce belirlenen hedefe ulaþýlmadýysa
                 if (!isJumping)
                 {
-                    JumpToLastPlayerPosition(animator);
+                    JumpToLastPlayerPosition();
                 }
             }
             else
             {
-                isJumping = false; // Eðer oyuncu chaseRange içindeyse, zýplama bitmiþ olur.
+                isJumping = false;
             }
-            Fall(animator);
-            KnockbackController(animator);
+
+            if(rb.velocity.y < 0)
+            {
+                animator.SetBool("isFalling", true);
+            }
+            else
+            {
+                animator.SetBool("isFalling", false);
+            }
+
+            GroundImpact();
+            KnockbackController();
         }
     }
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.ResetTrigger("Attack");
-    }
-
-    void JumpToLastPlayerPosition(Animator animator)
+    void JumpToLastPlayerPosition()
     {
         isJumping = true;
-        // Yatayda hareket et
         float targetX = lastPlayerPosition.x + (boss.isFacingRight ? -jumpDistance : jumpDistance);
         float targetY = lastPlayerPosition.y + jumpHeight;
 
-        // Hedefe doðru zýpla
         Vector2 jumpTarget = new Vector2(targetX, targetY);
-        rb.velocity = CalculateJumpVelocity(animator.transform.position, jumpTarget, 1f);
+        rb.velocity = CalculateJumpVelocity(transform.position, jumpTarget, 1f);
     }
 
     Vector2 CalculateJumpVelocity(Vector2 origin, Vector2 target, float timeToTarget)
@@ -115,9 +119,8 @@ public class BossRun : StateMachineBehaviour
         return result;
     }
 
-    void Fall(Animator animator)
+    void GroundImpact()
     {
-        // Karakterin yerde olup olmadýðýný kontrol et
         RaycastHit2D raycastHit = Physics2D.Raycast(capsuleCollider2d.bounds.center, Vector2.down, capsuleCollider2d.bounds.extents.y + 0.3f, groundlayerMask);
 
         Color rayColor;
@@ -134,28 +137,25 @@ public class BossRun : StateMachineBehaviour
         Debug.DrawRay(capsuleCollider2d.bounds.center, Vector2.down * (capsuleCollider2d.bounds.extents.y + 0.2f), rayColor);
         isGrounded = raycastHit.collider != null;
 
-
-        // Karakter yerdeyse, zýplama durumunu sýfýrla
-        if (rb.velocity.y != 0 && isGrounded)
+        if (rb.velocity.y != 0 && isGrounded && !damageDealt)
         {
             impulseSource.GenerateImpulse();
-
-            // Patlama yarýçapý ve etkileþime girecek objeleri belirleme
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(animator.transform.position, fallDamageRadius, playerLayer);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, fallDamageRadius, playerLayer);
 
             foreach (Collider2D collider in colliders)
             {
-                // Eðer düþman layer'ýna sahip bir objeyle temas edildiyse
                 PlayerHealth playerHealth = collider.GetComponent<PlayerHealth>();
                 if (playerHealth != null)
                 {
-                    // Hasar verme iþlemini gerçekleþtir
                     playerHealth.TakeDamage(20);
+                    damageDealt = true;
+                    break;
                 }
             }
         }
     }
-    void KnockbackController(Animator animator)
+
+    void KnockbackController()
     {
         if (knockBack.isKnockbackked)
         {
@@ -170,4 +170,3 @@ public class BossRun : StateMachineBehaviour
         }
     }
 }
-
